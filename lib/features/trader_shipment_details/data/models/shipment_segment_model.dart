@@ -1,6 +1,6 @@
-import 'package:supercycle/features/representative_shipment_review/data/models/inspected_dosh_item_model.dart';
-import 'package:supercycle/features/representative_shipment_review/data/models/weight_report_model.dart';
 import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:supercycle/features/trader_shipment_details/data/models/inspected_dosh_item_model.dart';
+import 'package:supercycle/features/trader_shipment_details/data/models/weight_report_model.dart';
 
 class ShipmentSegmentModel {
   final String id;

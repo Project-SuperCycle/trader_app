@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supercycle/core/helpers/app_transitions.dart';
-import 'package:supercycle/core/models/single_shipment_model.dart';
+import 'package:supercycle/core/models/shipment/single_shipment_model.dart';
 import 'package:supercycle/core/models/user_profile_model.dart';
 import 'package:supercycle/core/routes/end_points.dart';
 import 'package:supercycle/features/calculator/presentation/view/calculator_view.dart';
@@ -16,10 +16,6 @@ import 'package:supercycle/features/onboarding/presentation/views/fourth_onboard
 import 'package:supercycle/features/onboarding/presentation/views/second_onboarding_view.dart';
 import 'package:supercycle/features/onboarding/presentation/views/third_onboarding_view.dart';
 import 'package:supercycle/features/edit_profile/presentation/view/edit_profile_view.dart';
-import 'package:supercycle/features/representative_main_profile/presentation/view/representative_profile_view.dart';
-import 'package:supercycle/features/representative_shipment_details/presentation/views/representative_shipment_details_view.dart';
-import 'package:supercycle/features/representative_shipment_review/presentation/views/representative_shipment_edit_view.dart';
-import 'package:supercycle/features/representative_shipment_review/presentation/views/representative_shipment_review_view.dart';
 import 'package:supercycle/features/sales_process/presentation/views/sales_process_view.dart';
 import 'package:supercycle/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:supercycle/features/sign_in/presentation/views/sign_in_view.dart';
@@ -201,17 +197,6 @@ class AppRouter {
         ),
       ),
 
-      GoRoute(
-        path: EndPoints.representativeShipmentDetailsView,
-        name: 'Representative Shipment Details',
-        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
-          state.pageKey,
-          RepresentativeShipmentDetailsView(
-            shipment: state.extra as SingleShipmentModel,
-          ),
-        ),
-      ),
-
       // ============================================================
       // Edit Screens - Modal Style
       // ============================================================
@@ -238,51 +223,15 @@ class AppRouter {
             AppTransitions.fadeForModal(state.pageKey, EditProfileView()),
       ),
 
-      GoRoute(
-        path: EndPoints.representativeShipmentEditView,
-        name: 'Representative Shipment Edit',
-        pageBuilder: (context, state) => AppTransitions.fadeForModal(
-          state.pageKey,
-          RepresentativeShipmentEditView(
-            shipment: state.extra as SingleShipmentModel,
-          ),
-        ),
-      ),
-
       // ============================================================
       // Profile Views - Smooth Fade
       // ============================================================
-      GoRoute(
-        path: EndPoints.representativeProfileView,
-        name: 'Representative Profile',
-        pageBuilder: (context, state) => AppTransitions.smoothFade(
-          state.pageKey,
-          RepresentativeProfileView(
-            userProfile: state.extra as UserProfileModel,
-          ),
-        ),
-      ),
-
       GoRoute(
         path: EndPoints.traderProfileView,
         name: 'Trader Profile',
         pageBuilder: (context, state) => AppTransitions.smoothFade(
           state.pageKey,
           TraderProfileView(userProfile: state.extra as UserProfileModel),
-        ),
-      ),
-
-      // ============================================================
-      // Review Screens - Details Transition
-      // ============================================================
-      GoRoute(
-        path: EndPoints.representativeShipmentReviewView,
-        name: 'Representative Shipment Review',
-        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
-          state.pageKey,
-          RepresentativeShipmentReviewView(
-            shipment: state.extra as SingleShipmentModel,
-          ),
         ),
       ),
 

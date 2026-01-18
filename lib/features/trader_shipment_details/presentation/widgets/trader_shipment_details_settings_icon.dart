@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supercycle/core/helpers/custom_confirm_dialog.dart';
-import 'package:supercycle/core/models/single_shipment_model.dart';
+import 'package:supercycle/core/models/shipment/single_shipment_model.dart';
 import 'package:supercycle/core/routes/end_points.dart';
 import 'package:supercycle/core/utils/app_styles.dart';
 import 'package:supercycle/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_cubit.dart';

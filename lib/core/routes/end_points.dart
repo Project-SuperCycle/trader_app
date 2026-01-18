@@ -23,19 +23,6 @@ abstract class EndPoints {
   static const String verifyResetOtpView = '/verifyResetOtpView';
   static const String resetPasswordView = '/resetPasswordView';
 
-  static const String representativeProfileView = '/representativeProfileView';
-  static const String editRepresentativeProfileView =
-      '/editRepresentativeProfileView';
-
-  static const String representativeShipmentDetailsView =
-      '/representativeShipmentDetailsView';
-  static const String representativeShipmentReviewView =
-      '/representativeShipmentReviewView';
-  static const String representativeShipmentRejectedView =
-      '/representativeShipmentRejectedView';
-  static const String representativeShipmentEditView =
-      '/representativeShipmentEditView';
-
   static const String environmentalImpactView = '/environmentalImpactView';
   static const String calculatorView = '/calculatorView';
 }

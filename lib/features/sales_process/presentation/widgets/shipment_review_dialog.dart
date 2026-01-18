@@ -191,8 +191,19 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
     List<MultipartFile> imagesFiles =
         await ShipmentManager.createMultipartImages(images: images);
 
+    // تحويل الكميات: لو الوحدة "طن" اضرب في 1000
+    final adjustedItems = shipment.items.map((item) {
+      if (item.unit == "طن") {
+        return item.copyWith(quantity: item.quantity * 1000);
+      }
+      return item;
+    }).toList();
+
+    // إنشاء نسخة جديدة من shipment بالـ items المعدلة
+    final adjustedShipment = shipment.copyWith(items: adjustedItems);
+
     final formData = FormData.fromMap({
-      ...shipment.toMap(includeCustomPickupAddress: !isContacted),
+      ...adjustedShipment.toMap(includeCustomPickupAddress: !isContacted),
       'uploadedImages': imagesFiles,
     });
 
@@ -738,6 +749,62 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
                         ),
                         const SizedBox(width: 8),
                         Text(
+                          'الوحدة',
+                          style: AppStyles.styleSemiBold14(
+                            context,
+                          ).copyWith(color: Colors.grey.shade700),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: isSmall
+                          ? 100
+                          : isMedium
+                          ? 120
+                          : 140,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.green.shade200,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          item.unit ?? 'كجم',
+                          style: AppStyles.styleBold14(
+                            context,
+                          ).copyWith(color: Colors.green.shade700),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade50,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            Icons.attach_money,
+                            color: Colors.green.shade600,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
                           'السعر',
                           style: AppStyles.styleSemiBold14(
                             context,
@@ -765,7 +832,7 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
                       ),
                       child: Center(
                         child: Text(
-                          averagePrice,
+                          _getAdjustedPrice(item, averagePrice),
                           style: AppStyles.styleBold14(
                             context,
                           ).copyWith(color: Colors.green.shade700),
@@ -780,6 +847,18 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
         ],
       ),
     );
+  }
+
+  String _getAdjustedPrice(DoshItemModel item, String averagePrice) {
+    // تحويل السعر من String لـ double
+    final price =
+        double.tryParse(averagePrice.replaceAll(RegExp(r'[^\d.]'), '')) ?? 0.0;
+
+    // لو الوحدة طن، اضرب في 1000
+    final adjustedPrice = item.unit == "طن" ? price * 1000 : price;
+
+    // إرجاع السعر كـ String
+    return adjustedPrice.toStringAsFixed(2);
   }
 
   Widget _buildAddressSection() {

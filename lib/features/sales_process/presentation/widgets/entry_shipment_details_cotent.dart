@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supercycle/core/utils/app_colors.dart';
+import 'package:supercycle/core/utils/app_styles.dart';
 import 'package:supercycle/features/sales_process/data/models/unit.dart';
 import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
 import 'package:supercycle/features/sales_process/presentation/widgets/editable_product_card.dart';
@@ -144,29 +145,43 @@ class _EntryShipmentDetailsContentState
           }),
           Align(
             alignment: Alignment.centerLeft,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50),
-                  topRight: Radius.circular(50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    "إضافة منتج",
+                    style: AppStyles.styleSemiBold16(
+                      context,
+                    ).copyWith(color: AppColors.subTextColor),
+                  ),
                 ),
-              ),
-              child: ElevatedButton(
-                onPressed: _addProduct,
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(10),
-                  backgroundColor: Colors.white,
-                  foregroundColor: AppColors.primaryColor,
-                  elevation: 4,
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: _addProduct,
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor: Colors.white,
+                      foregroundColor: AppColors.primaryColor,
+                      elevation: 4,
+                    ),
+                    child: const Icon(Icons.add, size: 30),
+                  ),
                 ),
-                child: const Icon(Icons.add, size: 30),
-              ),
+              ],
             ),
           ),
-          //ShipmentSummary(products: editableProducts),
         ],
       ),
     );

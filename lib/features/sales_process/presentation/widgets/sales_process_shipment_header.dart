@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:supercycle/core/helpers/date_time_picker_util.dart';
-import 'package:supercycle/core/utils/app_assets.dart';
 import 'package:supercycle/core/utils/app_colors.dart';
 import 'package:supercycle/core/utils/app_styles.dart';
 import 'dart:io';
@@ -11,12 +10,14 @@ class SalesProcessShipmentHeader extends StatefulWidget {
   final List<File> selectedImages;
   final Function(List<File>) onImagesChanged;
   final Function(DateTime?) onDateTimeChanged;
+  final DateTime? initialDateTime;
 
   const SalesProcessShipmentHeader({
     super.key,
     required this.selectedImages,
     required this.onImagesChanged,
     required this.onDateTimeChanged,
+    this.initialDateTime,
   });
 
   @override
@@ -26,23 +27,36 @@ class SalesProcessShipmentHeader extends StatefulWidget {
 
 class _SalesProcessShipmentHeaderState
     extends State<SalesProcessShipmentHeader> {
-  DateTime? selectedDateTime; // تغيير الاسم ليشمل الوقت أيضاً
+  DateTime? selectedDateTime;
 
-  void _onImageChanged(File? image) {
-    if (image != null) {
-      List<File> updatedImages = List.from(widget.selectedImages);
-      updatedImages.add(image);
-      widget.onImagesChanged(updatedImages);
+  @override
+  void initState() {
+    super.initState();
+    selectedDateTime = widget.initialDateTime;
+  }
+
+  @override
+  void didUpdateWidget(SalesProcessShipmentHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialDateTime != oldWidget.initialDateTime) {
+      setState(() {
+        selectedDateTime = widget.initialDateTime;
+      });
     }
   }
 
-  void _removeImage(int index) {
-    List<File> updatedImages = List.from(widget.selectedImages);
-    updatedImages.removeAt(index);
-    widget.onImagesChanged(updatedImages);
+  void _onImageChanged(File? image) {
+    if (image == null) return;
+    final images = List<File>.from(widget.selectedImages)..add(image);
+    widget.onImagesChanged(images);
   }
 
-  void _clearAllImages() {
+  void _removeImage(int index) {
+    final images = List<File>.from(widget.selectedImages)..removeAt(index);
+    widget.onImagesChanged(images);
+  }
+
+  void _clearImages() {
     widget.onImagesChanged([]);
   }
 
@@ -53,225 +67,176 @@ class _SalesProcessShipmentHeaderState
     );
 
     if (result != null) {
-      setState(() {
-        selectedDateTime = result;
-      });
-      widget.onDateTimeChanged(selectedDateTime);
+      setState(() => selectedDateTime = result);
+      widget.onDateTimeChanged(result);
     }
   }
 
-  String _formatDateTime(DateTime? dateTime) {
-    if (dateTime == null) return '--/--/---- --:--';
-    final DateTime adjustedDateTime = dateTime.subtract(Duration(hours: 2));
-    return DateFormat('dd/MM/yyyy HH:mm').format(adjustedDateTime);
-  }
-
-  Widget _buildImagesPreview() {
-    if (widget.selectedImages.isEmpty) return const SizedBox.shrink();
-
-    return Container(
-      margin: const EdgeInsets.only(top: 8),
-      height: 90,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.selectedImages.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(right: 8),
-            padding: const EdgeInsets.all(1),
-            height: 90,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.file(
-                    widget.selectedImages[index],
-                    width: 80,
-                    height: 90,
-                    fit: BoxFit.fill,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 90,
-                        color: Colors.grey.shade200,
-                        child: const Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                          size: 30,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Positioned(
-                  top: 2,
-                  right: 2,
-                  child: GestureDetector(
-                    onTap: () => _removeImage(index),
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 12,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+  String _formatDate(DateTime? dateTime) {
+    if (dateTime == null) return 'لم يتم تحديد الموعد';
+    return DateFormat('dd/MM/yyyy  HH:mm').format(dateTime);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: ClipRRect(
-                              child: Image.asset(
-                                AppAssets.boxPerspective,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(
-                                    Icons.inventory_2_outlined,
-                                    color: Colors.orange,
-                                    size: 25,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'رقم الشحنة: ',
-                            style: AppStyles.styleSemiBold18(
-                              context,
-                            ).copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(width: 2),
-                          Text(
-                            'لم يحدد بعد ',
-                            style: AppStyles.styleSemiBold12(
-                              context,
-                            ).copyWith(color: AppColors.subTextColor),
-                          ),
-                        ],
-                      ),
+        // ================= موعد الاستلام =================
+        _sectionCard(
+          title: 'موعد الاستلام',
+          icon: Icons.calendar_month_rounded,
+          child: InkWell(
+            onTap: _selectDate,
+            borderRadius: BorderRadius.circular(14),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.green.shade50,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Colors.green.shade200),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.access_time, color: AppColors.primaryColor),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      _formatDate(selectedDateTime),
+                      style: AppStyles.styleMedium14(context),
                     ),
-                    const SizedBox(height: 5),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Row(
-                        children: [
-                          Text(
-                            'موعد الاستلام: ',
-                            style: AppStyles.styleMedium12(
-                              context,
-                            ).copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(width: 2),
-                          Text(
-                            _formatDateTime(selectedDateTime),
-                            style: AppStyles.styleMedium12(
-                              context,
-                            ).copyWith(color: AppColors.subTextColor),
-                          ),
-                          IconButton(
-                            style: IconButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              backgroundColor: Colors.grey.shade100,
-                              shadowColor: Colors.grey,
-                              elevation: 1,
-                            ),
-                            onPressed: _selectDate,
-                            icon: const Icon(
-                              Icons.edit_calendar_sharp,
-                              color: Colors.black54,
-                              size: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // عرض عدد الصور المحددة
-                    if (widget.selectedImages.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Row(
-                          children: [
-                            Text(
-                              'الصور المحددة: ${widget.selectedImages.length}',
-                              style: AppStyles.styleSemiBold12(
-                                context,
-                              ).copyWith(color: Colors.blue),
-                            ),
-                            const SizedBox(width: 8),
-                            if (widget.selectedImages.length > 1)
-                              GestureDetector(
-                                onTap: _clearAllImages,
-                                child: Text(
-                                  'حذف الكل',
-                                  style: AppStyles.styleMedium12(context)
-                                      .copyWith(
-                                        color: Colors.red,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
+                  ),
+                  Icon(Icons.edit, color: AppColors.primaryColor, size: 18),
+                ],
               ),
             ),
-            Column(
-              children: [
-                ImagePickerWidget(
-                  defaultImagePath: AppAssets.photoGallery,
-                  onImageChanged: _onImageChanged,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'إضافة صورة',
-                  style: AppStyles.styleMedium12(
-                    context,
-                  ).copyWith(color: Colors.grey.shade600),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
-        // معاينة الصور المحددة
-        _buildImagesPreview(),
+
+        const SizedBox(height: 20),
+
+        // ================= صور الشحنة =================
+        _sectionCard(
+          title: 'صور الشحنة',
+          icon: Icons.photo_library_rounded,
+          trailing: widget.selectedImages.isNotEmpty
+              ? TextButton(
+                  onPressed: _clearImages,
+                  child: const Text(
+                    'حذف الكل',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              : null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.selectedImages.length < 5
+                    ? widget.selectedImages.length + 1
+                    : widget.selectedImages.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                ),
+                itemBuilder: (context, index) {
+                  // زر إضافة صورة
+                  if (index == widget.selectedImages.length &&
+                      widget.selectedImages.length < 5) {
+                    return ImagePickerWidget(
+                      onImageChanged: _onImageChanged,
+                      addImageText: 'إضافة',
+                    );
+                  }
+
+                  // صورة
+                  return Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.file(
+                          widget.selectedImages[index],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                      Positioned(
+                        top: 6,
+                        right: 6,
+                        child: GestureDetector(
+                          onTap: () => _removeImage(index),
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withAlpha(400),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.close,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'عدد الصور: ${widget.selectedImages.length} / 3',
+                style: AppStyles.styleMedium12(
+                  context,
+                ).copyWith(color: Colors.grey.shade600),
+              ),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+
+  // ================= Card عام =================
+  Widget _sectionCard({
+    required String title,
+    required IconData icon,
+    required Widget child,
+    Widget? trailing,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(25),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: AppColors.primaryColor),
+              const SizedBox(width: 8),
+              Text(title, style: AppStyles.styleSemiBold16(context)),
+              const Spacer(),
+              if (trailing != null) trailing,
+            ],
+          ),
+          const SizedBox(height: 16),
+          child,
+        ],
+      ),
     );
   }
 }

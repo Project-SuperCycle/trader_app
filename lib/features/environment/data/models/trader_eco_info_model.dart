@@ -3,14 +3,16 @@ import 'package:supercycle/features/environment/data/models/trader_eco_stats_mod
 import 'package:supercycle/features/environment/data/models/trader_transaction_model.dart';
 
 class TraderEcoInfoModel {
-  final TraderEcoStatsModel stats;
-  final List<TopParticipant> topParticipants;
-  final List<TraderTransactionModel> transactions;
+  final TraderEcoStatsModel? stats;
+  final List<TopParticipant>? topParticipants;
+  final List<TraderTransactionModel>? transactions;
+  final bool isEcoParticiapant;
 
   TraderEcoInfoModel({
     required this.stats,
     required this.topParticipants,
     required this.transactions,
+    required this.isEcoParticiapant,
   });
 
   factory TraderEcoInfoModel.fromJson(Map<String, dynamic> json) {
@@ -26,14 +28,20 @@ class TraderEcoInfoModel {
               ?.map((item) => TraderTransactionModel.fromJson(item))
               .toList() ??
           [],
+      isEcoParticiapant: json['isEcoParticiapant'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'stats': stats.toJson(),
-      'topParticipants': topParticipants.map((item) => item.toJson()).toList(),
-      'transactions': transactions.map((item) => item.toJson()).toList(),
+      'stats': (stats != null) ? stats!.toJson() : null,
+      'topParticipants': (topParticipants != null)
+          ? topParticipants!.map((item) => item.toJson()).toList()
+          : null,
+      'transactions': (transactions != null)
+          ? transactions!.map((item) => item.toJson()).toList()
+          : null,
+      'isEcoParticiapant': isEcoParticiapant,
     };
   }
 }

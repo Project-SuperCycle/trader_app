@@ -17,9 +17,9 @@ class EnvironmentalTreesTab extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                GreenPointsCard(points: ecoInfoModel.stats.totalPoints),
+                GreenPointsCard(points: ecoInfoModel.stats!.totalPoints),
                 const SizedBox(height: 12),
-                TreeInitiativeCard(trees: ecoInfoModel.stats.treesPlanted),
+                TreeInitiativeCard(trees: ecoInfoModel.stats!.treesPlanted),
                 const SizedBox(height: 12),
               ],
             ),

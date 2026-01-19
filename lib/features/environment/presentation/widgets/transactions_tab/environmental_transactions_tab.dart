@@ -22,20 +22,20 @@ class _EnvironmentalTransactionsTabState
   bool _isLoading = false;
 
   int get _totalPages =>
-      (widget.ecoInfoModel.transactions.length / _itemsPerPage).ceil();
+      (widget.ecoInfoModel.transactions!.length / _itemsPerPage).ceil();
 
   int get _startIndex => (_currentPage - 1) * _itemsPerPage;
 
   int get _endIndex {
     final end = _startIndex + _itemsPerPage;
-    return end > widget.ecoInfoModel.transactions.length
-        ? widget.ecoInfoModel.transactions.length
+    return end > widget.ecoInfoModel.transactions!.length
+        ? widget.ecoInfoModel.transactions!.length
         : end;
   }
 
   List<dynamic> get _currentPageTransactions {
-    if (widget.ecoInfoModel.transactions.isEmpty) return [];
-    return widget.ecoInfoModel.transactions.sublist(_startIndex, _endIndex);
+    if (widget.ecoInfoModel.transactions!.isEmpty) return [];
+    return widget.ecoInfoModel.transactions!.sublist(_startIndex, _endIndex);
   }
 
   Future<void> _goToPage(int page) async {
@@ -74,7 +74,7 @@ class _EnvironmentalTransactionsTabState
 
   @override
   Widget build(BuildContext context) {
-    if (widget.ecoInfoModel.transactions.isEmpty) {
+    if (widget.ecoInfoModel.transactions!.isEmpty) {
       return _buildEmptyState();
     }
 
@@ -110,7 +110,7 @@ class _EnvironmentalTransactionsTabState
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            'إجمالي: ${widget.ecoInfoModel.transactions.length}',
+                            'إجمالي: ${widget.ecoInfoModel.transactions!.length}',
                             style: AppStyles.styleSemiBold12(
                               context,
                             ).copyWith(color: const Color(0xFF10B981)),

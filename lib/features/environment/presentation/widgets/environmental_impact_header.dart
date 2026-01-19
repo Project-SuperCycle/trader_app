@@ -76,7 +76,7 @@ class EnvironmentalImpactHeader extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _StatCard(
-                          value: ecoInfoModel.stats.totalRecycledKg
+                          value: ecoInfoModel.stats!.totalRecycledKg
                               .toString()
                               .padLeft(2, '0'),
                           label: 'كجم تم تدويرها',
@@ -85,7 +85,7 @@ class EnvironmentalImpactHeader extends StatelessWidget {
                       SizedBox(width: 16),
                       Expanded(
                         child: _StatCard(
-                          value: ecoInfoModel.stats.treesPlanted
+                          value: ecoInfoModel.stats!.treesPlanted
                               .toString()
                               .padLeft(2, '0'),
                           label: 'شجرة تم زراعتها',

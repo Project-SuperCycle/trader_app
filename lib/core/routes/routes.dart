@@ -6,6 +6,7 @@ import 'package:supercycle/core/models/user_profile_model.dart';
 import 'package:supercycle/core/routes/end_points.dart';
 import 'package:supercycle/features/calculator/presentation/view/calculator_view.dart';
 import 'package:supercycle/features/contact_us/presentation/view/contact_us_view.dart';
+import 'package:supercycle/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:supercycle/features/environment/presentation/views/environmental_impact_view.dart';
 import 'package:supercycle/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:supercycle/features/forget_password/presentation/views/reset_password_view.dart';
@@ -244,6 +245,18 @@ class AppRouter {
         pageBuilder: (context, state) => AppTransitions.fadeForMain(
           state.pageKey,
           EnvironmentalImpactView(),
+        ),
+      ),
+
+      // ============================================================
+      // Environmental Default - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.environmentalDefaultView,
+        name: 'Environmental Default',
+        pageBuilder: (context, state) => AppTransitions.fadeForMain(
+          state.pageKey,
+          EnvironmentalDefaultView(),
         ),
       ),
     ],

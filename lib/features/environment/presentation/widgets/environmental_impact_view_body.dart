@@ -55,7 +55,7 @@ class _EnvironmentalImpactViewBodyState
       body: BlocConsumer<EcoCubit, EcoState>(
         listener: (context, state) {
           if (state is GetEcoDataSuccess) {
-            _updateFullWeight(state.ecoInfoModel.stats.totalRecycledKg);
+            _updateFullWeight(state.ecoInfoModel.stats!.totalRecycledKg);
           }
           if (state is GetEcoDataFailure) {
             CustomSnackBar.showError(context, state.errMessage);
@@ -69,7 +69,7 @@ class _EnvironmentalImpactViewBodyState
 
           // Update fullWeight immediately when data is available
           if (state is GetEcoDataSuccess && fullWeight == 0) {
-            fullWeight = state.ecoInfoModel.stats.totalRecycledKg;
+            fullWeight = state.ecoInfoModel.stats!.totalRecycledKg;
           }
 
           return CustomScrollView(

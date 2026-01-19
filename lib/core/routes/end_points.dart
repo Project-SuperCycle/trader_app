@@ -24,5 +24,6 @@ abstract class EndPoints {
   static const String resetPasswordView = '/resetPasswordView';
 
   static const String environmentalImpactView = '/environmentalImpactView';
+  static const String environmentalDefaultView = '/environmentalDefaultView';
   static const String calculatorView = '/calculatorView';
 }

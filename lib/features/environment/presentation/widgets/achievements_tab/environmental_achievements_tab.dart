@@ -16,7 +16,7 @@ class EnvironmentalAchievementsTab extends StatelessWidget {
         children: [
           BadgesCard(),
           const SizedBox(height: 12),
-          LeaderBoardsCard(participants: ecoInfoModel.topParticipants),
+          LeaderBoardsCard(participants: ecoInfoModel.topParticipants!),
           const SizedBox(height: 12),
           ChallengeCard(),
           const SizedBox(height: 80),

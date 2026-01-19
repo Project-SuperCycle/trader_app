@@ -154,11 +154,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     },
                   ),
 
-                  if (user != null && user!.isEcoParticipant == true)
+                  if (user != null)
                     BlocConsumer<EcoCubit, EcoState>(
                       listener: (context, state) {
                         if (state is GetEcoDataSuccess) {
-                          context.push(EndPoints.environmentalImpactView);
+                          (state.ecoInfoModel.isEcoParticiapant == true)
+                              ? GoRouter.of(
+                                  context,
+                                ).push(EndPoints.environmentalImpactView)
+                              : GoRouter.of(
+                                  context,
+                                ).push(EndPoints.environmentalDefaultView);
                         }
                       },
                       builder: (context, state) {
@@ -178,6 +184,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   context.read<EcoCubit>().getTraderEcoInfo();
                                 },
                               );
+                      },
+                    ),
+
+                  if (user == null)
+                    _buildDrawerItem(
+                      icon: Icons.eco_rounded,
+                      title: 'الأثر البيئي',
+                      isActive:
+                          currentLocation == EndPoints.environmentalDefaultView,
+                      onTap: () {
+                        GoRouter.of(
+                          context,
+                        ).push(EndPoints.environmentalDefaultView);
                       },
                     ),
 

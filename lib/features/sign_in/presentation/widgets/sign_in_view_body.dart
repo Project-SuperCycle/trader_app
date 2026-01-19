@@ -120,7 +120,14 @@ class _SignInViewBodyState extends State<SignInViewBody> {
     return BlocConsumer<SignInCubit, SignInState>(
       listener: (context, state) {
         if (state is SignInSuccess) {
-          GoRouter.of(context).pushReplacement(EndPoints.homeView);
+          // التحقق من دور المستخدم
+          if (state.user.role == "representative") {
+            CustomSnackBar.showWarning(context, "غير مصرح بتسجيل دخول المندوب");
+            // لا تنتقل للصفحة الرئيسية
+          } else {
+            // الانتقال للصفحة الرئيسية فقط إذا لم يكن representative
+            GoRouter.of(context).pushReplacement(EndPoints.homeView);
+          }
         }
         if (state is SignInFailure) {
           CustomSnackBar.showError(context, state.message);

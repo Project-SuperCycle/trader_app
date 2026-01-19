@@ -14,14 +14,6 @@ class TraderProfileHeaderNavigation extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Menu Button (Edit trader_main_profile)
-          IconButton(
-            onPressed: () {
-              GoRouter.of(context).go(EndPoints.editProfileView);
-            },
-            icon: const Icon(Icons.menu, color: Colors.white, size: 28),
-          ),
-
           // Logo Section
           Expanded(child: Center(child: TraderProfileHeaderLogo())),
 

@@ -7,18 +7,6 @@ import 'package:supercycle/core/errors/failures.dart';
 class ErrorHandler {
   static final Logger _logger = Logger();
 
-  /// معالجة الأخطاء وإرجاع <Either<Failure, T
-  ///
-  /// استخدام:
-  /// ```dart
-  /// return await ErrorHandler.handleApiCall(
-  ///   apiCall: () async {
-  ///     final response = await apiServices.post(...);
-  ///     return YourModel.fromJson(response);
-  ///   },
-  ///   errorContext: 'user login',
-  /// );
-  /// ```
   static Future<Either<Failure, T>> handleApiCall<T>({
     required Future<T> Function() apiCall,
     required String errorContext,
@@ -57,29 +45,6 @@ class ErrorHandler {
     }
   }
 
-  /// معالجة استجابة API مع التحقق من الأخطاء الشائعة
-  ///
-  /// استخدام:
-  /// ```dart
-  /// return await ErrorHandler.handleApiResponse<LoginedUserModel>(
-  ///   apiCall: () => apiServices.post(endPoint: ApiEndpoints.login, data: data),
-  ///   errorContext: 'user login',
-  ///   responseParser: (response) {
-  ///     var data = response['data'];
-  ///     var token = response['token'];
-  ///     return LoginedUserModel.fromJson(data);
-  ///   },
-  ///   onSuccess: (model, response) async {
-  ///     await _saveUserData(model, response['token']);
-  ///   },
-  ///   customErrorChecks: (response) {
-  ///     if (response['token'] == null && response['Code'] == 403) {
-  ///       return ServerFailure.fromResponse(403, response);
-  ///     }
-  ///     return null;
-  ///   },
-  /// );
-  /// ```
   static Future<Either<Failure, T>> handleApiResponse<T>({
     required Future<Map<String, dynamic>> Function() apiCall,
     required String errorContext,
@@ -120,16 +85,6 @@ class ErrorHandler {
     );
   }
 
-  /// معالجة مبسطة للـ API calls التي لا تحتاج معالجة معقدة
-  ///
-  /// استخدام:
-  /// ```dart
-  /// return await ErrorHandler.simpleApiCall<String>(
-  ///   apiCall: () => SocialAuthService.signInWithGoogle(),
-  ///   errorContext: 'Google sign in',
-  ///   errorMessage: 'حدث خطأ أثناء تسجيل الدخول بـ Google',
-  /// );
-  /// ```
   static Future<Either<Failure, T>> simpleApiCall<T>({
     required Future<T> Function() apiCall,
     required String errorContext,

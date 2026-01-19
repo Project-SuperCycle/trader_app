@@ -16,7 +16,6 @@ import 'package:supercycle/features/onboarding/presentation/views/first_onboardi
 import 'package:supercycle/features/onboarding/presentation/views/fourth_onboarding_view.dart';
 import 'package:supercycle/features/onboarding/presentation/views/second_onboarding_view.dart';
 import 'package:supercycle/features/onboarding/presentation/views/third_onboarding_view.dart';
-import 'package:supercycle/features/edit_profile/presentation/view/edit_profile_view.dart';
 import 'package:supercycle/features/sales_process/presentation/views/sales_process_view.dart';
 import 'package:supercycle/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:supercycle/features/sign_in/presentation/views/sign_in_view.dart';
@@ -208,20 +207,6 @@ class AppRouter {
           state.pageKey,
           ShipmentEditView(shipment: state.extra as SingleShipmentModel),
         ),
-      ),
-
-      GoRoute(
-        path: EndPoints.editProfileView,
-        name: 'Edit Profile',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForModal(state.pageKey, EditProfileView()),
-      ),
-
-      GoRoute(
-        path: EndPoints.editTraderProfileView,
-        name: 'Trader Edit Profile',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForModal(state.pageKey, EditProfileView()),
       ),
 
       // ============================================================

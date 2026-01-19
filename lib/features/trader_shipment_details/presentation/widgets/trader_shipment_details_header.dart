@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:supercycle/core/helpers/custom_snack_bar.dart';
 import 'package:supercycle/core/models/shipment/single_shipment_model.dart';
 import 'package:supercycle/core/utils/app_assets.dart';
+import 'package:supercycle/core/utils/app_colors.dart';
 import 'package:supercycle/core/utils/app_styles.dart';
 import 'package:supercycle/core/helpers/network_images_preview_dialog.dart';
 
@@ -162,15 +163,17 @@ class TraderShipmentDetailsHeader extends StatelessWidget {
   Color _getStatusColor() {
     switch (shipment.status) {
       case 'pending':
-        return Color(0xff1624A2);
+        return Colors.deepOrange;
       case 'approved':
         return Color(0xff3BC567);
       case 'pending_admin_review':
       case 'routed':
-        return Color(0xffE04133);
+        return Color(0xff1624A2);
       case 'delivered':
       case 'complete_weighted':
         return Color(0xff3BC567);
+      case 'rejected':
+        return AppColors.failureColor;
       default:
         return Color(0xff1624A2);
     }

@@ -15,6 +15,7 @@ import 'package:supercycle/features/trader_shipment_details/presentation/widgets
 import 'package:supercycle/features/trader_shipment_details/presentation/widgets/trader_shipment_details_content.dart';
 import 'package:supercycle/features/trader_shipment_details/presentation/widgets/trader_shipment_details_header.dart';
 import 'package:supercycle/features/trader_shipment_details/presentation/widgets/trader_shipment_details_settings_icon.dart';
+import 'package:supercycle/features/trader_shipment_details/presentation/widgets/trader_shipment_reject_card.dart';
 import 'package:supercycle/features/trader_shipment_details/presentation/widgets/trader_shipment_representative_card.dart';
 
 class TraderShipmentDetailsViewBody extends StatefulWidget {
@@ -105,6 +106,9 @@ class _TraderShipmentDetailsViewBodyState
                               children: [
                                 ProgressBar(
                                   completedSteps: _getProgressSteps(),
+                                  color: (widget.shipment.status == "rejected")
+                                      ? AppColors.failureColor
+                                      : const Color(0xFF4CAF50),
                                 ),
                                 const SizedBox(height: 16),
                                 Container(
@@ -132,7 +136,8 @@ class _TraderShipmentDetailsViewBodyState
                               children: [
                                 const SizedBox(height: 10),
                                 // Representative Card
-                                if (widget.shipment.representitive != null)
+                                if (widget.shipment.representitive != null &&
+                                    widget.shipment.rejectReportModel == null)
                                   Column(
                                     children: [
                                       TraderShipmentRepresentativeCard(
@@ -154,6 +159,19 @@ class _TraderShipmentDetailsViewBodyState
                                   maxHeight: 320,
                                 ),
                                 const SizedBox(height: 16),
+                                (widget.shipment.rejectReportModel != null)
+                                    ? Column(
+                                        children: [
+                                          TraderShipmentRejectCard(
+                                            report: widget
+                                                .shipment
+                                                .rejectReportModel!,
+                                          ),
+                                          const SizedBox(height: 16),
+                                        ],
+                                      )
+                                    : SizedBox.shrink(),
+
                                 // الشحنة بعد المعاينة
                                 if (widget.shipment.inspectedItems.isNotEmpty)
                                   Column(
@@ -446,6 +464,7 @@ class _TraderShipmentDetailsViewBodyState
         return 4;
       case 'delivered':
       case 'complete_weighted':
+      case 'rejected':
         return 5;
       default:
         return 0;

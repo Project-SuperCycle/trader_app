@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:supercycle/core/functions/shipment_manager.dart';
 import 'package:supercycle/core/models/shipment/shipment_note_model.dart';
+import 'package:supercycle/core/models/shipment/shipment_reject_report_model.dart';
 import 'package:supercycle/core/models/shipment/shipment_trader_model.dart';
 import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
 import 'package:supercycle/features/sales_process/data/models/representitive_model.dart';
@@ -24,6 +25,7 @@ class SingleShipmentModel {
   final List<ShipmentNoteModel> mainNotes;
   final List<ShipmentSegmentModel> segments;
   final ShipmentBranchModel? branch;
+  final ShipmentRejectReportModel? rejectReportModel;
   final String? type;
   final bool isExtra;
   final bool isFullyWeighted;
@@ -46,6 +48,7 @@ class SingleShipmentModel {
     required this.isFullyWeighted,
     required this.type,
     this.branch,
+    this.rejectReportModel,
     this.representitive,
     this.trader,
     this.images = const [],
@@ -100,6 +103,9 @@ class SingleShipmentModel {
       type: json['type'],
       isExtra: json['isExtra'] ?? false,
       isFullyWeighted: json['isFullyWeighted'] ?? false,
+      rejectReportModel: json['status'] == "rejected"
+          ? ShipmentRejectReportModel.fromJson(json['inspectionLogs'].first)
+          : null,
     );
   }
 

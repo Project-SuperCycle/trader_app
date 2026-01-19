@@ -284,6 +284,8 @@ class _ShipmentsCalendarCardState extends State<ShipmentsCalendarCard> {
       case 'تم التسليم':
       case 'تسليم جزئي':
         return Color(0xff3BC567);
+      case 'تم الرفض':
+        return AppColors.failureColor;
       default:
         return Color(0xff1624A2);
     }

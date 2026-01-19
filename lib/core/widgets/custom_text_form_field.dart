@@ -7,6 +7,7 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.labelText,
     this.suffixIcon,
+    this.prefixIcon,
     this.controller,
     this.validator,
     this.onChanged,
@@ -17,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
 
   final String labelText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon; // إضافة prefixIcon
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final String? Function(String?)? onChanged;
@@ -47,6 +49,7 @@ class CustomTextFormField extends StatelessWidget {
             context,
           ).copyWith(color: Colors.grey),
           suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon, // إضافة prefixIcon هنا
           enabledBorder: InputDecorations.enabledBorder(),
           disabledBorder: InputDecorations.enabledBorder(),
           focusedBorder: InputDecorations.focusedBorder(),

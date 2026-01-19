@@ -71,7 +71,7 @@ class _ShipmentDetailsNotesState extends State<ShipmentDetailsNotes> {
       margin: EdgeInsets.zero,
       child: Container(
         width: double.infinity,
-        height: 240,
+        height: 300,
         decoration: BoxDecoration(
           color: Colors.grey.shade50,
           borderRadius: BorderRadius.circular(12),

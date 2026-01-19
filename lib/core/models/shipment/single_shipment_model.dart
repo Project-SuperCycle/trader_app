@@ -22,7 +22,6 @@ class SingleShipmentModel {
   final RepresentitiveModel? representitive;
   final ShipmentTraderModel? trader;
   final List<ShipmentNoteModel> mainNotes;
-  final List<ShipmentNoteModel> repNotes;
   final List<ShipmentSegmentModel> segments;
   final ShipmentBranchModel? branch;
   final String? type;
@@ -42,7 +41,6 @@ class SingleShipmentModel {
     required this.userNotes,
     required this.totalQuantityKg,
     required this.mainNotes,
-    required this.repNotes,
     required this.segments,
     required this.isExtra,
     required this.isFullyWeighted,
@@ -60,15 +58,6 @@ class SingleShipmentModel {
             json['notes'].map((x) => ShipmentNoteModel.fromJson(x)),
           )
         : [];
-
-    // Filter notes based on authorRole
-    List<ShipmentNoteModel> mainNotes = allNotes
-        .where((note) => note.authorRole != 'representative')
-        .toList();
-
-    List<ShipmentNoteModel> repNotes = allNotes
-        .where((note) => note.authorRole == 'representative')
-        .toList();
 
     return SingleShipmentModel(
       id: json['_id'] as String,
@@ -102,8 +91,7 @@ class SingleShipmentModel {
       trader: json['traderId'] != null
           ? ShipmentTraderModel.fromJson(json['traderId'])
           : null,
-      mainNotes: mainNotes,
-      repNotes: repNotes,
+      mainNotes: allNotes,
       segments: json['segments'] != null
           ? List<ShipmentSegmentModel>.from(
               json['segments'].map((x) => ShipmentSegmentModel.fromJson(x)),
@@ -117,7 +105,7 @@ class SingleShipmentModel {
 
   Map<String, dynamic> toJson() {
     // Combine mainNotes and repNotes back into a single notes array
-    List<ShipmentNoteModel> allNotes = [...mainNotes, ...repNotes];
+    List<ShipmentNoteModel> allNotes = [...mainNotes];
 
     return {
       '_id': id,
@@ -160,7 +148,7 @@ class SingleShipmentModel {
 
   @override
   String toString() {
-    return 'SingleShipmentModel(id: $id, shipmentNumber: $shipmentNumber, customPickupAddress: $customPickupAddress, requestedPickupAt: $requestedPickupAt, status: $status, uploadedImages: $uploadedImages, items: $items, userNotes: $userNotes, totalQuantityKg: $totalQuantityKg, representitive: $representitive, mainNotes: $mainNotes, repNotes: $repNotes, segments: $segments)';
+    return 'SingleShipmentModel(id: $id, shipmentNumber: $shipmentNumber, customPickupAddress: $customPickupAddress, requestedPickupAt: $requestedPickupAt, status: $status, uploadedImages: $uploadedImages, items: $items, userNotes: $userNotes, totalQuantityKg: $totalQuantityKg, representitive: $representitive, mainNotes: $mainNotes, segments: $segments)';
   }
 
   SingleShipmentModel copyWith({
@@ -179,7 +167,6 @@ class SingleShipmentModel {
     RepresentitiveModel? representitive,
     ShipmentTraderModel? trader,
     List<ShipmentNoteModel>? mainNotes,
-    List<ShipmentNoteModel>? repNotes,
     List<ShipmentSegmentModel>? segments,
     ShipmentBranchModel? branch,
     String? type,
@@ -202,7 +189,6 @@ class SingleShipmentModel {
       representitive: representitive ?? this.representitive,
       trader: trader ?? this.trader,
       mainNotes: mainNotes ?? this.mainNotes,
-      repNotes: repNotes ?? this.repNotes,
       segments: segments ?? this.segments,
       branch: branch ?? this.branch,
       type: type ?? this.type,

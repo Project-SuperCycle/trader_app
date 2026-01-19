@@ -396,7 +396,6 @@ class _TraderShipmentDetailsViewBodyState
 
   Widget _buildNotesCard() {
     return Container(
-      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),

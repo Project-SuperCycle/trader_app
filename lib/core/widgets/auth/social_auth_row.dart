@@ -100,12 +100,12 @@ class SocialAuthRow extends StatelessWidget {
               onPressed: () => signInWithGoogle(context: context),
               icon: Image.asset(AppAssets.googleIcon, scale: 3.2),
             ),
-            SizedBox(width: 30),
-            IconButton(
-              style: IconButton.styleFrom(padding: EdgeInsets.all(2.0)),
-              onPressed: () => signInWithFacebook(context: context),
-              icon: Image.asset(AppAssets.facebookIcon, scale: 3.5),
-            ),
+            // SizedBox(width: 30),
+            // IconButton(
+            //   style: IconButton.styleFrom(padding: EdgeInsets.all(2.0)),
+            //   onPressed: () => signInWithFacebook(context: context),
+            //   icon: Image.asset(AppAssets.facebookIcon, scale: 3.5),
+            // ),
           ],
         );
       },

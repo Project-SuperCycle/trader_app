@@ -26,6 +26,7 @@ class SingleShipmentModel {
   final List<ShipmentSegmentModel> segments;
   final ShipmentBranchModel? branch;
   final ShipmentRejectReportModel? rejectReportModel;
+  final String? rejectionReason;
   final String? type;
   final bool isExtra;
   final bool isFullyWeighted;
@@ -49,6 +50,7 @@ class SingleShipmentModel {
     required this.type,
     this.branch,
     this.rejectReportModel,
+    this.rejectionReason,
     this.representitive,
     this.trader,
     this.images = const [],
@@ -104,8 +106,19 @@ class SingleShipmentModel {
       isExtra: json['isExtra'] ?? false,
       isFullyWeighted: json['isFullyWeighted'] ?? false,
       rejectReportModel: json['status'] == "rejected"
-          ? ShipmentRejectReportModel.fromJson(json['inspectionLogs'].first)
+          ? (json['inspectionLogs'] == null ||
+                    (json['inspectionLogs'] as List).isEmpty)
+                ? ShipmentRejectReportModel(
+                    reason: json['rejectionReason'] ?? 'لا يوجد سبب محدد',
+                    rank: 2,
+                    images: [],
+                    action: 'reject',
+                  )
+                : ShipmentRejectReportModel.fromJson(
+                    json['inspectionLogs'].first,
+                  )
           : null,
+      rejectionReason: json['rejectionReason'],
     );
   }
 

@@ -37,9 +37,11 @@ class ErrorHandler {
       return left(
         ServerFailure('Data parsing error: ${typeError.toString()}', 422),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
       _logger.e('❌ Unexpected error during $errorContext: ${e.toString()}');
-
+      _logger.w(
+        '❌ Unexpected error during $errorContext: ${stackTrace.toString()}',
+      );
       // معالجة أخطاء مخصصة إضافية
       if (additionalErrorHandling != null) {
         for (var entry in additionalErrorHandling.entries) {

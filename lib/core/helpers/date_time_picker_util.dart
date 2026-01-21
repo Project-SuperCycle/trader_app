@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supercycle/core/helpers/custom_confirm_dialog.dart';
 import 'package:supercycle/core/utils/app_colors.dart';
 import 'package:supercycle/core/utils/app_styles.dart';
 
@@ -33,19 +34,13 @@ class DateTimePickerHelper {
               secondary: AppColors.primaryColor,
               onSecondary: Colors.white,
             ),
-            // تخصيص النصوص
             textTheme: TextTheme(
               headlineLarge: AppStyles.styleBold24(context),
-              // النص الكبير للشهر والسنة
               headlineMedium: AppStyles.styleSemiBold22(context),
-              // نص الأيام
               bodyLarge: AppStyles.styleMedium16(context),
-              // نص العناوين
               titleMedium: AppStyles.styleSemiBold18(context),
-              // نص الأزرار
               labelLarge: AppStyles.styleSemiBold16(context),
             ),
-            // تخصيص الأزرار
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
@@ -66,55 +61,84 @@ class DateTimePickerHelper {
     );
 
     if (pickedDate != null) {
-      // إذا تم اختيار تاريخ، اعرض اختيار الوقت
-      final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: currentSelectedDateTime != null
-            ? TimeOfDay.fromDateTime(currentSelectedDateTime)
-            : TimeOfDay.now(),
-        builder: (context, child) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
-                primary: AppColors.primaryColor,
-                onPrimary: Colors.white,
-                surface: Colors.white,
-                onSurface: Colors.black,
-                secondary: AppColors.primaryColor,
-                onSecondary: Colors.white,
-              ),
-              // تخصيص النصوص للوقت
-              textTheme: TextTheme(
-                // النص الكبير للوقت
-                displayLarge: AppStyles.styleBold24(context),
-                // نص العناوين
-                titleMedium: AppStyles.styleSemiBold18(context),
-                // نص الأزرار الصغيرة
-                bodyMedium: AppStyles.styleMedium14(context),
-                // نص الأزرار
-                labelLarge: AppStyles.styleSemiBold16(context),
-              ),
-              // تخصيص الأزرار للوقت
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: Colors.white,
-                  textStyle: AppStyles.styleBold16(context),
+      // loop للتأكد من اختيار وقت صحيح
+      while (true) {
+        // إذا تم اختيار تاريخ، اعرض اختيار الوقت
+        final TimeOfDay? pickedTime = await showTimePicker(
+          context: context,
+          initialTime: currentSelectedDateTime != null
+              ? TimeOfDay.fromDateTime(currentSelectedDateTime)
+              : const TimeOfDay(hour: 12, minute: 0),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: AppColors.primaryColor,
+                  onPrimary: Colors.white,
+                  surface: Colors.white,
+                  onSurface: Colors.black,
+                  secondary: AppColors.primaryColor,
+                  onSecondary: Colors.white,
+                ),
+                textTheme: TextTheme(
+                  displayLarge: AppStyles.styleBold24(context),
+                  titleMedium: AppStyles.styleSemiBold18(context),
+                  bodyMedium: AppStyles.styleMedium14(context),
+                  labelLarge: AppStyles.styleSemiBold16(context),
+                ),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                    textStyle: AppStyles.styleBold16(context),
+                  ),
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.primaryColor,
+                    textStyle: AppStyles.styleBold16(context),
+                  ),
                 ),
               ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primaryColor,
-                  textStyle: AppStyles.styleBold16(context),
-                ),
-              ),
-            ),
-            child: child!,
-          );
-        },
-      );
+              child: child!,
+            );
+          },
+        );
 
-      if (pickedTime != null) {
+        // لو المستخدم ألغى اختيار الوقت
+        if (pickedTime == null) {
+          return null;
+        }
+
+        // ✅ التحقق من أن الوقت المختار ليس بين 10 مساءً و 12 صباحًا
+        if (_isTimeRestricted(pickedTime)) {
+          // عرض رسالة تنبيه للمستخدم باستخدام CustomDialog
+          bool shouldRetry = false;
+
+          await showCustomConfirmationDialog(
+            context: context,
+            title: 'وقت غير متاح',
+            message:
+                'عذراً، لا يمكن اختيار وقت من الساعة 10 مساءً حتى 12 صباحاً. الرجاء اختيار وقت آخر.',
+            type: DialogType.warning,
+            confirmText: 'اختر وقت آخر',
+            cancelText: 'إلغاء',
+            isDismissible: false,
+            onConfirmed: () {
+              shouldRetry = true;
+            },
+          );
+
+          // لو المستخدم ضغط إلغاء
+          if (!shouldRetry) {
+            return null;
+          }
+
+          // لو ضغط "اختر وقت آخر"، الـ loop هيكمل ويفتح الـ time picker تاني
+          continue;
+        }
+
+        // ✅ الوقت مسموح، كمل العملية
         // دمج التاريخ والوقت مع تحديد المنطقة الزمنية GMT+2
         final DateTime combinedDateTime = DateTime(
           pickedDate.year,
@@ -135,12 +159,25 @@ class DateTimePickerHelper {
         ).add(timeZoneOffset);
 
         // طباعة التاريخ بالصيغة المطلوبة للتحقق
-        formatDateTimeWithTimeZone(dateTimeWithTimeZone, timeZoneOffset);
+        debugPrint(
+          'Selected DateTime: ${formatDateTimeWithTimeZone(dateTimeWithTimeZone, timeZoneOffset)}',
+        );
         return dateTimeWithTimeZone;
       }
     }
 
     return null;
+  }
+
+  // ✅ دالة للتحقق من أن الوقت محظور (من 10 مساءً إلى 12 صباحًا)
+  static bool _isTimeRestricted(TimeOfDay time) {
+    // الوقت المحظور: من الساعة 22:00 (10 مساءً) إلى 23:59 (11:59 مساءً)
+    // الساعة 22 و 23 محظورين
+    final isRestricted = time.hour >= 22;
+    debugPrint(
+      'Checking time ${time.hour}:${time.minute} - Restricted: $isRestricted',
+    );
+    return isRestricted;
   }
 
   // دالة مساعدة لتنسيق التاريخ والوقت بصيغة ISO 8601 مع الـ timezone

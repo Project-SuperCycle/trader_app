@@ -11,7 +11,7 @@ class ShipmentNoteCard extends StatelessWidget {
   bool get isAdmin => note.authorRole.toLowerCase() == 'admin';
   bool get isRep => note.authorRole.toLowerCase() == 'representative';
   bool get isTrader =>
-      note.authorRole.toLowerCase() == 'trader' ||
+      note.authorRole.toLowerCase() == 'trader_contracted' ||
       note.authorRole.toLowerCase() == 'trader_uncontracted';
 
   String formatDate(DateTime date) {

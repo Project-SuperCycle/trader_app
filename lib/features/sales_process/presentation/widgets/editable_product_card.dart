@@ -262,7 +262,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -511,7 +511,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
 
   Widget _buildModernPriceDisplay(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: AppColors.primaryColor.withAlpha(50),
         borderRadius: BorderRadius.circular(12),

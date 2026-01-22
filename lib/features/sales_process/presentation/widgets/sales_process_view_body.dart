@@ -487,7 +487,7 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
     required int stepNumber,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.green.shade50, Colors.green.shade100],

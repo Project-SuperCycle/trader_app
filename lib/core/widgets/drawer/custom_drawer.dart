@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/core/routes/end_points.dart';
-import 'package:supercycle/core/services/auth_manager_services.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/utils/app_assets.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/widgets/drawer/user_info_list_tile.dart';
-import 'package:supercycle/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
-import 'package:supercycle/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/services/auth_manager_services.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_assets.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/drawer/user_info_list_tile.dart';
+import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key, this.isInProfilePage = false});

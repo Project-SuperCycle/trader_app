@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/models/notifications_model.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
+import 'package:trader_app/core/models/notifications_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({super.key, required this.notification, this.onTap});

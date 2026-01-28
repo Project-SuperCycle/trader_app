@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/presentation/widgets/trees_tab/point_item.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/presentation/widgets/trees_tab/point_item.dart';
 
 class EarnPointsCard extends StatelessWidget {
   const EarnPointsCard({super.key});

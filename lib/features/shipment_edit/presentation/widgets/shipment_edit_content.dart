@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/features/sales_process/data/models/unit.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
-import 'package:supercycle/features/sales_process/presentation/widgets/editable_product_card.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/features/sales_process/data/models/unit.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/features/sales_process/presentation/widgets/editable_product_card.dart';
 
 class ShipmentEditContent extends StatefulWidget {
   final List<DoshItemModel> products;

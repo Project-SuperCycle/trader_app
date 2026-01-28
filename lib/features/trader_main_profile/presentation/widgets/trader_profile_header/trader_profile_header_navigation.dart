@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/helpers/custom_back_button.dart';
-import 'package:supercycle/core/routes/end_points.dart';
-import 'package:supercycle/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_logo.dart';
+import 'package:trader_app/core/helpers/custom_back_button.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_logo.dart';
 
 class TraderProfileHeaderNavigation extends StatelessWidget {
   const TraderProfileHeaderNavigation({super.key});

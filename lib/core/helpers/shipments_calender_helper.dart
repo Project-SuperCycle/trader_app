@@ -1,4 +1,4 @@
-import 'package:supercycle/features/shipments_calendar/data/models/shipment_model.dart';
+import 'package:trader_app/features/shipments_calendar/data/models/shipment_model.dart';
 
 class ShipmentsCalendarHelper {
   final List<ShipmentModel> shipments;

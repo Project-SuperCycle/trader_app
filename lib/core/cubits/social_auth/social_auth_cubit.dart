@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/core/models/social_auth_request_model.dart';
-import 'package:supercycle/core/models/social_auth_response_model.dart';
-import 'package:supercycle/core/repos/social_auth_repo_imp.dart';
+import 'package:trader_app/core/models/social_auth_request_model.dart';
+import 'package:trader_app/core/models/social_auth_response_model.dart';
+import 'package:trader_app/core/repos/social_auth_repo_imp.dart';
 
 part 'social_auth_state.dart';
 

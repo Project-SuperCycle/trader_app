@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/models/shipment/single_shipment_model.dart';
-import 'package:supercycle/features/shipment_edit/presentation/widgets/shipment_edit_view_body.dart';
+import 'package:trader_app/core/models/shipment/single_shipment_model.dart';
+import 'package:trader_app/features/shipment_edit/presentation/widgets/shipment_edit_view_body.dart';
 
 class ShipmentEditView extends StatelessWidget {
   final SingleShipmentModel shipment;

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/widgets/shipment/shipment_logo.dart';
-import 'package:supercycle/core/widgets/shipment/progress_widgets.dart';
-import 'package:supercycle/core/widgets/custom_text_field.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
-import 'package:supercycle/features/sales_process/data/models/create_shipment_model.dart';
-import 'package:supercycle/features/sales_process/presentation/widgets/entry_shipment_details_cotent.dart';
-import 'package:supercycle/features/sales_process/presentation/widgets/sales_process_shipment_header.dart';
-import 'package:supercycle/features/sales_process/presentation/widgets/shipment_review_dialog.dart';
-import 'package:supercycle/generated/l10n.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
+import 'package:trader_app/core/widgets/shipment/progress_widgets.dart';
+import 'package:trader_app/core/widgets/custom_text_field.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/features/sales_process/data/models/create_shipment_model.dart';
+import 'package:trader_app/features/sales_process/presentation/widgets/entry_shipment_details_cotent.dart';
+import 'package:trader_app/features/sales_process/presentation/widgets/sales_process_shipment_header.dart';
+import 'package:trader_app/features/sales_process/presentation/widgets/shipment_review_dialog.dart';
+import 'package:trader_app/generated/l10n.dart';
 import 'dart:io';
 
 class SalesProcessViewBody extends StatefulWidget {

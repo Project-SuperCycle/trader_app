@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
-import 'package:supercycle/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
+import 'package:trader_app/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
 
 class ShipmentsCalendarCubit extends Cubit<ShipmentsCalendarState> {
   final ShipmentsCalendarRepoImp shipmentsCalendarRepo;
@@ -30,24 +30,6 @@ class ShipmentsCalendarCubit extends Cubit<ShipmentsCalendarState> {
     emit(GetAllShipmentsLoading());
     try {
       var result = await shipmentsCalendarRepo.getShipmentsHistory(page: page);
-      result.fold(
-        (failure) {
-          emit(GetAllShipmentsFailure(errorMessage: failure.errMessage));
-        },
-        (shipments) {
-          emit(GetAllShipmentsSuccess(shipments: shipments));
-          // Store user globally
-        },
-      );
-    } catch (error) {
-      emit(GetAllShipmentsFailure(errorMessage: error.toString()));
-    }
-  }
-
-  Future<void> getAllRepShipments({required Map<String, dynamic> query}) async {
-    emit(GetAllShipmentsLoading());
-    try {
-      var result = await shipmentsCalendarRepo.getAllRepShipments(query: query);
       result.fold(
         (failure) {
           emit(GetAllShipmentsFailure(errorMessage: failure.errMessage));

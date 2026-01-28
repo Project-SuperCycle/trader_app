@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/models/shipment/shipment_reject_report_model.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
+import 'package:trader_app/core/models/shipment/shipment_reject_report_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 
 class TraderShipmentRejectCard extends StatelessWidget {
   final ShipmentRejectReportModel report;

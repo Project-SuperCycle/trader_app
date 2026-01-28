@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/models/environmental_redeem_model.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/models/environmental_redeem_model.dart';
 
 class EcoRequestCard extends StatelessWidget {
   final EnvironmentalRedeemModel request;

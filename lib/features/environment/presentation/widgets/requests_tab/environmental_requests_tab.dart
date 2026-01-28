@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
-import 'package:supercycle/features/environment/presentation/widgets/requests_tab/enviromental_request_card.dart';
-import 'package:supercycle/features/environment/data/models/environmental_redeem_model.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
+import 'package:trader_app/features/environment/presentation/widgets/requests_tab/enviromental_request_card.dart';
+import 'package:trader_app/features/environment/data/models/environmental_redeem_model.dart';
 
 class EnvironmentalRequestsTab extends StatefulWidget {
   const EnvironmentalRequestsTab({super.key});

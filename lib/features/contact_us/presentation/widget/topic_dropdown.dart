@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/contact_strings.dart';
+import 'package:trader_app/core/utils/contact_strings.dart';
 
 class TopicDropdown extends StatelessWidget {
   final String? value;

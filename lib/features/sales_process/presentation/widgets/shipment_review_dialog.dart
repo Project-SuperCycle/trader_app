@@ -4,17 +4,17 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/functions/shipment_manager.dart';
-import 'package:supercycle/core/routes/end_points.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/services/dosh_types_manager.dart';
-import 'package:supercycle/core/services/services_locator.dart';
-import 'package:supercycle/features/sales_process/data/cubit/create_shipment_cubit/create_shipment_cubit.dart';
-import 'package:supercycle/features/sales_process/data/models/create_shipment_model.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/functions/shipment_manager.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/services/dosh_types_manager.dart';
+import 'package:trader_app/core/services/services_locator.dart';
+import 'package:trader_app/features/sales_process/data/cubit/create_shipment_cubit/create_shipment_cubit.dart';
+import 'package:trader_app/features/sales_process/data/models/create_shipment_model.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
 
 class ShipmentReviewDialog extends StatefulWidget {
   final CreateShipmentModel shipment;

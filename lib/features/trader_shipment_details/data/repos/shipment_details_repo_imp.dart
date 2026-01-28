@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:supercycle/core/errors/failures.dart';
-import 'package:supercycle/core/helpers/error_handler.dart';
-import 'package:supercycle/core/services/api_endpoints.dart';
-import 'package:supercycle/core/services/api_services.dart';
-import 'package:supercycle/features/trader_shipment_details/data/repos/shipment_details_repo.dart';
+import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/services/api_endpoints.dart';
+import 'package:trader_app/core/services/api_services.dart';
+import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_details_repo.dart';
 
 class ShipmentDetailsRepoImp implements ShipmentDetailsRepo {
   final ApiServices apiServices;

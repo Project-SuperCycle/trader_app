@@ -47,28 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDwyjJgIOgY7LQjjjP2VIrQA-Zg3GQdPNA',
-    appId: '1:855015056699:android:46041f5a5b09d9acd5831e',
-    messagingSenderId: '855015056699',
-    projectId: 'supercycle-b07f1',
-    storageBucket: 'supercycle-b07f1.firebasestorage.app',
+    apiKey: 'AIzaSyBLmErHGGSMUMrSpzATrChQWZRe5aAQ4m8',
+    appId: '1:483137593963:android:e6a12f5610195863a6472e',
+    messagingSenderId: '483137593963',
+    projectId: 'supercycle-trader',
+    storageBucket: 'supercycle-trader.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDG_5oBp_J6f-U18miyfMHaeJazgVGSHH0',
-    appId: '1:855015056699:ios:44aea07da6acba97d5831e',
-    messagingSenderId: '855015056699',
-    projectId: 'supercycle-b07f1',
-    storageBucket: 'supercycle-b07f1.firebasestorage.app',
-    iosBundleId: 'com.example.supercycleApp',
+    apiKey: 'AIzaSyCO5nzXSGbQlb4pR_eTVcO22Dl_6accrJQ',
+    appId: '1:483137593963:ios:6feca8b851343ca0a6472e',
+    messagingSenderId: '483137593963',
+    projectId: 'supercycle-trader',
+    storageBucket: 'supercycle-trader.firebasestorage.app',
+    androidClientId: '483137593963-otk3ovseeivqcs38i9nojk1s4ljsn3ba.apps.googleusercontent.com',
+    iosClientId: '483137593963-k3jua98runf5m367ulv7pk29dkjhbbfa.apps.googleusercontent.com',
+    iosBundleId: 'com.supercycle.trader',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyB5V63HzMuZSizeKPnpLbWUOnSkNhCWsfA',
     appId: '1:855015056699:web:250f27484e8cae98d5831e',
     messagingSenderId: '855015056699',
-    projectId: 'supercycle-b07f1',
-    authDomain: 'supercycle-b07f1.firebaseapp.com',
-    storageBucket: 'supercycle-b07f1.firebasestorage.app',
+    projectId: 'trader_app-b07f1',
+    authDomain: 'trader_app-b07f1.firebaseapp.com',
+    storageBucket: 'trader_app-b07f1.firebasestorage.app',
   );
 }

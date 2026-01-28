@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/helpers/custom_back_button.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/models/trader_eco_info_model.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/helpers/custom_back_button.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/models/trader_eco_info_model.dart';
 
 class EnvironmentalImpactHeader extends StatelessWidget {
   final TraderEcoInfoModel ecoInfoModel;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/cubits/create_request_cubit/create_request_cubit.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/cubits/create_request_cubit/create_request_cubit.dart';
 
 class GreenPointsCard extends StatelessWidget {
   final num points;

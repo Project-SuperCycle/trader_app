@@ -1,6 +1,6 @@
-import 'package:supercycle/features/environment/data/models/top_participant_model.dart';
-import 'package:supercycle/features/environment/data/models/trader_eco_stats_model.dart';
-import 'package:supercycle/features/environment/data/models/trader_transaction_model.dart';
+import 'package:trader_app/features/environment/data/models/top_participant_model.dart';
+import 'package:trader_app/features/environment/data/models/trader_eco_stats_model.dart';
+import 'package:trader_app/features/environment/data/models/trader_transaction_model.dart';
 
 class TraderEcoInfoModel {
   final TraderEcoStatsModel? stats;

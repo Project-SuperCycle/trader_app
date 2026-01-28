@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/routes/end_points.dart' show EndPoints;
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/generated/l10n.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/routes/end_points.dart' show EndPoints;
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/generated/l10n.dart';
 
 class SignUpActionRow extends StatelessWidget {
   final VoidCallback onSignUp;

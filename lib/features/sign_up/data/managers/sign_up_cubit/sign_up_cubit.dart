@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
-import 'package:supercycle/features/sign_up/data/models/business_information_model.dart'
+import 'package:trader_app/features/sign_up/data/models/business_information_model.dart'
     show BusinessInformationModel;
-import 'package:supercycle/features/sign_up/data/models/otp_verification_model.dart'
+import 'package:trader_app/features/sign_up/data/models/otp_verification_model.dart'
     show OtpVerificationModel;
-import 'package:supercycle/features/sign_up/data/models/signup_credentials_model.dart';
-import 'package:supercycle/features/sign_up/data/repos/signup_repo_imp.dart';
+import 'package:trader_app/features/sign_up/data/models/signup_credentials_model.dart';
+import 'package:trader_app/features/sign_up/data/repos/signup_repo_imp.dart';
 
 part 'sign_up_state.dart';
 

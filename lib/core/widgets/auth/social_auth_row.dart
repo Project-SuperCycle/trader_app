@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/cubits/social_auth/social_auth_cubit.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/core/models/social_auth_request_model.dart';
-import 'package:supercycle/core/routes/end_points.dart';
-import 'package:supercycle/core/services/social_auth_services.dart';
-import 'package:supercycle/core/utils/app_assets.dart';
+import 'package:trader_app/core/cubits/social_auth/social_auth_cubit.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/models/social_auth_request_model.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/services/social_auth_services.dart';
+import 'package:trader_app/core/utils/app_assets.dart';
 
 class SocialAuthRow extends StatelessWidget {
   const SocialAuthRow({super.key});

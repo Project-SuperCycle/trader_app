@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:supercycle/core/errors/failures.dart';
-import 'package:supercycle/core/helpers/error_handler.dart';
-import 'package:supercycle/core/services/api_endpoints.dart';
-import 'package:supercycle/core/services/api_services.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/features/sign_up/data/models/business_information_model.dart';
-import 'package:supercycle/features/sign_up/data/models/otp_verification_model.dart';
-import 'package:supercycle/features/sign_up/data/models/signup_credentials_model.dart';
-import 'package:supercycle/features/sign_up/data/repos/signup_repo.dart';
+import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/services/api_endpoints.dart';
+import 'package:trader_app/core/services/api_services.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/features/sign_up/data/models/business_information_model.dart';
+import 'package:trader_app/features/sign_up/data/models/otp_verification_model.dart';
+import 'package:trader_app/features/sign_up/data/models/signup_credentials_model.dart';
+import 'package:trader_app/features/sign_up/data/repos/signup_repo.dart';
 
 class SignUpRepoImp implements SignUpRepo {
   final ApiServices apiServices;

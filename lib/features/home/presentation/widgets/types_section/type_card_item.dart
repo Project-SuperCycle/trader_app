@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/core/routes/end_points.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/utils/app_assets.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/widgets/custom_button.dart';
-import 'package:supercycle/features/home/data/models/dosh_type_model.dart';
-import 'package:supercycle/features/sign_in/data/models/logined_user_model.dart';
-import 'package:supercycle/generated/l10n.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_assets.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/custom_button.dart';
+import 'package:trader_app/features/home/data/models/dosh_type_model.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/generated/l10n.dart';
 
 class TypeCardItem extends StatefulWidget {
   final DoshTypeModel typeModel;

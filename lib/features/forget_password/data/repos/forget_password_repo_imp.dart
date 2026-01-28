@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:supercycle/core/errors/failures.dart';
-import 'package:supercycle/core/helpers/error_handler.dart';
-import 'package:supercycle/core/services/api_endpoints.dart';
-import 'package:supercycle/core/services/api_services.dart';
-import 'package:supercycle/features/forget_password/data/model/reset_password_model.dart';
-import 'package:supercycle/features/forget_password/data/model/verify_reset_otp_model.dart';
+import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/services/api_endpoints.dart';
+import 'package:trader_app/core/services/api_services.dart';
+import 'package:trader_app/features/forget_password/data/model/reset_password_model.dart';
+import 'package:trader_app/features/forget_password/data/model/verify_reset_otp_model.dart';
 import 'forget_password_repo.dart';
 
 class ForgetPasswordRepoImp implements ForgetPasswordRepo {

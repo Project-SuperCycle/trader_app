@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/core/services/lang_cache.dart' show LangCache;
+import 'package:trader_app/core/services/lang_cache.dart' show LangCache;
 
 part 'local_state.dart';
 

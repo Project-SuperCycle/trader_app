@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' show DioException;
-import 'package:supercycle/core/errors/failures.dart';
-import 'package:supercycle/core/models/social_auth_request_model.dart'
+import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/models/social_auth_request_model.dart'
     show SocialAuthRequestModel;
-import 'package:supercycle/core/models/social_auth_response_model.dart'
+import 'package:trader_app/core/models/social_auth_response_model.dart'
     show SocialAuthResponseModel;
-import 'package:supercycle/core/repos/social_auth_repo.dart';
-import 'package:supercycle/core/services/api_endpoints.dart' show ApiEndpoints;
-import 'package:supercycle/core/services/api_services.dart';
-import 'package:supercycle/core/services/storage_services.dart';
+import 'package:trader_app/core/repos/social_auth_repo.dart';
+import 'package:trader_app/core/services/api_endpoints.dart' show ApiEndpoints;
+import 'package:trader_app/core/services/api_services.dart';
+import 'package:trader_app/core/services/storage_services.dart';
 
 class SocialAuthRepoImp implements SocialAuthRepo {
   final ApiServices apiServices;

@@ -1,4 +1,4 @@
-import 'package:supercycle/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 abstract class SignInState {}
 

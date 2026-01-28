@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_assets.dart' show AppAssets;
+import 'package:trader_app/core/utils/app_assets.dart' show AppAssets;
 
 class ShipmentLogo extends StatelessWidget {
   const ShipmentLogo({super.key});

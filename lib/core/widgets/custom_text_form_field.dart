@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/utils/input_decorations.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/utils/input_decorations.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({

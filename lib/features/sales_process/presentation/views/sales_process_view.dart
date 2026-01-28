@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/widgets/navbar/custom_curved_navigation_bar.dart';
-import 'package:supercycle/features/sales_process/presentation/widgets/sales_process_view_body.dart';
+import 'package:trader_app/core/widgets/navbar/custom_curved_navigation_bar.dart';
+import 'package:trader_app/features/sales_process/presentation/widgets/sales_process_view_body.dart';
 
 class SalesProcessView extends StatelessWidget {
   const SalesProcessView({super.key});

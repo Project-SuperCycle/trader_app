@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/presentation/widgets/achievements_tab/badge_item.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/presentation/widgets/achievements_tab/badge_item.dart';
 
 class BadgesCard extends StatelessWidget {
   const BadgesCard({super.key});

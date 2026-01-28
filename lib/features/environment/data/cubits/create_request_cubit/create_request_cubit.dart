@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/features/environment/data/repos/environment_repo_imp.dart';
+import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
 
 part 'create_request_state.dart';
 

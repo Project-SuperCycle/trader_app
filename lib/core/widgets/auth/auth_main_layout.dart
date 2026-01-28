@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/utils/app_assets.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_assets.dart';
 
 class AuthMainLayout extends StatelessWidget {
   const AuthMainLayout({super.key, required this.child});

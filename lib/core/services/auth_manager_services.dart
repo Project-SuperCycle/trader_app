@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/services/user_profile_services.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/services/user_profile_services.dart';
 
 /// مدير مركزي لعمليات المصادقة وتسجيل الخروج
 class AuthManager {

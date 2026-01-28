@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/features/environment/data/repos/environment_repo_imp.dart';
-import 'package:supercycle/features/environment/data/models/environmental_redeem_model.dart';
+import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
+import 'package:trader_app/features/environment/data/models/environmental_redeem_model.dart';
 
 part 'requests_state.dart';
 

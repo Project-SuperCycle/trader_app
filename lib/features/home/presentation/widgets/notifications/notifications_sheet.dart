@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/models/notifications_model.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/home/presentation/widgets/notifications/notification_item.dart';
-import 'package:supercycle/features/home/presentation/widgets/notifications/notifications_empty_state.dart';
+import 'package:trader_app/core/models/notifications_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/home/presentation/widgets/notifications/notification_item.dart';
+import 'package:trader_app/features/home/presentation/widgets/notifications/notifications_empty_state.dart';
 
 class NotificationsSheet extends StatefulWidget {
   const NotificationsSheet({super.key});

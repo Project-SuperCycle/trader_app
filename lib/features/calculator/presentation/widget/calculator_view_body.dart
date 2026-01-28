@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/helpers/custom_dropdown.dart';
-import 'package:supercycle/core/services/dosh_types_manager.dart';
-import 'package:supercycle/core/services/services_locator.dart';
-import 'package:supercycle/core/utils/app_assets.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/helpers/custom_dropdown.dart';
+import 'package:trader_app/core/services/dosh_types_manager.dart';
+import 'package:trader_app/core/services/services_locator.dart';
+import 'package:trader_app/core/utils/app_assets.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 
 class CalculatorViewBody extends StatefulWidget {
   const CalculatorViewBody({super.key});

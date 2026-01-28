@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/models/top_participant_model.dart';
-import 'package:supercycle/features/environment/presentation/widgets/achievements_tab/leader_board_item.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/models/top_participant_model.dart';
+import 'package:trader_app/features/environment/presentation/widgets/achievements_tab/leader_board_item.dart';
 
 class LeaderBoardsCard extends StatelessWidget {
   final List<TopParticipant> participants;

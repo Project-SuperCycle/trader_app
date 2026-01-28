@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/utils/app_assets.dart' show AppAssets;
-import 'package:supercycle/core/widgets/notifications/notifications_overlay.dart';
-import 'package:supercycle/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_assets.dart' show AppAssets;
+import 'package:trader_app/core/widgets/notifications/notifications_overlay.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 class HomeHeaderNavActions extends StatefulWidget {
   const HomeHeaderNavActions({

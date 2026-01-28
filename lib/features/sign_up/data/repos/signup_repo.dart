@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart' show Either;
-import 'package:supercycle/core/errors/failures.dart' show Failure;
-import 'package:supercycle/features/sign_up/data/models/business_information_model.dart'
+import 'package:trader_app/core/errors/failures.dart' show Failure;
+import 'package:trader_app/features/sign_up/data/models/business_information_model.dart'
     show BusinessInformationModel;
-import 'package:supercycle/features/sign_up/data/models/otp_verification_model.dart'
+import 'package:trader_app/features/sign_up/data/models/otp_verification_model.dart'
     show OtpVerificationModel;
-import 'package:supercycle/features/sign_up/data/models/signup_credentials_model.dart'
+import 'package:trader_app/features/sign_up/data/models/signup_credentials_model.dart'
     show SignupCredentialsModel;
 
 abstract class SignUpRepo {

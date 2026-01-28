@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/features/sign_up/presentation/widgets/sign_up_verify_view_body.dart';
+import 'package:trader_app/features/sign_up/presentation/widgets/sign_up_verify_view_body.dart';
 
 class SignUpVerifyView extends StatelessWidget {
   final String credential;

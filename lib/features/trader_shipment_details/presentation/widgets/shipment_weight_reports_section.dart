@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/trader_shipment_details/data/models/shipment_segment_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/trader_shipment_details/data/models/shipment_segment_model.dart';
 
 class ShipmentWeightReportsSection extends StatelessWidget {
   final List<ShipmentSegmentModel> segments;

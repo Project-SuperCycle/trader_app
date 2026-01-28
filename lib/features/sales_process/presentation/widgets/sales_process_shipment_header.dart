@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/helpers/date_time_picker_util.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
+import 'package:trader_app/core/helpers/date_time_picker_util.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 import 'dart:io';
 import 'image_picker_widget.dart';
 import 'package:intl/intl.dart';

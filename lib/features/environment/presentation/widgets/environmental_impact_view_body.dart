@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
-import 'package:supercycle/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
-import 'package:supercycle/features/environment/presentation/widgets/achievements_tab/environmental_achievements_tab.dart';
-import 'package:supercycle/features/environment/presentation/widgets/environmental_impact_header.dart';
-import 'package:supercycle/features/environment/presentation/widgets/environmental_impact_tab_bar.dart';
-import 'package:supercycle/features/environment/presentation/widgets/impact_tab/environmental_impact_tab.dart';
-import 'package:supercycle/features/environment/presentation/widgets/trees_tab/environmental_trees_tab.dart';
-import 'package:supercycle/features/environment/presentation/widgets/transactions_tab/environmental_transactions_tab.dart';
-import 'package:supercycle/features/environment/presentation/widgets/requests_tab/environmental_requests_tab.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
+import 'package:trader_app/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
+import 'package:trader_app/features/environment/presentation/widgets/achievements_tab/environmental_achievements_tab.dart';
+import 'package:trader_app/features/environment/presentation/widgets/environmental_impact_header.dart';
+import 'package:trader_app/features/environment/presentation/widgets/environmental_impact_tab_bar.dart';
+import 'package:trader_app/features/environment/presentation/widgets/impact_tab/environmental_impact_tab.dart';
+import 'package:trader_app/features/environment/presentation/widgets/trees_tab/environmental_trees_tab.dart';
+import 'package:trader_app/features/environment/presentation/widgets/transactions_tab/environmental_transactions_tab.dart';
+import 'package:trader_app/features/environment/presentation/widgets/requests_tab/environmental_requests_tab.dart';
 
 class EnvironmentalImpactViewBody extends StatefulWidget {
   const EnvironmentalImpactViewBody({super.key});

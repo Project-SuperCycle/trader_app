@@ -3,36 +3,38 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:supercycle/core/cubits/add_notes_cubit/add_notes_cubit.dart';
-import 'package:supercycle/core/cubits/local_cubit/local_cubit.dart';
-import 'package:supercycle/core/cubits/social_auth/social_auth_cubit.dart';
-import 'package:supercycle/core/repos/social_auth_repo_imp.dart';
-import 'package:supercycle/core/routes/routes.dart';
-import 'package:supercycle/core/services/services_locator.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/cubits/create_request_cubit/create_request_cubit.dart';
-import 'package:supercycle/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
-import 'package:supercycle/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
-import 'package:supercycle/features/environment/data/repos/environment_repo_imp.dart';
-import 'package:supercycle/features/forget_password/data/cubits/forget_password_cubit.dart';
-import 'package:supercycle/features/forget_password/data/repos/forget_password_repo_imp.dart';
-import 'package:supercycle/features/home/data/managers/home_cubit/home_cubit.dart';
-import 'package:supercycle/features/home/data/managers/profile_cubit/profile_cubit.dart';
-import 'package:supercycle/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
-import 'package:supercycle/features/home/data/repos/home_repo_imp.dart';
-import 'package:supercycle/features/sales_process/data/repos/sales_process_repo_imp.dart';
-import 'package:supercycle/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_cubit.dart';
-import 'package:supercycle/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
-import 'package:supercycle/features/trader_shipment_details/data/repos/shipment_notes_repo_imp.dart';
-import 'package:supercycle/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
-import 'package:supercycle/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
-import 'package:supercycle/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
-import 'package:supercycle/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
-import 'package:supercycle/features/sign_in/data/cubits/sign-in-cubit/sign_in_cubit.dart';
-import 'package:supercycle/features/sign_in/data/repos/signin_repo_imp.dart';
-import 'package:supercycle/features/sign_up/data/managers/sign_up_cubit/sign_up_cubit.dart';
-import 'package:supercycle/features/sign_up/data/repos/signup_repo_imp.dart';
-import 'package:supercycle/firebase_options.dart';
+import 'package:trader_app/core/cubits/add_notes_cubit/add_notes_cubit.dart';
+import 'package:trader_app/core/cubits/local_cubit/local_cubit.dart';
+import 'package:trader_app/core/cubits/social_auth/social_auth_cubit.dart';
+import 'package:trader_app/core/repos/social_auth_repo_imp.dart';
+import 'package:trader_app/core/routes/routes.dart';
+import 'package:trader_app/core/services/notifications/local_notifications_service.dart';
+import 'package:trader_app/core/services/notifications/push_notifications_service.dart';
+import 'package:trader_app/core/services/services_locator.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/cubits/create_request_cubit/create_request_cubit.dart';
+import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
+import 'package:trader_app/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
+import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
+import 'package:trader_app/features/forget_password/data/cubits/forget_password_cubit.dart';
+import 'package:trader_app/features/forget_password/data/repos/forget_password_repo_imp.dart';
+import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dart';
+import 'package:trader_app/features/home/data/managers/profile_cubit/profile_cubit.dart';
+import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
+import 'package:trader_app/features/home/data/repos/home_repo_imp.dart';
+import 'package:trader_app/features/sales_process/data/repos/sales_process_repo_imp.dart';
+import 'package:trader_app/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_cubit.dart';
+import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
+import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_notes_repo_imp.dart';
+import 'package:trader_app/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
+import 'package:trader_app/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
+import 'package:trader_app/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
+import 'package:trader_app/features/sign_in/data/cubits/sign-in-cubit/sign_in_cubit.dart';
+import 'package:trader_app/features/sign_in/data/repos/signin_repo_imp.dart';
+import 'package:trader_app/features/sign_up/data/managers/sign_up_cubit/sign_up_cubit.dart';
+import 'package:trader_app/features/sign_up/data/repos/signup_repo_imp.dart';
+import 'package:trader_app/firebase_options.dart';
 import 'features/sales_process/data/cubit/create_shipment_cubit/create_shipment_cubit.dart';
 import 'generated/l10n.dart';
 
@@ -40,6 +42,10 @@ void main() async {
   setupServiceLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Future.wait([
+    PushNotificationsService.init(),
+    LocalNotificationsService.init(),
+  ]);
   runApp(
     MultiBlocProvider(
       providers: [

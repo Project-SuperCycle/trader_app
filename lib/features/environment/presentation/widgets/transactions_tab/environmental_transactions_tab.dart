@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/models/trader_eco_info_model.dart';
-import 'package:supercycle/features/environment/presentation/widgets/trees_tab/eco_transaction_card.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/models/trader_eco_info_model.dart';
+import 'package:trader_app/features/environment/presentation/widgets/trees_tab/eco_transaction_card.dart';
 
 class EnvironmentalTransactionsTab extends StatefulWidget {
   final TraderEcoInfoModel ecoInfoModel;

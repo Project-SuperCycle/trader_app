@@ -1,16 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/errors/failures.dart';
-import 'package:supercycle/core/helpers/error_handler.dart';
-import 'package:supercycle/core/services/api_endpoints.dart';
-import 'package:supercycle/core/services/api_services.dart';
-import 'package:supercycle/core/services/auth_manager_services.dart';
-import 'package:supercycle/core/services/social_auth_services.dart';
-import 'package:supercycle/core/services/storage_services.dart';
-import 'package:supercycle/core/services/user_profile_services.dart';
-import 'package:supercycle/features/sign_in/data/models/logined_user_model.dart';
-import 'package:supercycle/features/sign_in/data/models/signin_credentials_model.dart';
-import 'package:supercycle/features/sign_in/data/repos/signin_repo.dart';
+import 'package:logger/logger.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/services/api_endpoints.dart';
+import 'package:trader_app/core/services/api_services.dart';
+import 'package:trader_app/core/services/auth_manager_services.dart';
+import 'package:trader_app/core/services/social_auth_services.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/services/user_profile_services.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/features/sign_in/data/models/signin_credentials_model.dart';
+import 'package:trader_app/features/sign_in/data/repos/signin_repo.dart';
 
 class SignInRepoImp implements SignInRepo {
   final ApiServices apiServices;
@@ -151,5 +152,31 @@ class SignInRepoImp implements SignInRepo {
 
     // 2. تحديث حالة المصادقة في AuthManager
     await _authManager.onLoginSuccess();
+
+    // Register Device
+    await registerDeviceToServer();
+  }
+
+  Future<void> registerDeviceToServer() async {
+    String fcm_token = await StorageServices.readData("fcm_token");
+    String fcm_auth_status = await StorageServices.readData("fcm_auth_status");
+    String fcm_platform = await StorageServices.readData("fcm_platform");
+
+    Logger().i('''
+╔════════════════════════════════════════
+║ FCM Device Registration
+╠════════════════════════════════════════
+║ Token: $fcm_token
+║ Platform: $fcm_platform
+║ Authorization Status: $fcm_auth_status
+╚════════════════════════════════════════
+    ''');
+
+    if (fcm_auth_status == "true") {
+      ApiServices().post(
+        endPoint: ApiEndpoints.registerDevice,
+        data: {"token": fcm_token, "platform": fcm_platform},
+      );
+    }
   }
 }

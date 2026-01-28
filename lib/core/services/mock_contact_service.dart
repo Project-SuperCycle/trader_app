@@ -1,5 +1,5 @@
-import 'package:supercycle/core/services/contact_service.dart';
-import 'package:supercycle/features/contact_us/data/models/contact_form_data.dart';
+import 'package:trader_app/core/services/contact_service.dart';
+import 'package:trader_app/features/contact_us/data/models/contact_form_data.dart';
 
 class MockContactService implements ContactService {
   @override

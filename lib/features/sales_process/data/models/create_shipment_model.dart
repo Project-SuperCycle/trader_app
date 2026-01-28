@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:supercycle/core/functions/shipment_manager.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/core/functions/shipment_manager.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
 
 class CreateShipmentModel {
   final String? selectedBranchId;

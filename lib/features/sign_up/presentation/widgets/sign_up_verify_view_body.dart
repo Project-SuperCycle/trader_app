@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supercycle/core/helpers/custom_loading_indicator.dart';
-import 'package:supercycle/core/helpers/custom_snack_bar.dart';
-import 'package:supercycle/core/routes/end_points.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/widgets/auth/auth_main_header.dart';
-import 'package:supercycle/core/widgets/auth/auth_main_layout.dart';
-import 'package:supercycle/core/widgets/custom_button.dart';
-import 'package:supercycle/core/widgets/rounded_container.dart';
-import 'package:supercycle/features/sign_up/data/managers/sign_up_cubit/sign_up_cubit.dart';
-import 'package:supercycle/features/sign_up/data/models/otp_verification_model.dart';
-import 'package:supercycle/features/sign_up/presentation/widgets/filled_rounded_pin_put.dart';
-import 'package:supercycle/generated/l10n.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/auth/auth_main_header.dart';
+import 'package:trader_app/core/widgets/auth/auth_main_layout.dart';
+import 'package:trader_app/core/widgets/custom_button.dart';
+import 'package:trader_app/core/widgets/rounded_container.dart';
+import 'package:trader_app/features/sign_up/data/managers/sign_up_cubit/sign_up_cubit.dart';
+import 'package:trader_app/features/sign_up/data/models/otp_verification_model.dart';
+import 'package:trader_app/features/sign_up/presentation/widgets/filled_rounded_pin_put.dart';
+import 'package:trader_app/generated/l10n.dart';
 
 class SignUpVerifyViewBody extends StatefulWidget {
   final String credential;

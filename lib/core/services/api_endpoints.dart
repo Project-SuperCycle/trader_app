@@ -24,21 +24,6 @@ abstract class ApiEndpoints {
   static const String verifyResetOtp = '/auth/verify-reset-otp';
   static const String resetPassword = '/auth/reset-password';
 
-  // Representative
-  static const String getRepShipments = '/representatives/shipments';
-  static const String getRepShipmentById = '/shipments/{id}';
-  static const String updateRepShipment =
-      '/representatives/shipments/{id}/modify';
-  static const String acceptRepShipment =
-      '/representatives/shipments/{id}/accept';
-  static const String rejectRepShipment =
-      '/representatives/shipments/{id}/reject';
-  static const String startShipmentSegment =
-      '/representatives/shipments/{shipmentId}/segments/{segmentId}/start-pickup';
-  static const String weighShipmentSegment =
-      '/representatives/shipments/{shipmentId}/segments/{segmentId}/weigh';
-  static const String deliverShipmentSegment =
-      '/representatives/shipments/{shipmentId}/segments/{segmentId}/deliver';
-  static const String failShipmentSegment =
-      '/representatives/shipments/{shipmentId}/segments/{segmentId}/fail';
+  // notifications
+  static const String registerDevice = '/auth/device-token';
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/helpers/custom_dropdown.dart';
-import 'package:supercycle/core/services/dosh_types_manager.dart';
-import 'package:supercycle/core/services/services_locator.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/widgets/custom_text_form_field.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
-import 'package:supercycle/features/sales_process/data/models/unit.dart';
-import 'package:supercycle/generated/l10n.dart';
+import 'package:trader_app/core/helpers/custom_dropdown.dart';
+import 'package:trader_app/core/services/dosh_types_manager.dart';
+import 'package:trader_app/core/services/services_locator.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/custom_text_form_field.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/features/sales_process/data/models/unit.dart';
+import 'package:trader_app/generated/l10n.dart';
 
 class EditableProductCard extends StatefulWidget {
   final DoshItemModel product;

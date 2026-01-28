@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/constants.dart';
-import 'package:supercycle/core/helpers/custom_back_button.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
+import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/helpers/custom_back_button.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EnvironmentalDefaultViewBody extends StatelessWidget {
@@ -65,7 +65,7 @@ class EnvironmentalDefaultViewBody extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'SuperCycle',
+                                    'trader_app',
                                     style: AppStyles.styleBold24(
                                       context,
                                     ).copyWith(color: Colors.white),

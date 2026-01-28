@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/core/models/user_profile_model.dart';
-import 'package:supercycle/core/widgets/drawer/custom_drawer.dart';
-import 'package:supercycle/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
-import 'package:supercycle/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_section.dart';
-import 'package:supercycle/features/trader_main_profile/presentation/widgets/trader_profile_info_card1.dart';
-import 'package:supercycle/features/trader_main_profile/presentation/widgets/trader_profile_info_card2.dart';
-import 'package:supercycle/features/trader_main_profile/presentation/widgets/trader_profile_info_card3.dart';
-import 'package:supercycle/features/trader_main_profile/presentation/widgets/trader_profile_page_indicator.dart';
+import 'package:trader_app/core/models/user_profile_model.dart';
+import 'package:trader_app/core/widgets/drawer/custom_drawer.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_section.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_profile_info_card1.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_profile_info_card2.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_profile_info_card3.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_profile_page_indicator.dart';
 
 class TraderProfileViewBody extends StatefulWidget {
   final UserProfileModel userProfile;

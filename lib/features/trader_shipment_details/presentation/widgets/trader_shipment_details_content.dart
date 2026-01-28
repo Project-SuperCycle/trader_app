@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
-import 'package:supercycle/features/trader_shipment_details/presentation/widgets/trader_shipment_details_summary.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/features/trader_shipment_details/presentation/widgets/trader_shipment_details_summary.dart';
 import 'product_card.dart';
 
 class TraderShipmentDetailsContent extends StatelessWidget {

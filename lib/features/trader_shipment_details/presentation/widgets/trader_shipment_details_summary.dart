@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/services/dosh_types_manager.dart';
-import 'package:supercycle/core/services/services_locator.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/core/services/dosh_types_manager.dart';
+import 'package:trader_app/core/services/services_locator.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
 
 class TraderShipmentDetailsSummary extends StatelessWidget {
   final List<DoshItemModel> items;

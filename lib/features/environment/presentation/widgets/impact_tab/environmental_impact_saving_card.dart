@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:supercycle/core/utils/app_colors.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/presentation/widgets/impact_tab/environmental_impact_saving_item.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/presentation/widgets/impact_tab/environmental_impact_saving_item.dart';
 
 class EnvironmentalImpactSavingCard extends StatelessWidget {
   final num fullWeight;

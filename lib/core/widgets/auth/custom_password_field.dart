@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/core/utils/input_decorations.dart'
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/utils/input_decorations.dart'
     show InputDecorations;
-import 'package:supercycle/generated/l10n.dart' show S;
+import 'package:trader_app/generated/l10n.dart' show S;
 
 class CustomPasswordField extends StatefulWidget {
   const CustomPasswordField({

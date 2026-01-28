@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:supercycle/core/models/shipment/shipment_note_model.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
+import 'package:trader_app/core/models/shipment/shipment_note_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 
 class ShipmentNoteCard extends StatelessWidget {
   final ShipmentNoteModel note;

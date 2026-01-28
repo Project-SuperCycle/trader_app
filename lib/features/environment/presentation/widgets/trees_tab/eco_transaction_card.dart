@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:supercycle/core/utils/app_styles.dart';
-import 'package:supercycle/features/environment/data/models/trader_transaction_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/environment/data/models/trader_transaction_model.dart';
 
 class EcoTransactionCard extends StatelessWidget {
   final TraderTransactionModel transaction;

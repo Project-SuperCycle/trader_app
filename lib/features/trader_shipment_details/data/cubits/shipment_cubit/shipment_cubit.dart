@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supercycle/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
+import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
 
 part 'shipment_state.dart';
 

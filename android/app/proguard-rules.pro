@@ -10,17 +10,18 @@
 -dontwarn io.flutter.embedding.**
 
 # ===================================
-# Agora (Video / Voice Call)
+# FlutterFire Background / Engine
 # ===================================
--keep class io.agora.** { *; }
--keep class io.agora.rtc.** { *; }
--keep class io.agora.rtc2.** { *; }
--dontwarn io.agora.**
+-keep class io.flutter.plugins.firebase.messaging.** { *; }
+-keep class io.flutter.embedding.engine.FlutterEngine { *; }
+-keep class io.flutter.embedding.engine.dart.** { *; }
 
 # ===================================
 # Firebase & Google Services
 # ===================================
 -keep class com.google.firebase.** { *; }
+-keep class com.google.firebase.messaging.** { *; }
+-keep class com.google.firebase.iid.** { *; }
 -keep class com.google.android.gms.** { *; }
 -keep class com.google.android.gms.internal.** { *; }
 -dontwarn com.google.firebase.**
@@ -39,11 +40,17 @@
 -dontwarn com.google.android.play.core.**
 
 # ===================================
-# Kotlin
+# Agora (Video / Voice Call)
 # ===================================
--keep class kotlin.** { *; }
+-keep class io.agora.** { *; }
+-keep class io.agora.rtc.** { *; }
+-keep class io.agora.rtc2.** { *; }
+-dontwarn io.agora.**
+
+# ===================================
+# Kotlin (Safe Minimal Rules)
+# ===================================
 -keep class kotlin.Metadata { *; }
--keep class kotlinx.** { *; }
 -dontwarn kotlin.**
 -dontwarn kotlinx.**
 
@@ -95,12 +102,14 @@
 -dontwarn retrofit2.**
 
 # ===================================
-# Your App Models (عدّل حسب package name بتاعك)
+# App Package (IMPORTANT)
 # ===================================
--keep class com.example.supercycle_app.** { *; }
--keepclassmembers class com.example.supercycle_app.** { *; }
+-keep class com.supercycle.trader.** { *; }
+-keepclassmembers class com.supercycle.trader.** { *; }
 
-# Keep all model classes that might be used with Gson/JSON
+# ===================================
+# Parcelable Models
+# ===================================
 -keep class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
@@ -133,6 +142,6 @@
 }
 
 # ===================================
-# Keep Exceptions
+# Exceptions
 # ===================================
 -keep public class * extends java.lang.Exception

@@ -6,6 +6,7 @@ import 'package:trader_app/core/helpers/error_handler.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
+import 'package:trader_app/core/services/notifications/push_notifications_service.dart';
 import 'package:trader_app/core/services/social_auth_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/services/user_profile_services.dart';
@@ -16,41 +17,40 @@ import 'package:trader_app/features/sign_in/data/repos/signin_repo.dart';
 class SignInRepoImp implements SignInRepo {
   final ApiServices apiServices;
   final AuthManager _authManager = AuthManager();
+  final Logger _logger = Logger();
 
   SignInRepoImp({required this.apiServices});
 
-  /// تسجيل الدخول بالبريد الإلكتروني وكلمة المرور
+  /// تسجيل الدخول بالبريد الإلكتروني
   @override
-  Future<Either<Failure, LoginedUserModel>> userSignin({
+  Future<Either<Failure, LoginedUserModel>> userSignIn({
     required SigninCredentialsModel credentials,
   }) async {
-    return await ErrorHandler.handleApiResponse<LoginedUserModel>(
+    return ErrorHandler.handleApiResponse<LoginedUserModel>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.login,
         data: credentials.toJson(),
       ),
       errorContext: 'email login',
       responseParser: (response) {
-        var data = response['data'];
-        return LoginedUserModel.fromJson(data);
+        return LoginedUserModel.fromJson(response['data']);
       },
       customErrorChecks: (response) {
-        var token = response['token'];
+        final token = response['token'];
 
-        // التحقق من حالة عدم التحقق من البريد
         if (token == null && response['Code'] == kNotVerified) {
           return ServerFailure.fromResponse(403, response);
         }
 
-        // التحقق من حالة الملف غير المكتمل
         if (token != null && response['Code'] == kProfileIncomplete) {
           return ServerFailure(response['message'], 200);
         }
 
         return null;
       },
-      onSuccess: (loginUser, response) async {
-        await _saveUserData(loginUser, response['token']);
+      onSuccess: (user, response) async {
+        await _saveUserData(user, response['token']);
+        _registerDeviceToServer(); // non-blocking
       },
     );
   }
@@ -58,124 +58,84 @@ class SignInRepoImp implements SignInRepo {
   /// تسجيل الدخول عبر Google
   @override
   Future<Either<Failure, LoginedUserModel>> signInWithGoogle() async {
-    // 1. الحصول على access token من Google
-    final accessTokenResult = await ErrorHandler.simpleApiCall<String>(
-      apiCall: () => SocialAuthService.signInWithGoogle(),
+    final tokenResult = await ErrorHandler.simpleApiCall<String>(
+      apiCall: SocialAuthService.signInWithGoogle,
       errorContext: 'Google authentication',
-      specificErrorMessages: {
-        'Google Sign In failed': 'تم إلغاء تسجيل الدخول بـ Google',
-      },
-      errorMessage: 'حدث خطأ أثناء المصادقة مع Google',
     );
 
-    // إذا فشل الحصول على token من Google
-    if (accessTokenResult.isLeft()) {
-      return accessTokenResult.fold(
-        (failure) => left(failure),
+    if (tokenResult.isLeft()) {
+      return tokenResult.fold(
+        left,
         (_) => left(ServerFailure('Unexpected error', 520)),
       );
     }
 
-    // استخراج الـ token
-    final accessToken = accessTokenResult.getOrElse(() => '');
+    final accessToken = tokenResult.getOrElse(() => '');
 
-    // 2. إرسال الـ token للـ backend
-    return await ErrorHandler.handleApiResponse<LoginedUserModel>(
+    return ErrorHandler.handleApiResponse<LoginedUserModel>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.socialLogin,
         data: {'accessToken': accessToken},
       ),
       errorContext: 'Google login',
       responseParser: (response) {
-        var data = response['data'];
-        return LoginedUserModel.fromJson(data);
+        return LoginedUserModel.fromJson(response['data']);
       },
       customErrorChecks: (response) {
-        // التحقق من البيانات الأساسية
         return ErrorHandler.validateResponseData(response, ['data', 'token']);
       },
-      onSuccess: (loginUser, response) async {
-        await _saveUserData(loginUser, response['token']);
+      onSuccess: (user, response) async {
+        await _saveUserData(user, response['token']);
+        _registerDeviceToServer(); // non-blocking
       },
     );
   }
 
-  /// تسجيل الدخول عبر Facebook
-  @override
-  Future<Either<Failure, LoginedUserModel>> signInWithFacebook() async {
-    // 1. الحصول على access token من Facebook
-    final accessTokenResult = await ErrorHandler.simpleApiCall<String>(
-      apiCall: () => SocialAuthService.signInWithFacebook(),
-      errorContext: 'Facebook authentication',
-      errorMessage: 'حدث خطأ أثناء المصادقة مع Facebook',
-    );
-
-    // إذا فشل الحصول على token من Facebook
-    if (accessTokenResult.isLeft()) {
-      return accessTokenResult.fold(
-        (failure) => left(failure),
-        (_) => left(ServerFailure('Unexpected error', 520)),
-      );
-    }
-
-    // استخراج الـ token
-    final accessToken = accessTokenResult.getOrElse(() => '');
-
-    // 2. إرسال الـ token للـ backend
-    return await ErrorHandler.handleApiResponse<LoginedUserModel>(
-      apiCall: () => apiServices.post(
-        endPoint: ApiEndpoints.socialLogin,
-        data: {'accessToken': accessToken},
-      ),
-      errorContext: 'Facebook login',
-      responseParser: (response) {
-        var data = response['data'];
-        return LoginedUserModel.fromJson(data);
-      },
-      customErrorChecks: (response) {
-        // التحقق من البيانات الأساسية
-        return ErrorHandler.validateResponseData(response, ['data', 'token']);
-      },
-      onSuccess: (loginUser, response) async {
-        await _saveUserData(loginUser, response['token']);
-      },
-    );
-  }
-
-  /// حفظ بيانات المستخدم وتحديث حالة المصادقة
+  /// حفظ بيانات المستخدم
   Future<void> _saveUserData(LoginedUserModel user, String token) async {
     if (user.role == "representative") return;
-    // 1. حفظ في Storage
-    await StorageServices.storeData('user', user.toJson());
-    await StorageServices.storeData('token', token);
+
+    await Future.wait([
+      StorageServices.storeData('user', user.toJson()),
+      StorageServices.storeData('token', token),
+    ]);
+
     await UserProfileService.fetchAndStoreUserProfile();
-
-    // 2. تحديث حالة المصادقة في AuthManager
     await _authManager.onLoginSuccess();
-
-    // Register Device
-    await registerDeviceToServer();
   }
 
-  Future<void> registerDeviceToServer() async {
-    String fcm_token = await StorageServices.readData("fcm_token");
-    String fcm_auth_status = await StorageServices.readData("fcm_auth_status");
-    String fcm_platform = await StorageServices.readData("fcm_platform");
+  /// تسجيل الجهاز (آمن 100%)
+  Future<void> _registerDeviceToServer() async {
+    try {
+      final canRegister = await PushNotificationsService.canRegisterDevice();
+      if (!canRegister) return;
 
-    Logger().i('''
+      final fcmData = await PushNotificationsService.getStoredFCMData();
+      if (fcmData == null) return;
+
+      final token = fcmData['token'];
+      final platform = fcmData['platform'];
+
+      if (token == null || token.isEmpty || platform == null) return;
+
+      _logger.i('''
 ╔════════════════════════════════════════
-║ FCM Device Registration
+║ Registering Device
 ╠════════════════════════════════════════
-║ Token: $fcm_token
-║ Platform: $fcm_platform
-║ Authorization Status: $fcm_auth_status
+║ Token: ${token.substring(0, token.length.clamp(0, 20))}...
+║ Platform: $platform
 ╚════════════════════════════════════════
-    ''');
+''');
 
-    if (fcm_auth_status == "true") {
-      ApiServices().post(
+      await apiServices.post(
         endPoint: ApiEndpoints.registerDevice,
-        data: {"token": fcm_token, "platform": fcm_platform},
+        data: {"token": token, "platform": platform, "app": "trader"},
+      );
+    } catch (e, stackTrace) {
+      _logger.e(
+        '⚠️ Device registration failed (non-critical)',
+        error: e,
+        stackTrace: stackTrace,
       );
     }
   }

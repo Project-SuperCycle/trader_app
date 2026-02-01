@@ -6,13 +6,10 @@ import 'package:trader_app/features/sign_in/data/models/signin_credentials_model
 /// واجهة مستودع تسجيل الدخول
 abstract class SignInRepo {
   /// تسجيل الدخول بالبريد الإلكتروني وكلمة المرور
-  Future<Either<Failure, LoginedUserModel>> userSignin({
+  Future<Either<Failure, LoginedUserModel>> userSignIn({
     required SigninCredentialsModel credentials,
   });
 
   /// تسجيل الدخول عبر Google
   Future<Either<Failure, LoginedUserModel>> signInWithGoogle();
-
-  /// تسجيل الدخول عبر Facebook
-  Future<Either<Failure, LoginedUserModel>> signInWithFacebook();
 }

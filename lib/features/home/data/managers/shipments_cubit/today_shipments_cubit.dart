@@ -52,7 +52,7 @@ class TodayShipmentsCubit extends Cubit<TodayShipmentsState> {
   }) async {
     emit(TodayShipmentsLoading());
     try {
-      var result = await homeRepo.fetchTodayShipmets(query: query);
+      var result = await homeRepo.fetchTodayShipments(query: query);
       result.fold(
         (failure) {
           emit(TodayShipmentsFailure(message: failure.errMessage));

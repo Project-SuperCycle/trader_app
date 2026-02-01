@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:trader_app/core/utils/app_colors.dart';
-import 'package:trader_app/core/utils/app_styles.dart' show AppStyles;
-import 'package:trader_app/features/home/presentation/widgets/types_section/types_filter_buttons_list.dart';
-import 'package:trader_app/generated/l10n.dart' show S;
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/generated/l10n.dart';
 
 class TypesSectionHeader extends StatefulWidget {
   const TypesSectionHeader({super.key});
@@ -72,21 +70,21 @@ class _TypesSectionHeaderState extends State<TypesSectionHeader> {
               ),
             ],
           ),
-          AnimatedSize(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            child: isExpanded
-                ? Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TypesFilterButtonsList(),
-                      ),
-                    ],
-                  )
-                : const SizedBox.shrink(),
-          ),
+          // AnimatedSize(
+          //   duration: const Duration(milliseconds: 300),
+          //   curve: Curves.easeInOut,
+          //   child: isExpanded
+          //       ? Column(
+          //           children: [
+          //             const SizedBox(height: 16),
+          //             Align(
+          //               alignment: Alignment.centerLeft,
+          //               child: TypesFilterButtonsList(),
+          //             ),
+          //           ],
+          //         )
+          //       : const SizedBox.shrink(),
+          // ),
         ],
       ),
     );

@@ -1,11 +1,11 @@
 import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
 import 'package:trader_app/core/services/notifications/local_notifications_service.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 
-/// ✅ MUST be top-level + annotated
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -13,66 +13,82 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 class PushNotificationsService {
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;
+  static final Logger _logger = Logger();
 
   static Future<void> init() async {
-    NotificationSettings settings = await messaging.requestPermission();
+    try {
+      final settings = await messaging.requestPermission();
+      final authStatus = settings.authorizationStatus;
 
-    // Get authorization status
-    AuthorizationStatus authStatus = settings.authorizationStatus;
-    Logger().d('Notification Authorization Status: $authStatus');
+      final token = await messaging.getToken();
+      await _saveDeviceTokenData(token: token, authStatus: authStatus);
 
-    await messaging.getToken().then(
-      (token) => registerDeviceTokenWithAuthStatus(
-        token: token,
-        authStatus: authStatus,
-      ),
-    );
+      messaging.onTokenRefresh.listen((newToken) async {
+        await _saveDeviceTokenData(token: newToken, authStatus: authStatus);
+      });
 
-    messaging.onTokenRefresh.listen(
-      (token) => registerDeviceTokenWithAuthStatus(
-        token: token,
-        authStatus: authStatus,
-      ),
-    );
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-    /// ✅ reference top-level function
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-    // foreground notification
-    FirebaseMessaging.onMessage.listen((message) {
-      LocalNotificationsService.showBasicNotification(message: message);
-    });
+      FirebaseMessaging.onMessage.listen((message) {
+        LocalNotificationsService.showBasicNotification(message: message);
+      });
+    } catch (e, stackTrace) {
+      _logger.e(
+        'Push notification init failed',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
-  static void registerDeviceTokenWithAuthStatus({
+  static Future<void> _saveDeviceTokenData({
     required String? token,
     required AuthorizationStatus authStatus,
-  }) {
-    // تحديد نوع المنصة
-    String platform;
-    if (Platform.isAndroid) {
-      platform = 'android';
-    } else if (Platform.isIOS) {
-      platform = 'ios';
-    } else {
-      platform = 'unknown';
+  }) async {
+    if (token == null || token.isEmpty) return;
+
+    final bool isAuthorized = authStatus == AuthorizationStatus.authorized;
+    final String platform = _getPlatform();
+
+    await StorageServices.storeData("fcm_token", token);
+    await StorageServices.storeData("fcm_platform", platform);
+    await StorageServices.storeData("fcm_auth_status", isAuthorized);
+
+    _logger.i('''
+╔════════════════════════════════════════
+║ FCM Data Saved
+╠════════════════════════════════════════
+║ Token: ${token.substring(0, token.length.clamp(0, 20))}...
+║ Platform: $platform
+║ Authorized: $isAuthorized
+╚════════════════════════════════════════
+''');
+  }
+
+  static String _getPlatform() {
+    if (Platform.isAndroid) return 'android';
+    if (Platform.isIOS) return 'ios';
+    return 'unknown';
+  }
+
+  static Future<Map<String, String>?> getStoredFCMData() async {
+    final String? token =
+        await StorageServices.readData("fcm_token") as String?;
+    final String? platform =
+        await StorageServices.readData("fcm_platform") as String?;
+    final bool? authStatus =
+        await StorageServices.readData("fcm_auth_status") as bool?;
+
+    if (token == null || platform == null || authStatus != true) {
+      return null;
     }
 
-    StorageServices.storeData("fcm_token", token);
-    StorageServices.storeData(
-      "fcm_auth_status",
-      (authStatus == AuthorizationStatus.authorized) ? "true" : "false",
-    );
-    StorageServices.storeData("fcm_platform", platform);
+    return {'token': token, 'platform': platform};
+  }
 
-    Logger().w('''
-╔════════════════════════════════════════
-║ FCM Device Registration
-╠════════════════════════════════════════
-║ Token: $token
-║ Platform: $platform
-║ Authorization Status: $authStatus
-╚════════════════════════════════════════
-    ''');
+  static Future<bool> canRegisterDevice() async {
+    final bool? authStatus =
+        await StorageServices.readData("fcm_auth_status") as bool?;
+    return authStatus == true;
   }
 }

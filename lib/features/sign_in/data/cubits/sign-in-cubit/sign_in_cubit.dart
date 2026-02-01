@@ -15,7 +15,7 @@ class SignInCubit extends Cubit<SignInState> {
     emit(SignInLoading());
 
     try {
-      var result = await signInRepo.userSignin(credentials: credentials);
+      var result = await signInRepo.userSignIn(credentials: credentials);
 
       result.fold(
         (failure) {
@@ -67,39 +67,6 @@ class SignInCubit extends Cubit<SignInState> {
       emit(
         SignInFailure(
           message: 'حدث خطأ أثناء تسجيل الدخول بـ Google',
-          statusCode: 520,
-        ),
-      );
-    }
-  }
-
-  /// تسجيل الدخول عبر Facebook
-  Future<void> signInWithFacebook() async {
-    emit(SignInLoading());
-
-    try {
-      var result = await signInRepo.signInWithFacebook();
-
-      result.fold(
-        (failure) {
-          emit(
-            SignInFailure(
-              message: failure.errMessage,
-              statusCode: failure.statusCode,
-            ),
-          );
-        },
-        (user) async {
-          // 🎯 تحديث حالة المصادقة
-          await _authManager.onLoginSuccess();
-
-          emit(SignInSuccess(user: user));
-        },
-      );
-    } catch (error) {
-      emit(
-        SignInFailure(
-          message: 'حدث خطأ أثناء تسجيل الدخول بـ Facebook',
           statusCode: 520,
         ),
       );

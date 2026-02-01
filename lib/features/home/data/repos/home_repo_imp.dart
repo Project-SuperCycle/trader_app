@@ -56,7 +56,7 @@ class HomeRepoImp implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<ShipmentModel>>> fetchTodayShipmets({
+  Future<Either<Failure, List<ShipmentModel>>> fetchTodayShipments({
     required Map<String, dynamic> query,
   }) {
     return ErrorHandler.handleApiResponse<List<ShipmentModel>>(
@@ -65,9 +65,13 @@ class HomeRepoImp implements HomeRepo {
       errorContext: 'fetch today shipments',
       responseParser: (response) {
         final List data = response['data'];
-        final shipments = data.map((e) => ShipmentModel.fromJson(e)).toList();
+        final List<ShipmentModel> shipments = data
+            .map((e) => ShipmentModel.fromJson(e))
+            .toList();
 
-        final todayShipments = _getTodayShipments(shipments);
+        final List<ShipmentModel> todayShipments = _getTodayShipments(
+          shipments,
+        );
 
         // Filter out rejected and cancelled shipments
         return todayShipments.where((shipment) {

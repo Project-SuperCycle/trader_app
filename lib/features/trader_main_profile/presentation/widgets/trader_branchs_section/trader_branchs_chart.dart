@@ -6,6 +6,7 @@ import 'package:trader_app/core/utils/app_styles.dart';
 
 class TraderBranchsChart extends StatefulWidget {
   final List<TraderBranchModel> branches;
+
   const TraderBranchsChart({super.key, required this.branches});
 
   @override
@@ -17,49 +18,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
   Widget build(BuildContext context) {
     final branches = widget.branches;
     if (branches.isEmpty) {
-      return Container(
-        height: 360,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.grey.shade50, Colors.grey.shade100],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withAlpha(25),
-                      blurRadius: 20,
-                    ),
-                  ],
-                ),
-                child: Icon(
-                  Icons.insert_chart_outlined_rounded,
-                  size: 48,
-                  color: Colors.grey.shade400,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                "لا توجد بيانات للفروع",
-                style: AppStyles.styleSemiBold16(
-                  context,
-                ).copyWith(color: Colors.grey.shade600),
-              ),
-            ],
-          ),
-        ),
-      );
+      return _buildEmptyState();
     }
 
     final maxVolume = branches
@@ -68,9 +27,12 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
         .toDouble();
 
     final totalVolume = branches.fold(0.0, (sum, b) => sum + b.deliveryVolume);
-
-    // حساب المتوسط
     final avgVolume = totalVolume / branches.length;
+
+    // FIX: لو كل الفروع قيمتها صفر نحط fallback عشان horizontalInterval متكونش صفر
+    final effectiveMax = maxVolume == 0 ? 100.0 : maxVolume;
+    final chartMaxY = effectiveMax * 1.3;
+    final gridInterval = chartMaxY / 5;
 
     return Container(
       height: 500,
@@ -83,7 +45,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
+            // ─── Header ───────────────────────────────────────
             Row(
               children: [
                 Container(
@@ -92,7 +54,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                     gradient: LinearGradient(
                       colors: [
                         AppColors.primaryColor,
-                        AppColors.primaryColor.withAlpha(350),
+                        AppColors.primaryColor.withAlpha(200),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(16),
@@ -136,15 +98,15 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
 
             const SizedBox(height: 24),
 
-            // Chart
+            // ─── Chart ────────────────────────────────────────
             Expanded(
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceEvenly,
-                  maxY: maxVolume * 1.3,
+                  maxY: chartMaxY,
                   minY: 0,
 
-                  // Touch & Tooltip
+                  // ── Touch & Tooltip ─────────────────────────
                   barTouchData: BarTouchData(
                     enabled: true,
                     handleBuiltInTouches: true,
@@ -163,28 +125,27 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                       rotateAngle: 0,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         final branch = branches[group.x.toInt()];
-                        final percentage =
-                            (branch.deliveryVolume / totalVolume * 100);
+                        // FIX: لو totalVolume صفر نحط النسبة صفر عشان متحصلش division by zero
+                        final percentage = totalVolume == 0
+                            ? 0.0
+                            : (branch.deliveryVolume / totalVolume * 100);
 
                         return BarTooltipItem(
                           '',
                           const TextStyle(),
                           children: [
-                            // اسم الفرع
                             TextSpan(
                               text: '${branch.branchName}\n',
                               style: AppStyles.styleBold14(
                                 context,
                               ).copyWith(color: Colors.white),
                             ),
-                            // خط فاصل
                             TextSpan(
                               text: '━━━━━━━━━━\n',
                               style: AppStyles.styleMedium12(
                                 context,
-                              ).copyWith(color: Color(0xFF404060)),
+                              ).copyWith(color: const Color(0xFF404060)),
                             ),
-                            // الكمية
                             TextSpan(
                               text: '📦  ',
                               style: AppStyles.styleBold14(context),
@@ -193,15 +154,14 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                               text: '${branch.deliveryVolume.toInt()}',
                               style: AppStyles.styleBold16(
                                 context,
-                              ).copyWith(color: Color(0xFF6C63FF)),
+                              ).copyWith(color: const Color(0xFF6C63FF)),
                             ),
                             TextSpan(
                               text: ' كجم\n',
                               style: AppStyles.styleMedium12(
                                 context,
-                              ).copyWith(color: Color(0xFF9B9BAA)),
+                              ).copyWith(color: const Color(0xFF9B9BAA)),
                             ),
-                            // النسبة
                             TextSpan(
                               text: '📊  ',
                               style: AppStyles.styleBold14(context),
@@ -210,20 +170,21 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                               text: '${percentage.toStringAsFixed(1)}%',
                               style: AppStyles.styleBold14(
                                 context,
-                              ).copyWith(color: Color(0xFF2ECC71)),
+                              ).copyWith(color: const Color(0xFF2ECC71)),
                             ),
                             TextSpan(
                               text: ' من الإجمالي',
                               style: AppStyles.styleMedium12(
                                 context,
-                              ).copyWith(color: Color(0xFF9B9BAA)),
+                              ).copyWith(color: const Color(0xFF9B9BAA)),
                             ),
                           ],
                         );
                       },
                     ),
                   ),
-                  // Borders
+
+                  // ── Borders ─────────────────────────────────
                   borderData: FlBorderData(
                     show: true,
                     border: Border(
@@ -232,28 +193,27 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                     ),
                   ),
 
-                  // Grid
+                  // ── Grid ────────────────────────────────────
                   gridData: FlGridData(
-                    show: false,
+                    show: true,
                     drawVerticalLine: false,
-                    horizontalInterval: maxVolume / 5,
-                    checkToShowHorizontalLine: (value) =>
-                        value % (maxVolume / 5) == 0,
+                    horizontalInterval: gridInterval,
                     getDrawingHorizontalLine: (value) {
+                      final isAvgLine =
+                          (value - avgVolume).abs() < (gridInterval * 0.01);
                       return FlLine(
-                        color: value == avgVolume
+                        color: isAvgLine
                             ? AppColors.primaryColor.withAlpha(150)
                             : Colors.grey.shade200,
-                        strokeWidth: value == avgVolume ? 2 : 25,
-                        dashArray: value == avgVolume ? [8, 4] : [6, 3],
+                        strokeWidth: isAvgLine ? 2 : 0.5,
+                        dashArray: isAvgLine ? [8, 4] : null,
                       );
                     },
                   ),
 
-                  // Titles
+                  // ── Titles ──────────────────────────────────
                   titlesData: FlTitlesData(
                     show: true,
-                    // Left axis (القيم)
                     leftTitles: AxisTitles(
                       axisNameWidget: Padding(
                         padding: const EdgeInsets.only(bottom: 8),
@@ -268,11 +228,9 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 40,
-                        interval: maxVolume / 5,
+                        interval: gridInterval,
                         getTitlesWidget: (value, meta) {
-                          if (value == 0) {
-                            return const SizedBox();
-                          }
+                          if (value == 0) return const SizedBox();
 
                           String text;
                           if (value >= 1000000) {
@@ -298,13 +256,9 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                         },
                       ),
                     ),
-
-                    // Bottom axis (الفروع - مخفي)
                     bottomTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
-
-                    // Top & Right (مخفي)
                     topTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
@@ -313,11 +267,17 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                     ),
                   ),
 
-                  // Bar Groups
+                  // ── Bar Groups ──────────────────────────────
                   barGroups: List.generate(branches.length, (index) {
                     final branch = branches[index];
-                    final isHighest = branch.deliveryVolume == maxVolume;
-                    final normalizedValue = branch.deliveryVolume / maxVolume;
+                    // FIX: لو effectiveMax صفر نحط normalizedValue صفر
+                    final isHighest =
+                        effectiveMax > 0 &&
+                        branch.deliveryVolume == maxVolume &&
+                        maxVolume > 0;
+                    final normalizedValue = effectiveMax > 0
+                        ? branch.deliveryVolume / effectiveMax
+                        : 0.0;
 
                     return BarChartGroupData(
                       x: index,
@@ -326,70 +286,65 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                         BarChartRodData(
                           toY: branch.deliveryVolume.toDouble(),
                           width: 20,
-
-                          // Gradient بناءً على القيمة
+                          // FIX: fixed the double-dot typo (..) و fixed withAlpha values
                           gradient: LinearGradient(
                             colors: isHighest
                                 ? [
                                     AppColors.primaryColor,
-                                    AppColors.primaryColor.withAlpha(400),
-                                    AppColors.primaryColor.withAlpha(300),
+                                    AppColors.primaryColor.withAlpha(200),
+                                    AppColors.primaryColor.withAlpha(150),
                                   ]
                                 : [
                                     AppColors.primaryColor.withAlpha(
-                                      300 + (normalizedValue * 0.25).toInt(),
-                                    ),
-                                    AppColors.primaryColor..withAlpha(
-                                      250 + (normalizedValue * 0.25).toInt(),
+                                      (150 + (normalizedValue * 80))
+                                          .toInt()
+                                          .clamp(0, 255),
                                     ),
                                     AppColors.primaryColor.withAlpha(
-                                      200 + (normalizedValue * 0.25).toInt(),
+                                      (120 + (normalizedValue * 80))
+                                          .toInt()
+                                          .clamp(0, 255),
+                                    ),
+                                    AppColors.primaryColor.withAlpha(
+                                      (90 + (normalizedValue * 80))
+                                          .toInt()
+                                          .clamp(0, 255),
                                     ),
                                   ],
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
                             stops: const [0.0, 0.5, 1.0],
                           ),
-
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(12),
                           ),
-
-                          rodStackItems: isHighest
-                              ? [
-                                  BarChartRodStackItem(
-                                    0,
-                                    branch.deliveryVolume.toDouble(),
-                                    AppColors.primaryColor,
-                                  ),
-                                ]
-                              : [],
                         ),
                       ],
                     );
                   }),
 
-                  // Extra Lines (خط المتوسط)
+                  // ── Extra Lines (خط المتوسط) ───────────────
                   extraLinesData: ExtraLinesData(
                     horizontalLines: [
-                      HorizontalLine(
-                        y: avgVolume,
-                        color: AppColors.primaryColor.withAlpha(200),
-                        strokeWidth: 2,
-                        dashArray: [10, 5],
-                        label: HorizontalLineLabel(
-                          show: true,
-                          alignment: Alignment.topLeft,
-                          padding: const EdgeInsets.only(left: 8, bottom: 4),
-                          style: AppStyles.styleSemiBold12(context).copyWith(
-                            fontSize: 10,
-                            color: AppColors.primaryColor,
-                            backgroundColor: Colors.white,
+                      if (avgVolume > 0)
+                        HorizontalLine(
+                          y: avgVolume,
+                          color: AppColors.primaryColor.withAlpha(200),
+                          strokeWidth: 2,
+                          dashArray: [10, 5],
+                          label: HorizontalLineLabel(
+                            show: true,
+                            alignment: Alignment.topLeft,
+                            padding: const EdgeInsets.only(left: 8, bottom: 4),
+                            style: AppStyles.styleSemiBold12(context).copyWith(
+                              fontSize: 10,
+                              color: AppColors.primaryColor,
+                              backgroundColor: Colors.white,
+                            ),
+                            labelResolver: (line) =>
+                                'متوسط: ${avgVolume.toInt()}',
                           ),
-                          labelResolver: (line) =>
-                              'متوسط: ${avgVolume.toInt()}',
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -398,7 +353,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
 
             const SizedBox(height: 10),
 
-            // Hint
+            // ─── Hint ─────────────────────────────────────────
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
@@ -423,7 +378,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      "المس أي عمود لعرض التفاصيل الكاملة والنسبة المئوية",
+                      "اضغط على الفرع لعرض التفاصيل الكاملة والنسبة المئوية",
                       style: AppStyles.styleSemiBold12(
                         context,
                       ).copyWith(color: Colors.grey.shade700),
@@ -431,6 +386,50 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ─── Empty State ────────────────────────────────────────────
+  Widget _buildEmptyState() {
+    return Container(
+      height: 360,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.grey.shade50, Colors.grey.shade100],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withAlpha(25), blurRadius: 20),
+                ],
+              ),
+              child: Icon(
+                Icons.insert_chart_outlined_rounded,
+                size: 48,
+                color: Colors.grey.shade400,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "لا توجد بيانات للفروع",
+              style: AppStyles.styleSemiBold16(
+                context,
+              ).copyWith(color: Colors.grey.shade600),
             ),
           ],
         ),

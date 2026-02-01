@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "483137593963-bn4qdn41enmatsm2fagjbjfiooqbqdan.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.supercycle.trader",
+            "certificate_hash": "cec102310ae44b36307fbefb88219a1e7637e3c0"
+          }
+        },
+        {
           "client_id": "483137593963-2btes15q2vt9qmbve8f47l73qaf4v654.apps.googleusercontent.com",
           "client_type": 3
         }

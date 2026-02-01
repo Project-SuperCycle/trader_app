@@ -76,8 +76,9 @@ class ErrorHandler {
       return left(
         ServerFailure('Invalid data format: ${formatError.message}', 422),
       );
-    } on TypeError catch (typeError) {
+    } on TypeError catch (typeError, stackTrace) {
       _logger.e('❌ TypeError during $errorContext: $typeError');
+      _logger.e('❌ TypeError during $errorContext: $stackTrace');
       return left(
         ServerFailure('Data parsing error: ${typeError.toString()}', 422),
       );

@@ -23,9 +23,6 @@ import 'package:trader_app/features/home/data/managers/profile_cubit/profile_cub
 import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
 import 'package:trader_app/features/home/data/repos/home_repo_imp.dart';
 import 'package:trader_app/features/sales_process/data/repos/sales_process_repo_imp.dart';
-import 'package:trader_app/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_cubit.dart';
-import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
-import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_notes_repo_imp.dart';
 import 'package:trader_app/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
 import 'package:trader_app/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
@@ -34,22 +31,22 @@ import 'package:trader_app/features/sign_in/data/cubits/sign-in-cubit/sign_in_cu
 import 'package:trader_app/features/sign_in/data/repos/signin_repo_imp.dart';
 import 'package:trader_app/features/sign_up/data/managers/sign_up_cubit/sign_up_cubit.dart';
 import 'package:trader_app/features/sign_up/data/repos/signup_repo_imp.dart';
+import 'package:trader_app/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_cubit.dart';
+import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
+import 'package:trader_app/features/trader_shipment_details/data/repos/shipment_notes_repo_imp.dart';
 import 'package:trader_app/firebase_options.dart';
+
 import 'features/sales_process/data/cubit/create_shipment_cubit/create_shipment_cubit.dart';
 import 'generated/l10n.dart';
 
 void main() async {
-  setupServiceLocator();
   WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await Future.wait([
-    PushNotificationsService.init(),
-    LocalNotificationsService.init(),
-  ]);
+  await _initNonCriticalServices();
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => LocalCubit()),
         BlocProvider(
           create: (context) =>
               SignInCubit(signInRepo: getIt.get<SignInRepoImp>()),
@@ -127,6 +124,16 @@ void main() async {
   );
 }
 
+Future<void> _initNonCriticalServices() async {
+  try {
+    await PushNotificationsService.init();
+    await LocalNotificationsService.init();
+  } catch (e, s) {
+    debugPrint('❌ Services init failed: $e');
+    debugPrintStack(stackTrace: s);
+  }
+}
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -154,9 +161,12 @@ class _MyAppState extends State<MyApp> {
               return Directionality(
                 textDirection: TextDirection.rtl,
                 child: Banner(
-                  message: 'تجريبية', // غير النص للي تحبه
-                  location: BannerLocation.topStart, // أو topEnd
-                  color: Color(0xff803C2B), // غير اللون للي تحبه
+                  message: 'تجريبية',
+                  // غير النص للي تحبه
+                  location: BannerLocation.topStart,
+                  // أو topEnd
+                  color: Color(0xff803C2B),
+                  // غير اللون للي تحبه
                   textStyle: AppStyles.styleBold12(context).copyWith(
                     color: Colors.white,
                     fontSize: 8,

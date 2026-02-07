@@ -2,7 +2,27 @@
 class Assets {
   Assets._();
 
+  static const String achievementsTabBadgeItem =
+      'lib/features/environment/presentation/widgets/achievements_tab/badge_item.dart';
+  static const String achievementsTabBadgesCard =
+      'lib/features/environment/presentation/widgets/achievements_tab/badges_card.dart';
+  static const String achievementsTabChallengeCard =
+      'lib/features/environment/presentation/widgets/achievements_tab/challenge_card.dart';
+  static const String achievementsTabEnvironmentalAchievementsTab =
+      'lib/features/environment/presentation/widgets/achievements_tab/environmental_achievements_tab.dart';
+  static const String achievementsTabLeaderBoardItem =
+      'lib/features/environment/presentation/widgets/achievements_tab/leader_board_item.dart';
+  static const String achievementsTabLeaderBoardsCard =
+      'lib/features/environment/presentation/widgets/achievements_tab/leader_boards_card.dart';
+  static const String addNotesCubitAddNotesCubit =
+      'lib/core/cubits/add_notes_cubit/add_notes_cubit.dart';
+  static const String addNotesCubitAddNotesState =
+      'lib/core/cubits/add_notes_cubit/add_notes_state.dart';
   static const String assetsImagesHome = 'assets/images/home.svg';
+  static const String assetsImagesRectangleBorder =
+      'assets/images/RectangleBorder.svg';
+  static const String assetsImagesSettingsIcon =
+      'assets/images/settings icon.svg';
   static const String authAuthMainHeader =
       'lib/core/widgets/auth/auth_main_header.dart';
   static const String authAuthMainLayout =
@@ -11,43 +31,8 @@ class Assets {
       'lib/core/widgets/auth/custom_confirm_password.dart';
   static const String authCustomPasswordField =
       'lib/core/widgets/auth/custom_password_field.dart';
-  static const String barlowBarlowCondensedBlack =
-      'assets/fonts/Barlow/BarlowCondensed-Black.ttf';
-  static const String barlowBarlowCondensedBlackItalic =
-      'assets/fonts/Barlow/BarlowCondensed-BlackItalic.ttf';
-  static const String barlowBarlowCondensedBold =
-      'assets/fonts/Barlow/BarlowCondensed-Bold.ttf';
-  static const String barlowBarlowCondensedBoldItalic =
-      'assets/fonts/Barlow/BarlowCondensed-BoldItalic.ttf';
-  static const String barlowBarlowCondensedExtraBold =
-      'assets/fonts/Barlow/BarlowCondensed-ExtraBold.ttf';
-  static const String barlowBarlowCondensedExtraBoldItalic =
-      'assets/fonts/Barlow/BarlowCondensed-ExtraBoldItalic.ttf';
-  static const String barlowBarlowCondensedExtraLight =
-      'assets/fonts/Barlow/BarlowCondensed-ExtraLight.ttf';
-  static const String barlowBarlowCondensedExtraLightItalic =
-      'assets/fonts/Barlow/BarlowCondensed-ExtraLightItalic.ttf';
-  static const String barlowBarlowCondensedItalic =
-      'assets/fonts/Barlow/BarlowCondensed-Italic.ttf';
-  static const String barlowBarlowCondensedLight =
-      'assets/fonts/Barlow/BarlowCondensed-Light.ttf';
-  static const String barlowBarlowCondensedLightItalic =
-      'assets/fonts/Barlow/BarlowCondensed-LightItalic.ttf';
-  static const String barlowBarlowCondensedMedium =
-      'assets/fonts/Barlow/BarlowCondensed-Medium.ttf';
-  static const String barlowBarlowCondensedMediumItalic =
-      'assets/fonts/Barlow/BarlowCondensed-MediumItalic.ttf';
-  static const String barlowBarlowCondensedRegular =
-      'assets/fonts/Barlow/BarlowCondensed-Regular.ttf';
-  static const String barlowBarlowCondensedSemiBold =
-      'assets/fonts/Barlow/BarlowCondensed-SemiBold.ttf';
-  static const String barlowBarlowCondensedSemiBoldItalic =
-      'assets/fonts/Barlow/BarlowCondensed-SemiBoldItalic.ttf';
-  static const String barlowBarlowCondensedThin =
-      'assets/fonts/Barlow/BarlowCondensed-Thin.ttf';
-  static const String barlowBarlowCondensedThinItalic =
-      'assets/fonts/Barlow/BarlowCondensed-ThinItalic.ttf';
-  static const String barlowOFL = 'assets/fonts/Barlow/OFL.txt';
+  static const String authSocialAuthRow =
+      'lib/core/widgets/auth/social_auth_row.dart';
   static const String cairoCairoBlack = 'assets/fonts/Cairo/Cairo-Black.ttf';
   static const String cairoCairoBold = 'assets/fonts/Cairo/Cairo-Bold.ttf';
   static const String cairoCairoExtraBold =
@@ -60,17 +45,55 @@ class Assets {
       'assets/fonts/Cairo/Cairo-Regular.ttf';
   static const String cairoCairoSemiBold =
       'assets/fonts/Cairo/Cairo-SemiBold.ttf';
+  static const String controllersFormController =
+      'lib/features/contact_us/presentation/controllers/form_controller.dart';
   static const String coreConstants = 'lib/core/constants.dart';
-  static const String cubitLocalCubit = 'lib/core/cubit/local_cubit.dart';
-  static const String cubitLocalState = 'lib/core/cubit/local_state.dart';
+  static const String createRequestCubitCreateRequestCubit =
+      'lib/features/environment/data/cubits/create_request_cubit/create_request_cubit.dart';
+  static const String createRequestCubitCreateRequestState =
+      'lib/features/environment/data/cubits/create_request_cubit/create_request_state.dart';
+  static const String createShipmentCubitCreateShipmentCubit =
+      'lib/features/sales_process/data/cubit/create_shipment_cubit/create_shipment_cubit.dart';
+  static const String createShipmentCubitCreateShipmentState =
+      'lib/features/sales_process/data/cubit/create_shipment_cubit/create_shipment_state.dart';
+  static const String cubitsForgetPasswordCubit =
+      'lib/features/forget_password/data/cubits/forget_password_cubit.dart';
+  static const String cubitsForgetPasswordState =
+      'lib/features/forget_password/data/cubits/forget_password_state.dart';
+  static const String cubitsShipmentEditCubit =
+      'lib/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
+  static const String cubitsShipmentEditState =
+      'lib/features/shipment_edit/data/cubits/shipment_edit_state.dart';
+  static const String dataEgyptLocationsData =
+      'lib/core/data/egypt_locations_data.dart';
+  static const String dataModelsDoshItemModel =
+      'lib/features/shipment_edit/data/models/dosh_item_model.dart';
+  static const String dataModelsRepresentitiveModel =
+      'lib/features/shipment_edit/data/models/representitive_model.dart';
+  static const String drawerCustomDrawer =
+      'lib/core/widgets/drawer/custom_drawer.dart';
+  static const String drawerUserInfoListTile =
+      'lib/core/widgets/drawer/user_info_list_tile.dart';
+  static const String ecoCubitEcoCubit =
+      'lib/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
+  static const String ecoCubitEcoState =
+      'lib/features/environment/data/cubits/eco_cubit/eco_state.dart';
   static const String errorsFailures = 'lib/core/errors/failures.dart';
   static const String functionsAuthFunctions =
       'lib/core/functions/auth_functions.dart';
+  static const String functionsLanuchWhatsApp =
+      'lib/core/functions/lanuch_whatsApp.dart';
   static const String functionsLaunchEmail =
       'lib/core/functions/launch_email.dart';
   static const String functionsLaunchUrl = 'lib/core/functions/launch_url.dart';
+  static const String functionsShipmentManager =
+      'lib/core/functions/shipment_manager.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String generatedL10n = 'lib/generated/l10n.dart';
+  static const String helpersAppTransitions =
+      'lib/core/helpers/app_transitions.dart';
+  static const String helpersCustomBackButton =
+      'lib/core/helpers/custom_back_button.dart';
   static const String helpersCustomConfirmDialog =
       'lib/core/helpers/custom_confirm_dialog.dart';
   static const String helpersCustomDropdown =
@@ -78,8 +101,18 @@ class Assets {
   static const String helpersCustomLang = 'lib/core/helpers/custom_lang.dart';
   static const String helpersCustomLoadingIndicator =
       'lib/core/helpers/custom_loading_indicator.dart';
+  static const String helpersCustomSnackBar =
+      'lib/core/helpers/custom_snack_bar.dart';
   static const String helpersDateTimePickerUtil =
       'lib/core/helpers/date_time_picker_util.dart';
+  static const String helpersErrorHandler =
+      'lib/core/helpers/error_handler.dart';
+  static const String helpersImagesPreviewDialog =
+      'lib/core/helpers/images_preview_dialog.dart';
+  static const String helpersNetworkImagesPreviewDialog =
+      'lib/core/helpers/network_images_preview_dialog.dart';
+  static const String helpersShipmentsCalenderHelper =
+      'lib/core/helpers/shipments_calender_helper.dart';
   static const String homeChartSalesChartCard =
       'lib/features/home/presentation/widgets/home_chart/sales_chart_card.dart';
   static const String homeChartSalesLineChart =
@@ -96,31 +129,60 @@ class Assets {
       'lib/features/home/presentation/widgets/home_header/rounded_search_field.dart';
   static const String homeHeaderUserProfileWelcomeCard =
       'lib/features/home/presentation/widgets/home_header/user_profile_welcome_card.dart';
+  static const String iconsTraderLauncher = 'assets/icons/trader_launcher.png';
   static const String imagesBox = 'assets/images/Box.svg';
+  static const String imagesBoxPerspective = 'assets/images/boxPerspective.png';
+  static const String imagesBoxPerspective2 =
+      'assets/images/Box-Perspective2.png';
+  static const String imagesBoxPerspectiveBig =
+      'assets/images/Box-Perspective-Big.png';
   static const String imagesCalculator = 'assets/images/Calculator.svg';
   static const String imagesCalendar = 'assets/images/Calendar.svg';
+  static const String imagesCamera = 'assets/images/Camera.png';
   static const String imagesChatCircleChats =
       'assets/images/Chat-Circle-Chats.svg';
   static const String imagesDefaultAvatar = 'assets/images/defaultAvatar.png';
   static const String imagesDelivery = 'assets/images/Delivery.svg';
   static const String imagesDrawer = 'assets/images/Drawer.svg';
+  static const String imagesEntityCard = 'assets/images/entityCard.png';
+  static const String imagesExtraBox = 'assets/images/ExtraBox.png';
   static const String imagesFacebook = 'assets/images/Facebook.png';
   static const String imagesGoogle = 'assets/images/Google.png';
   static const String imagesGradientBg1 = 'assets/images/GradientBg1.png';
   static const String imagesGradientBg2 = 'assets/images/GradientBg2.png';
   static const String imagesHome = 'assets/images/home.png';
+  static const String imagesLocation = 'assets/images/Location.png';
+  static const String imagesLogin = 'assets/images/login.png';
   static const String imagesLogo = 'assets/images/Logo.png';
   static const String imagesLogoIcon = 'assets/images/LogoIcon.png';
   static const String imagesLogoName = 'assets/images/LogoName.png';
+  static const String imagesLogout = 'assets/images/logout.png';
   static const String imagesMiniature = 'assets/images/miniature.jpg';
   static const String imagesNotification = 'assets/images/Notification.svg';
   static const String imagesOnboard1 = 'assets/images/onboard1.png';
   static const String imagesOnboard2 = 'assets/images/onboard2.png';
+  static const String imagesOnboard3 = 'assets/images/onboard3.png';
   static const String imagesOnboard31 = 'assets/images/onboard3_1.png';
   static const String imagesOnboard32 = 'assets/images/onboard3_2.png';
+  static const String imagesOnboard4 = 'assets/images/onboard4.png';
+  static const String imagesPhotoGallery = 'assets/images/photoGallery.png';
+  static const String imagesRectangleBorder =
+      'assets/images/RectangleBorder.png';
   static const String imagesSearchIcon = 'assets/images/searchIcon.svg';
+  static const String imagesSetting = 'assets/images/setting.png';
+  static const String imagesSettingsIcon = 'assets/images/settings icon.png';
   static const String imagesShadow = 'assets/images/Shadow.svg';
+  static const String imagesStar = 'assets/images/Star.png';
   static const String imagesUserCardID = 'assets/images/User-Card-ID.svg';
+  static const String imagesWhatsapp = 'assets/images/whatsapp.png';
+  static const String impactTabEnvironmentalImpactInfoCard =
+      'lib/features/environment/presentation/widgets/impact_tab/environmental_impact_info_card.dart';
+  static const String impactTabEnvironmentalImpactSavingCard =
+      'lib/features/environment/presentation/widgets/impact_tab/environmental_impact_saving_card.dart';
+  static const String impactTabEnvironmentalImpactSavingItem =
+      'lib/features/environment/presentation/widgets/impact_tab/environmental_impact_saving_item.dart';
+  static const String impactTabEnvironmentalImpactTab =
+      'lib/features/environment/presentation/widgets/impact_tab/environmental_impact_tab.dart';
   static const String intlMessagesAll = 'lib/generated/intl/messages_all.dart';
   static const String intlMessagesAr = 'lib/generated/intl/messages_ar.dart';
   static const String intlMessagesEn = 'lib/generated/intl/messages_en.dart';
@@ -130,26 +192,138 @@ class Assets {
       'lib/core/layouts/adaptive_layout.dart';
   static const String libFirebaseOptions = 'lib/firebase_options.dart';
   static const String libMain = 'lib/main.dart';
+  static const String localCubitLocalCubit =
+      'lib/core/cubits/local_cubit/local_cubit.dart';
+  static const String localCubitLocalState =
+      'lib/core/cubits/local_cubit/local_state.dart';
+  static const String modelResetPasswordModel =
+      'lib/features/forget_password/data/model/reset_password_model.dart';
+  static const String modelVerifyResetOtpModel =
+      'lib/features/forget_password/data/model/verify_reset_otp_model.dart';
   static const String modelsBusinessInformationModel =
       'lib/features/sign_up/data/models/business_information_model.dart';
+  static const String modelsContactFormData =
+      'lib/features/contact_us/data/models/contact_form_data.dart';
+  static const String modelsContactMessageModel =
+      'lib/features/contact_us/data/models/contact_message_model.dart';
+  static const String modelsCreateNotesModel =
+      'lib/core/models/create_notes_model.dart';
+  static const String modelsCreateShipmentModel =
+      'lib/features/sales_process/data/models/create_shipment_model.dart';
   static const String modelsDoshDataModel =
       'lib/features/home/data/models/dosh_data_model.dart';
+  static const String modelsDoshItemModel =
+      'lib/features/sales_process/data/models/dosh_item_model.dart';
   static const String modelsDoshTypeModel =
       'lib/features/home/data/models/dosh_type_model.dart';
+  static const String modelsDrawerItemModel =
+      'lib/core/models/drawer_item_model.dart';
+  static const String modelsEditShipmentModel =
+      'lib/features/shipment_edit/data/models/edit_shipment_model.dart';
+  static const String modelsEnvironmentalRedeemModel =
+      'lib/features/environment/data/models/environmental_redeem_model.dart';
+  static const String modelsInspectedDoshItemModel =
+      'lib/features/trader_shipment_details/data/models/inspected_dosh_item_model.dart';
   static const String modelsLoginedUserModel =
       'lib/features/sign_in/data/models/logined_user_model.dart';
+  static const String modelsNotificationsModel =
+      'lib/core/models/notifications_model.dart';
   static const String modelsOtpVerificationModel =
       'lib/features/sign_up/data/models/otp_verification_model.dart';
+  static const String modelsRepresentitiveModel =
+      'lib/features/sales_process/data/models/representitive_model.dart';
+  static const String modelsShipmentModel =
+      'lib/features/shipments_calendar/data/models/shipment_model.dart';
+  static const String modelsShipmentSegmentModel =
+      'lib/features/trader_shipment_details/data/models/shipment_segment_model.dart';
   static const String modelsSigninCredentialsModel =
       'lib/features/sign_in/data/models/signin_credentials_model.dart';
   static const String modelsSignupCredentialsModel =
       'lib/features/sign_up/data/models/signup_credentials_model.dart';
+  static const String modelsSocialAuthRequestModel =
+      'lib/core/models/social_auth_request_model.dart';
+  static const String modelsSocialAuthResponseModel =
+      'lib/core/models/social_auth_response_model.dart';
+  static const String modelsTopParticipantModel =
+      'lib/features/environment/data/models/top_participant_model.dart';
+  static const String modelsTraderBranchModel =
+      'lib/core/models/trader_branch_model.dart';
+  static const String modelsTraderContractModel =
+      'lib/core/models/trader_contract_model.dart';
+  static const String modelsTraderEcoInfoModel =
+      'lib/features/environment/data/models/trader_eco_info_model.dart';
+  static const String modelsTraderEcoStatsModel =
+      'lib/features/environment/data/models/trader_eco_stats_model.dart';
+  static const String modelsTraderMainBranchModel =
+      'lib/core/models/trader_main_branch_model.dart';
+  static const String modelsTraderTransactionModel =
+      'lib/features/environment/data/models/trader_transaction_model.dart';
   static const String modelsTypeHistoryModel =
       'lib/features/home/data/models/type_history_model.dart';
+  static const String modelsUnit =
+      'lib/features/sales_process/data/models/unit.dart';
+  static const String modelsUserInfoModel =
+      'lib/core/models/user_info_model.dart';
+  static const String modelsUserProfileModel =
+      'lib/core/models/user_profile_model.dart';
+  static const String modelsWeighSegmentModel =
+      'lib/features/trader_shipment_details/data/models/weigh_segment_model.dart';
+  static const String modelsWeightReportModel =
+      'lib/features/trader_shipment_details/data/models/weight_report_model.dart';
+  static const String navbarCustomCurvedNavigationBar =
+      'lib/core/widgets/navbar/custom_curved_navigation_bar.dart';
+  static const String notesShipmentNotesCard =
+      'lib/core/widgets/notes/shipment_notes_card.dart';
+  static const String notificationsLocalNotificationsService =
+      'lib/core/services/notifications/local_notifications_service.dart';
+  static const String notificationsNotificationItem =
+      'lib/features/home/presentation/widgets/notifications/notification_item.dart';
+  static const String notificationsNotificationsEmptyState =
+      'lib/features/home/presentation/widgets/notifications/notifications_empty_state.dart';
+  static const String notificationsNotificationsOverlay =
+      'lib/core/widgets/notifications/notifications_overlay.dart';
+  static const String notificationsNotificationsSheet =
+      'lib/features/home/presentation/widgets/notifications/notifications_sheet.dart';
+  static const String notificationsPushNotificationsService =
+      'lib/core/services/notifications/push_notifications_service.dart';
+  static const String presentationWidgetsEditableProductCard =
+      'lib/features/shipment_edit/presentation/widgets/editable_product_card.dart';
+  static const String profileCubitProfileCubit =
+      'lib/features/home/data/managers/profile_cubit/profile_cubit.dart';
+  static const String profileCubitProfileState =
+      'lib/features/home/data/managers/profile_cubit/profile_state.dart';
+  static const String reposEnvironmentRepo =
+      'lib/features/environment/data/repos/environment_repo.dart';
+  static const String reposEnvironmentRepoImp =
+      'lib/features/environment/data/repos/environment_repo_imp.dart';
+  static const String reposForgetPasswordRepo =
+      'lib/features/forget_password/data/repos/forget_password_repo.dart';
+  static const String reposForgetPasswordRepoImp =
+      'lib/features/forget_password/data/repos/forget_password_repo_imp.dart';
   static const String reposHomeRepo =
       'lib/features/home/data/repos/home_repo.dart';
   static const String reposHomeRepoImp =
       'lib/features/home/data/repos/home_repo_imp.dart';
+  static const String reposSalesProcessRepo =
+      'lib/features/sales_process/data/repos/sales_process_repo.dart';
+  static const String reposSalesProcessRepoImp =
+      'lib/features/sales_process/data/repos/sales_process_repo_imp.dart';
+  static const String reposShipmentDetailsRepo =
+      'lib/features/trader_shipment_details/data/repos/shipment_details_repo.dart';
+  static const String reposShipmentDetailsRepoImp =
+      'lib/features/trader_shipment_details/data/repos/shipment_details_repo_imp.dart';
+  static const String reposShipmentEditRepo =
+      'lib/features/shipment_edit/data/repos/shipment_edit_repo.dart';
+  static const String reposShipmentEditRepoImp =
+      'lib/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
+  static const String reposShipmentNotesRepo =
+      'lib/features/trader_shipment_details/data/repos/shipment_notes_repo.dart';
+  static const String reposShipmentNotesRepoImp =
+      'lib/features/trader_shipment_details/data/repos/shipment_notes_repo_imp.dart';
+  static const String reposShipmentsCalendarRepo =
+      'lib/features/shipments_calendar/data/repos/shipments_calendar_repo.dart';
+  static const String reposShipmentsCalendarRepoImp =
+      'lib/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
   static const String reposSigninRepo =
       'lib/features/sign_in/data/repos/signin_repo.dart';
   static const String reposSigninRepoImp =
@@ -158,49 +332,124 @@ class Assets {
       'lib/features/sign_up/data/repos/signup_repo.dart';
   static const String reposSignupRepoImp =
       'lib/features/sign_up/data/repos/signup_repo_imp.dart';
+  static const String reposSocialAuthRepo =
+      'lib/core/repos/social_auth_repo.dart';
+  static const String reposSocialAuthRepoImp =
+      'lib/core/repos/social_auth_repo_imp.dart';
+  static const String requestsCubitRequestsCubit =
+      'lib/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
+  static const String requestsCubitRequestsState =
+      'lib/features/environment/data/cubits/requests_cubit/requests_state.dart';
+  static const String requestsTabEnviromentalRequestCard =
+      'lib/features/environment/presentation/widgets/requests_tab/enviromental_request_card.dart';
+  static const String requestsTabEnvironmentalRequestsTab =
+      'lib/features/environment/presentation/widgets/requests_tab/environmental_requests_tab.dart';
+  static const String resetPassAuthHeaderTitle =
+      'lib/core/widgets/reset_pass/auth_header_title.dart';
+  static const String resetPassCenteredContainer =
+      'lib/core/widgets/reset_pass/centered_container.dart';
   static const String routesEndPoints = 'lib/core/routes/end_points.dart';
   static const String routesRoutes = 'lib/core/routes/routes.dart';
-  static const String rubikRubikBlack = 'assets/fonts/Rubik/Rubik-Black.ttf';
-  static const String rubikRubikBlackItalic =
-      'assets/fonts/Rubik/Rubik-BlackItalic.ttf';
-  static const String rubikRubikBold = 'assets/fonts/Rubik/Rubik-Bold.ttf';
-  static const String rubikRubikBoldItalic =
-      'assets/fonts/Rubik/Rubik-BoldItalic.ttf';
-  static const String rubikRubikExtraBold =
-      'assets/fonts/Rubik/Rubik-ExtraBold.ttf';
-  static const String rubikRubikExtraBoldItalic =
-      'assets/fonts/Rubik/Rubik-ExtraBoldItalic.ttf';
-  static const String rubikRubikItalic = 'assets/fonts/Rubik/Rubik-Italic.ttf';
-  static const String rubikRubikLight = 'assets/fonts/Rubik/Rubik-Light.ttf';
-  static const String rubikRubikLightItalic =
-      'assets/fonts/Rubik/Rubik-LightItalic.ttf';
-  static const String rubikRubikMedium = 'assets/fonts/Rubik/Rubik-Medium.ttf';
-  static const String rubikRubikMediumItalic =
-      'assets/fonts/Rubik/Rubik-MediumItalic.ttf';
-  static const String rubikRubikRegular =
-      'assets/fonts/Rubik/Rubik-Regular.ttf';
-  static const String rubikRubikSemiBold =
-      'assets/fonts/Rubik/Rubik-SemiBold.ttf';
-  static const String rubikRubikSemiBoldItalic =
-      'assets/fonts/Rubik/Rubik-SemiBoldItalic.ttf';
   static const String servicesApiEndpoints =
       'lib/core/services/api_endpoints.dart';
   static const String servicesApiServices =
       'lib/core/services/api_services.dart';
-  static const String servicesAuthServices =
-      'lib/core/services/auth_services.dart';
+  static const String servicesAuthManagerServices =
+      'lib/core/services/auth_manager_services.dart';
+  static const String servicesContactService =
+      'lib/core/services/contact_service.dart';
+  static const String servicesDoshTypesManager =
+      'lib/core/services/dosh_types_manager.dart';
   static const String servicesLangCache = 'lib/core/services/lang_cache.dart';
+  static const String servicesMockContactService =
+      'lib/core/services/mock_contact_service.dart';
   static const String servicesServicesLocator =
       'lib/core/services/services_locator.dart';
   static const String servicesSizeConfig = 'lib/core/services/size_config.dart';
+  static const String servicesSocialAuthServices =
+      'lib/core/services/social_auth_services.dart';
+  static const String servicesStorageServices =
+      'lib/core/services/storage_services.dart';
+  static const String servicesUserProfileServices =
+      'lib/core/services/user_profile_services.dart';
+  static const String shipmentClientDataContent =
+      'lib/core/widgets/shipment/client_data_content.dart';
+  static const String shipmentCubitShipmentCubit =
+      'lib/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_cubit.dart';
+  static const String shipmentCubitShipmentState =
+      'lib/features/trader_shipment_details/data/cubits/shipment_cubit/shipment_state.dart';
+  static const String shipmentExpandableSection =
+      'lib/core/widgets/shipment/expandable_section.dart';
+  static const String shipmentProgressWidgets =
+      'lib/core/widgets/shipment/progress_widgets.dart';
+  static const String shipmentShipmentDetailsNotes =
+      'lib/core/widgets/shipment/shipment_details_notes.dart';
+  static const String shipmentShipmentLogo =
+      'lib/core/widgets/shipment/shipment_logo.dart';
+  static const String shipmentShipmentNoteModel =
+      'lib/core/models/shipment/shipment_note_model.dart';
+  static const String shipmentShipmentRejectReportModel =
+      'lib/core/models/shipment/shipment_reject_report_model.dart';
+  static const String shipmentShipmentTraderModel =
+      'lib/core/models/shipment/shipment_trader_model.dart';
+  static const String shipmentSingleShipmentModel =
+      'lib/core/models/shipment/single_shipment_model.dart';
+  static const String shipmentsCalendarCubitShipmentsCalendarCubit =
+      'lib/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
+  static const String shipmentsCalendarCubitShipmentsCalendarState =
+      'lib/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
+  static const String shipmentsCubitTodayShipmentsCubit =
+      'lib/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
+  static const String shipmentsCubitTodayShipmentsState =
+      'lib/features/home/data/managers/shipments_cubit/today_shipments_state.dart';
   static const String signInCubitSignInCubit =
-      'lib/features/sign_in/data/managers/sign-in-cubit/sign_in_cubit.dart';
+      'lib/features/sign_in/data/cubits/sign-in-cubit/sign_in_cubit.dart';
   static const String signInCubitSignInState =
-      'lib/features/sign_in/data/managers/sign-in-cubit/sign_in_state.dart';
+      'lib/features/sign_in/data/cubits/sign-in-cubit/sign_in_state.dart';
   static const String signUpCubitSignUpCubit =
       'lib/features/sign_up/data/managers/sign_up_cubit/sign_up_cubit.dart';
   static const String signUpCubitSignUpState =
       'lib/features/sign_up/data/managers/sign_up_cubit/sign_up_state.dart';
+  static const String socialAuthSocialAuthCubit =
+      'lib/core/cubits/social_auth/social_auth_cubit.dart';
+  static const String socialAuthSocialAuthState =
+      'lib/core/cubits/social_auth/social_auth_state.dart';
+  static const String stepsAddressStep =
+      'lib/features/sales_process/presentation/widgets/steps/address_step.dart';
+  static const String stepsDateTimeStep =
+      'lib/features/sales_process/presentation/widgets/steps/date_time_step.dart';
+  static const String stepsImagesStep =
+      'lib/features/sales_process/presentation/widgets/steps/images_step.dart';
+  static const String stepsProductSelectionStep =
+      'lib/features/sales_process/presentation/widgets/steps/product_selection_step.dart';
+  static const String stepsQuantityStep =
+      'lib/features/sales_process/presentation/widgets/steps/quantity_step.dart';
+  static const String stepsStepHeader =
+      'lib/features/sales_process/presentation/widgets/steps/step_header.dart';
+  static const String traderBranchsSectionTraderBranchsChart =
+      'lib/features/trader_main_profile/presentation/widgets/trader_branchs_section/trader_branchs_chart.dart';
+  static const String traderProfileHeaderTraderProfileHeaderLogo =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_logo.dart';
+  static const String traderProfileHeaderTraderProfileHeaderNavigation =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_navigation.dart';
+  static const String traderProfileHeaderTraderProfileHeaderSection =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_header_section.dart';
+  static const String traderProfileHeaderTraderProfileStatsColumn =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_header/trader_profile_stats_column.dart';
+  static const String transactionsTabEnvironmentalTransactionsTab =
+      'lib/features/environment/presentation/widgets/transactions_tab/environmental_transactions_tab.dart';
+  static const String treesTabEarnPointsCard =
+      'lib/features/environment/presentation/widgets/trees_tab/earn_points_card.dart';
+  static const String treesTabEcoTransactionCard =
+      'lib/features/environment/presentation/widgets/trees_tab/eco_transaction_card.dart';
+  static const String treesTabEnvironmentalTreesTab =
+      'lib/features/environment/presentation/widgets/trees_tab/environmental_trees_tab.dart';
+  static const String treesTabGreenPointsCard =
+      'lib/features/environment/presentation/widgets/trees_tab/green_points_card.dart';
+  static const String treesTabPointItem =
+      'lib/features/environment/presentation/widgets/trees_tab/point_item.dart';
+  static const String treesTabTreeInitiativeCard =
+      'lib/features/environment/presentation/widgets/trees_tab/tree_initiative_card.dart';
   static const String typesSectionTypeCardItem =
       'lib/features/home/presentation/widgets/types_section/type_card_item.dart';
   static const String typesSectionTypesFilterButton =
@@ -214,14 +463,43 @@ class Assets {
   static const String utilsAppAssets = 'lib/core/utils/app_assets.dart';
   static const String utilsAppColors = 'lib/core/utils/app_colors.dart';
   static const String utilsAppStyles = 'lib/core/utils/app_styles.dart';
+  static const String utilsCalendarUtils = 'lib/core/utils/calendar_utils.dart';
+  static const String utilsContactStrings =
+      'lib/core/utils/contact_strings.dart';
+  static const String utilsFormValidators =
+      'lib/core/utils/form_validators.dart';
   static const String utilsInputDecorations =
       'lib/core/utils/input_decorations.dart';
+  static const String viewCalculatorView =
+      'lib/features/calculator/presentation/view/calculator_view.dart';
+  static const String viewContactUsView =
+      'lib/features/contact_us/presentation/view/contact_us_view.dart';
+  static const String viewShipmentsCalendarView =
+      'lib/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
+  static const String viewTraderProfileView =
+      'lib/features/trader_main_profile/presentation/view/trader_profile_view.dart';
+  static const String viewsEnvironmentalDefaultView =
+      'lib/features/environment/presentation/views/environmental_default_view.dart';
+  static const String viewsEnvironmentalImpactView =
+      'lib/features/environment/presentation/views/environmental_impact_view.dart';
   static const String viewsFirstOnboardingView =
       'lib/features/onboarding/presentation/views/first_onboarding_view.dart';
+  static const String viewsForgetPasswordView =
+      'lib/features/forget_password/presentation/views/forget_password_view.dart';
+  static const String viewsFourthOnboardingView =
+      'lib/features/onboarding/presentation/views/fourth_onboarding_view.dart';
   static const String viewsHomeView =
       'lib/features/home/presentation/views/home_view.dart';
+  static const String viewsNotificationsView =
+      'lib/features/notifications/presentation/views/notifications_view.dart';
+  static const String viewsResetPasswordView =
+      'lib/features/forget_password/presentation/views/reset_password_view.dart';
+  static const String viewsSalesProcessView =
+      'lib/features/sales_process/presentation/views/sales_process_view.dart';
   static const String viewsSecondOnboardingView =
       'lib/features/onboarding/presentation/views/second_onboarding_view.dart';
+  static const String viewsShipmentEditView =
+      'lib/features/shipment_edit/presentation/views/shipment_edit_view.dart';
   static const String viewsSignInView =
       'lib/features/sign_in/presentation/views/sign_in_view.dart';
   static const String viewsSignUpDetailsView =
@@ -234,28 +512,124 @@ class Assets {
       'lib/features/splash/views/splash_view.dart';
   static const String viewsThirdOnboardingView =
       'lib/features/onboarding/presentation/views/third_onboarding_view.dart';
+  static const String viewsTraderShipmentDetailsView =
+      'lib/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
+  static const String viewsVerifyResetOtpView =
+      'lib/features/forget_password/presentation/views/verify_reset_otp_view.dart';
+  static const String widgetAgentContactInfo =
+      'lib/features/contact_us/presentation/widget/agent_contact_info.dart';
+  static const String widgetCalculatorViewBody =
+      'lib/features/calculator/presentation/widget/calculator_view_body.dart';
+  static const String widgetCompanyHeader =
+      'lib/features/contact_us/presentation/widget/company_header.dart';
+  static const String widgetContactAppBar =
+      'lib/features/contact_us/presentation/widget/contact_app_bar.dart';
+  static const String widgetContactBody =
+      'lib/features/contact_us/presentation/widget/contact_body.dart';
+  static const String widgetContactForm =
+      'lib/features/contact_us/presentation/widget/contact_form.dart';
+  static const String widgetContactInfoChip =
+      'lib/features/contact_us/presentation/widget/contact_info_chip.dart';
+  static const String widgetContactUsViewBody =
+      'lib/features/contact_us/presentation/widget/contact_us_view_body.dart';
+  static const String widgetFloatingButton =
+      'lib/features/contact_us/presentation/widget/floating_button.dart';
+  static const String widgetFormFields =
+      'lib/features/contact_us/presentation/widget/form_fields.dart';
+  static const String widgetFormHeader =
+      'lib/features/contact_us/presentation/widget/form_header.dart';
+  static const String widgetMerchantQuestionWidget =
+      'lib/features/contact_us/presentation/widget/merchant_question_widget.dart';
+  static const String widgetShipmentCalendarCard =
+      'lib/features/shipments_calendar/presentation/widget/shipment_calendar_card.dart';
+  static const String widgetShipmentCalendarDetails =
+      'lib/features/shipments_calendar/presentation/widget/shipment_calendar_details.dart';
+  static const String widgetShipmentsCalendarDay =
+      'lib/features/shipments_calendar/presentation/widget/shipments_calendar_day.dart';
+  static const String widgetShipmentsCalendarGrid =
+      'lib/features/shipments_calendar/presentation/widget/shipments_calendar_grid.dart';
+  static const String widgetShipmentsCalendarHeader =
+      'lib/features/shipments_calendar/presentation/widget/shipments_calendar_header.dart';
+  static const String widgetShipmentsCalendarViewBody =
+      'lib/features/shipments_calendar/presentation/widget/shipments_calendar_view_body.dart';
+  static const String widgetShipmentsCalenderTitle =
+      'lib/features/shipments_calendar/presentation/widget/shipments_calender_title.dart';
+  static const String widgetSubmitButton =
+      'lib/features/contact_us/presentation/widget/submit_button.dart';
+  static const String widgetSuccessDialog =
+      'lib/features/contact_us/presentation/widget/success_dialog.dart';
+  static const String widgetTopicDropdown =
+      'lib/features/contact_us/presentation/widget/topic_dropdown.dart';
+  static const String widgetsAlternateActionLink =
+      'lib/features/sign_up/presentation/widgets/alternate_action_link.dart';
   static const String widgetsCustomButton =
       'lib/core/widgets/custom_button.dart';
-  static const String widgetsCustomSearch =
-      'lib/core/widgets/custom_search.dart';
+  static const String widgetsCustomTextField =
+      'lib/core/widgets/custom_text_field.dart';
   static const String widgetsCustomTextFormField =
       'lib/core/widgets/custom_text_form_field.dart';
+  static const String widgetsEditableProductCard =
+      'lib/features/sales_process/presentation/widgets/editable_product_card.dart';
+  static const String widgetsEmptyShipmentsCard =
+      'lib/features/home/presentation/widgets/empty_shipments_card.dart';
+  static const String widgetsEntryShipmentDetailsCotent =
+      'lib/features/sales_process/presentation/widgets/entry_shipment_details_cotent.dart';
+  static const String widgetsEnvironmentalDefaultViewBody =
+      'lib/features/environment/presentation/widgets/environmental_default_view_body.dart';
+  static const String widgetsEnvironmentalImpactHeader =
+      'lib/features/environment/presentation/widgets/environmental_impact_header.dart';
+  static const String widgetsEnvironmentalImpactTabBar =
+      'lib/features/environment/presentation/widgets/environmental_impact_tab_bar.dart';
+  static const String widgetsEnvironmentalImpactViewBody =
+      'lib/features/environment/presentation/widgets/environmental_impact_view_body.dart';
   static const String widgetsFilledRoundedPinPut =
       'lib/features/sign_up/presentation/widgets/filled_rounded_pin_put.dart';
   static const String widgetsFirstOnboardingViewBody =
       'lib/features/onboarding/presentation/widgets/first_onboarding_view_body.dart';
+  static const String widgetsForgetPasswordViewBody =
+      'lib/features/forget_password/presentation/widgets/forget_password_view_body.dart';
+  static const String widgetsFourthOnboardingViewBody =
+      'lib/features/onboarding/presentation/widgets/fourth_onboarding_view_body.dart';
   static const String widgetsHomeViewBody =
       'lib/features/home/presentation/widgets/home_view_body.dart';
   static const String widgetsHomeViewHeader =
       'lib/features/home/presentation/widgets/home_view_header.dart';
   static const String widgetsHorizontalLabeledDivider =
       'lib/features/sign_in/presentation/widgets/horizontal_labeled_divider.dart';
+  static const String widgetsImagePickerWidget =
+      'lib/features/sales_process/presentation/widgets/image_picker_widget.dart';
+  static const String widgetsLanguageSelectionWidget =
+      'lib/core/widgets/language_selection_widget.dart';
+  static const String widgetsNotificationsViewBody =
+      'lib/features/notifications/presentation/widgets/notifications_view_body.dart';
+  static const String widgetsPartialCircleBorderPainter =
+      'lib/features/onboarding/presentation/widgets/partial_circle_border_painter.dart';
   static const String widgetsPrivacyPolicyCheckbox =
       'lib/features/sign_up/presentation/widgets/privacy_policy_checkbox.dart';
+  static const String widgetsProductCard =
+      'lib/features/trader_shipment_details/presentation/widgets/product_card.dart';
+  static const String widgetsResetPasswordViewBody =
+      'lib/features/forget_password/presentation/widgets/reset_password_view_body.dart';
   static const String widgetsRoundedContainer =
       'lib/core/widgets/rounded_container.dart';
+  static const String widgetsSalesProcessViewBody =
+      'lib/features/sales_process/presentation/widgets/sales_process_view_body.dart';
   static const String widgetsSecondOnboardingViewBody =
       'lib/features/onboarding/presentation/widgets/second_onboarding_view_body.dart';
+  static const String widgetsShipmentAddNoteSheet =
+      'lib/core/widgets/shipment_add_note_sheet.dart';
+  static const String widgetsShipmentEditContent =
+      'lib/features/shipment_edit/presentation/widgets/shipment_edit_content.dart';
+  static const String widgetsShipmentEditHeader =
+      'lib/features/shipment_edit/presentation/widgets/shipment_edit_header.dart';
+  static const String widgetsShipmentEditNotesContent =
+      'lib/features/shipment_edit/presentation/widgets/shipment_edit_notes_content.dart';
+  static const String widgetsShipmentEditViewBody =
+      'lib/features/shipment_edit/presentation/widgets/shipment_edit_view_body.dart';
+  static const String widgetsShipmentReviewDialog =
+      'lib/features/sales_process/presentation/widgets/shipment_review_dialog.dart';
+  static const String widgetsShipmentWeightReportsSection =
+      'lib/features/trader_shipment_details/presentation/widgets/shipment_weight_reports_section.dart';
   static const String widgetsSignInHeader =
       'lib/features/sign_in/presentation/widgets/sign_in_header.dart';
   static const String widgetsSignInViewBody =
@@ -268,12 +642,44 @@ class Assets {
       'lib/features/sign_up/presentation/widgets/sign_up_verify_view_body.dart';
   static const String widgetsSignUpViewBody =
       'lib/features/sign_up/presentation/widgets/sign_up_view_body.dart';
-  static const String widgetsSmallCircularIndicator =
-      'lib/features/onboarding/presentation/widgets/small_circular_indicator.dart';
-  static const String widgetsSmallRoundedIndicator =
-      'lib/features/onboarding/presentation/widgets/small_rounded_indicator.dart';
-  static const String widgetsSocialAuthRow =
-      'lib/features/sign_in/presentation/widgets/social_auth_row.dart';
   static const String widgetsThirdOnboardingViewBody =
       'lib/features/onboarding/presentation/widgets/third_onboarding_view_body.dart';
+  static const String widgetsTodayShipmentsCard =
+      'lib/features/home/presentation/widgets/today_shipments_card.dart';
+  static const String widgetsTraderBranchesSection =
+      'lib/features/trader_main_profile/presentation/widgets/trader_branches_section.dart';
+  static const String widgetsTraderMainBranchSection =
+      'lib/features/trader_main_profile/presentation/widgets/trader_main_branch_section.dart';
+  static const String widgetsTraderProfileImage =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_image.dart';
+  static const String widgetsTraderProfileInfoCard1 =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_info_card1.dart';
+  static const String widgetsTraderProfileInfoCard2 =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_info_card2.dart';
+  static const String widgetsTraderProfileInfoCard3 =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_info_card3.dart';
+  static const String widgetsTraderProfileInfoRow =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_info_row.dart';
+  static const String widgetsTraderProfilePageIndicator =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_page_indicator.dart';
+  static const String widgetsTraderProfileViewBody =
+      'lib/features/trader_main_profile/presentation/widgets/trader_profile_view_body.dart';
+  static const String widgetsTraderShipmentDetailsContent =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_details_content.dart';
+  static const String widgetsTraderShipmentDetailsHeader =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_details_header.dart';
+  static const String widgetsTraderShipmentDetailsSettingsIcon =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_details_settings_icon.dart';
+  static const String widgetsTraderShipmentDetailsSummary =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_details_summary.dart';
+  static const String widgetsTraderShipmentDetailsViewBody =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_details_view_body.dart';
+  static const String widgetsTraderShipmentRejectCard =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_reject_card.dart';
+  static const String widgetsTraderShipmentRepresentativeCard =
+      'lib/features/trader_shipment_details/presentation/widgets/trader_shipment_representative_card.dart';
+  static const String widgetsTraderUncontractedMessage =
+      'lib/features/trader_main_profile/presentation/widgets/trader_uncontracted_message.dart';
+  static const String widgetsVerifyResetOtpViewBody =
+      'lib/features/forget_password/presentation/widgets/verify_reset_otp_view_body.dart';
 }

@@ -12,18 +12,19 @@ import 'package:trader_app/features/forget_password/presentation/views/forget_pa
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
 import 'package:trader_app/features/home/presentation/views/home_view.dart';
+import 'package:trader_app/features/notifications/presentation/views/notifications_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/first_onboarding_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/fourth_onboarding_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/second_onboarding_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/third_onboarding_view.dart';
 import 'package:trader_app/features/sales_process/presentation/views/sales_process_view.dart';
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
+import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/sign_in/presentation/views/sign_in_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_verify_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_view.dart';
 import 'package:trader_app/features/splash/views/splash_view.dart';
-import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/view/trader_profile_view.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
 
@@ -243,6 +244,16 @@ class AppRouter {
           state.pageKey,
           EnvironmentalDefaultView(),
         ),
+      ),
+
+      // ============================================================
+      // Notifications View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.notificationsView,
+        name: 'Notifications View',
+        pageBuilder: (context, state) =>
+            AppTransitions.fadeForMain(state.pageKey, NotificationsView()),
       ),
     ],
 

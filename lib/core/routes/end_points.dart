@@ -24,4 +24,7 @@ abstract class EndPoints {
   static const String environmentalImpactView = '/environmentalImpactView';
   static const String environmentalDefaultView = '/environmentalDefaultView';
   static const String calculatorView = '/calculatorView';
+
+  // Notifications
+  static const String notificationsView = '/notificationsView';
 }

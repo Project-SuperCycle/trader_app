@@ -189,30 +189,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
 
-                  if (user == null)
-                    _buildDrawerItem(
-                      icon: Icons.eco_rounded,
-                      title: 'الأثر البيئي',
-                      isActive:
-                          currentLocation == EndPoints.environmentalDefaultView,
-                      onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).push(EndPoints.environmentalDefaultView);
-                      },
-                    ),
-
+                  // if (user == null)
+                  //   _buildDrawerItem(
+                  //     icon: Icons.eco_rounded,
+                  //     title: 'الأثر البيئي',
+                  //     isActive:
+                  //         currentLocation == EndPoints.environmentalDefaultView,
+                  //     onTap: () {
+                  //       GoRouter.of(
+                  //         context,
+                  //       ).push(EndPoints.environmentalDefaultView);
+                  //     },
+                  //   ),
                   _buildDrawerItem(
                     icon: Icons.notifications_rounded,
                     title: 'الإشعارات',
                     isActive: false,
                     onTap: () {
                       Navigator.pop(context);
-
-                      CustomSnackBar.showSuccess(
-                        context,
-                        'صفحة الإشعارات قريباً',
-                      );
+                      (user == null)
+                          ? GoRouter.of(context).push(EndPoints.signInView)
+                          : GoRouter.of(
+                              context,
+                            ).push(EndPoints.notificationsView);
                     },
                   ),
 

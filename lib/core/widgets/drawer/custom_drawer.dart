@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/routes/end_points.dart';
@@ -158,6 +159,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     BlocConsumer<EcoCubit, EcoState>(
                       listener: (context, state) {
                         if (state is GetEcoDataSuccess) {
+                          Logger().i(state.ecoInfoModel.isEcoParticiapant);
                           (state.ecoInfoModel.isEcoParticiapant == true)
                               ? GoRouter.of(
                                   context,

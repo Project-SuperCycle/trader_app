@@ -28,7 +28,11 @@ class TraderEcoInfoModel {
               ?.map((item) => TraderTransactionModel.fromJson(item))
               .toList() ??
           [],
-      isEcoParticiapant: json['isEcoParticiapant'] ?? false,
+      isEcoParticiapant: (json['isEcoParticipant'] == null)
+          ? (json['user']['isEcoParticipant'] != null)
+                ? json['user']['isEcoParticipant']
+                : false
+          : json['isEcoParticipant'],
     );
   }
 

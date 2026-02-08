@@ -146,6 +146,7 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
       itemBuilder: (context, index) {
         final notification = notifications[index];
         return NotificationItem(
+          notContext: context,
           notification: notification,
           onTap: () => _handleNotificationTap(notification),
         );

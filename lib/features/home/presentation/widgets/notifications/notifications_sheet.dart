@@ -129,6 +129,7 @@ class _NotificationsSheetState extends State<NotificationsSheet>
       itemBuilder: (context, index) {
         final notification = notifications[index];
         return NotificationItem(
+          notContext: context,
           notification: notification,
           onTap: () => _handleNotificationTap(notification),
         );

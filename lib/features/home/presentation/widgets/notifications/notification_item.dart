@@ -3,10 +3,20 @@ import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
 class NotificationItem extends StatelessWidget {
-  const NotificationItem({super.key, required this.notification, this.onTap});
+  const NotificationItem({
+    super.key,
+    required this.notification,
+    this.onTap,
+    required this.notContext,
+    this.onRead,
+    this.onDelete,
+  });
 
   final NotificationModel notification;
   final VoidCallback? onTap;
+  final BuildContext notContext;
+  final VoidCallback? onRead;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +37,13 @@ class NotificationItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildIcon(),
+            Column(
+              children: [
+                _buildIcon(),
+                const SizedBox(height: 16),
+                _buildMenuIcon(),
+              ],
+            ),
             const SizedBox(width: 12),
             Expanded(child: _buildContent(context)),
           ],
@@ -48,6 +64,117 @@ class NotificationItem extends StatelessWidget {
         Icons.notifications,
         color: Color(0xFF10B981),
         size: 20,
+      ),
+    );
+  }
+
+  Widget _buildMenuIcon() {
+    return Builder(
+      builder: (BuildContext iconContext) {
+        return GestureDetector(
+          onTap: () {
+            final RenderBox? renderBox =
+                iconContext.findRenderObject() as RenderBox?;
+            if (renderBox == null) return;
+
+            final position = renderBox.localToGlobal(Offset.zero);
+
+            // أنشئ overlay entry منفصل للـ menu
+            OverlayEntry? menuOverlay;
+
+            menuOverlay = OverlayEntry(
+              builder: (overlayContext) => GestureDetector(
+                onTap: () {
+                  menuOverlay?.remove();
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: position.dx - 150,
+                        top: position.dy + 30,
+                        child: GestureDetector(
+                          onTap: () {}, // عشان ميقفلش لما تضغط على الـ menu
+                          child: Material(
+                            elevation: 16,
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              width: 180,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _buildMenuItem(
+                                    overlayContext,
+                                    icon: Icons.mark_email_read_rounded,
+                                    iconColor: const Color(0xFF10B981),
+                                    label: 'قراءة',
+                                    onTap: () {
+                                      menuOverlay?.remove();
+                                    },
+                                  ),
+                                  Divider(height: 1, color: Colors.grey[200]),
+                                  _buildMenuItem(
+                                    overlayContext,
+                                    icon: Icons.delete_rounded,
+                                    iconColor: Colors.red,
+                                    label: 'حذف',
+                                    onTap: () {
+                                      menuOverlay?.remove();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+
+            // أدخل الـ overlay
+            Overlay.of(notContext).insert(menuOverlay);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            child: const Icon(
+              Icons.more_horiz_rounded,
+              color: Color(0xFF10B981),
+              size: 20,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMenuItem(
+    BuildContext context, {
+    required IconData icon,
+    required Color iconColor,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            Icon(icon, color: iconColor, size: 20),
+            const SizedBox(width: 12),
+            Text(label, style: AppStyles.styleMedium14(context)),
+          ],
+        ),
       ),
     );
   }

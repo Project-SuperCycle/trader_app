@@ -124,27 +124,29 @@ class _NotificationsPanelState extends State<NotificationsPanel>
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          // Backdrop مع Blur
-          GestureDetector(
-            onTap: _close,
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(color: Colors.black.withAlpha(150)),
-              ),
+    // ⭐ غيّر من Material لـ Stack عادي
+    return Stack(
+      children: [
+        // Backdrop مع Blur
+        GestureDetector(
+          onTap: _close,
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(color: Colors.black.withAlpha(150)),
             ),
           ),
+        ),
 
-          // الـ Panel نفسه
-          SlideTransition(
-            position: _slideAnimation,
-            child: Align(
-              alignment: Alignment.topCenter,
+        // الـ Panel نفسه
+        SlideTransition(
+          position: _slideAnimation,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Material(
+              // ⭐ حط Material هنا بس
+              color: Colors.transparent,
               child: Container(
                 margin: EdgeInsets.only(
                   top: MediaQuery.of(context).padding.top + 60,
@@ -177,8 +179,8 @@ class _NotificationsPanelState extends State<NotificationsPanel>
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -283,9 +285,9 @@ class _NotificationsPanelState extends State<NotificationsPanel>
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         return NotificationItem(
+          notContext: context,
           notification: _filteredNotifications[index],
           onTap: () {
-            // TODO: Handle notification tap
             _close();
           },
         );

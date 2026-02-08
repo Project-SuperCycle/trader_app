@@ -19,11 +19,13 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
   // TODO: استبدليها بداتا من الـ API
   final List<NotificationModel> _allNotifications = [
     NotificationModel(
-      id: '1',
-      title: 'شحنة جديدة',
-      message: 'تم إضافة شحنة جديدة #12345',
-      time: 'منذ ساعة',
-      isRead: false,
+      id: '6987316f18d09d957653c8d4',
+      title: 'تمت الموافقة على الشحنة',
+      body: 'تمت الموافقة على الشحنة رقم SC-20260207-00255',
+      relatedEntity: 'shipment',
+      relatedEntityId: '6987302718d09d957653c85a',
+      seen: false,
+      createdAt: DateTime.now(),
     ),
   ];
 

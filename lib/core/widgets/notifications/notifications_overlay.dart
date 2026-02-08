@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
@@ -53,25 +54,31 @@ class _NotificationsPanelState extends State<NotificationsPanel>
   // TODO: استبدليها بداتا من الـ API
   final List<NotificationModel> _allNotifications = [
     NotificationModel(
-      id: '1',
-      title: 'شحنة جديدة',
-      message: 'تم إضافة شحنة جديدة #12345',
-      time: 'منذ ساعة',
-      isRead: false,
+      id: '6987316f18d09d957653c8d4',
+      title: 'تمت الموافقة على الشحنة',
+      body: 'تمت الموافقة على الشحنة رقم SC-20260207-00255',
+      relatedEntity: 'shipment',
+      relatedEntityId: '6987302718d09d957653c85a',
+      seen: false,
+      createdAt: DateTime.now(),
     ),
     NotificationModel(
-      id: '2',
-      title: 'تم التسليم',
-      message: 'تم تسليم الشحنة #12340 بنجاح',
-      time: 'منذ 3 ساعات',
-      isRead: true,
+      id: '6987316f18d09d957653c8d4',
+      title: 'تمت الموافقة على الشحنة',
+      body: 'تمت الموافقة على الشحنة رقم SC-20260207-00255',
+      relatedEntity: 'shipment',
+      relatedEntityId: '6987302718d09d957653c85a',
+      seen: true,
+      createdAt: DateTime.now(),
     ),
     NotificationModel(
-      id: '3',
-      title: 'تحديث مهم',
-      message: 'يرجى تحديث معلومات الحساب الخاص بك',
-      time: 'منذ 5 ساعات',
-      isRead: false,
+      id: '6987316f18d09d957653c8d4',
+      title: 'تمت الموافقة على الشحنة',
+      body: 'تمت الموافقة على الشحنة رقم SC-20260207-00255',
+      relatedEntity: 'shipment',
+      relatedEntityId: '6987302718d09d957653c85a',
+      seen: false,
+      createdAt: DateTime.now(),
     ),
   ];
 

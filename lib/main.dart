@@ -22,6 +22,10 @@ import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dar
 import 'package:trader_app/features/home/data/managers/profile_cubit/profile_cubit.dart';
 import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
 import 'package:trader_app/features/home/data/repos/home_repo_imp.dart';
+import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/repos/notifications_repo_imp.dart';
 import 'package:trader_app/features/sales_process/data/repos/sales_process_repo_imp.dart';
 import 'package:trader_app/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
 import 'package:trader_app/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
@@ -114,6 +118,24 @@ void main() async {
         BlocProvider(
           create: (context) => CreateRequestCubit(
             environmentRepoImp: getIt.get<EnvironmentRepoImp>(),
+          ),
+        ),
+
+        BlocProvider(
+          create: (context) => GetNotificationsCubit(
+            notificationsRepoImp: getIt.get<NotificationsRepoImp>(),
+          ),
+        ),
+
+        BlocProvider(
+          create: (context) => ReadNotificationCubit(
+            notificationsRepoImp: getIt.get<NotificationsRepoImp>(),
+          ),
+        ),
+
+        BlocProvider(
+          create: (context) => DeleteNotificationCubit(
+            notificationsRepoImp: getIt.get<NotificationsRepoImp>(),
           ),
         ),
 

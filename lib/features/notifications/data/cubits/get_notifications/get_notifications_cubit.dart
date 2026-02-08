@@ -1,31 +1,45 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trader_app/core/models/notifications_model.dart';
+import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
 import 'package:trader_app/features/notifications/data/repos/notifications_repo_imp.dart';
 
-part 'get_notifications_state.dart';
-
 class GetNotificationsCubit extends Cubit<GetNotificationsState> {
-  final NotificationsRepoImp notificationsRepoImp;
+  final NotificationsRepoImp repo;
 
-  GetNotificationsCubit({required this.notificationsRepoImp})
+  GetNotificationsCubit({required this.repo})
     : super(GetNotificationsInitial());
 
   Future<void> getNotifications() async {
     emit(GetNotificationsLoading());
-    try {
-      var result = await notificationsRepoImp.fetchNotifications();
-      result.fold(
-        (failure) {
-          emit(GetNotificationsFailure(errorMessage: failure.errMessage));
-        },
-        (notifications) {
-          emit(GetNotificationsSuccess(notifications: notifications));
-          // Store user globally
-        },
-      );
-    } catch (error) {
-      emit(GetNotificationsFailure(errorMessage: error.toString()));
-    }
+    final result = await repo.fetchNotifications();
+    result.fold(
+      (f) => emit(GetNotificationsFailure(errorMessage: f.errMessage)),
+      (list) => emit(GetNotificationsSuccess(notifications: list)),
+    );
+  }
+
+  void markAsRead(String id) {
+    if (state is! GetNotificationsSuccess) return;
+
+    final current = (state as GetNotificationsSuccess).notifications;
+
+    emit(
+      GetNotificationsSuccess(
+        notifications: current
+            .map((n) => n.id == id ? n.copyWith(seen: true) : n)
+            .toList(),
+      ),
+    );
+  }
+
+  void removeNotification(String id) {
+    if (state is! GetNotificationsSuccess) return;
+
+    final current = (state as GetNotificationsSuccess).notifications;
+
+    emit(
+      GetNotificationsSuccess(
+        notifications: current.where((n) => n.id != id).toList(),
+      ),
+    );
   }
 }

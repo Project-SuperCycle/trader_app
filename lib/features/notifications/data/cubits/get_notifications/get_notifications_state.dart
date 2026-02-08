@@ -1,4 +1,5 @@
-part of 'get_notifications_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:trader_app/core/models/notifications_model.dart';
 
 sealed class GetNotificationsState extends Equatable {
   const GetNotificationsState();

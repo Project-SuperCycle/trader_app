@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/home/presentation/widgets/notifications/notification_item.dart';
 import 'package:trader_app/features/home/presentation/widgets/notifications/notifications_empty_state.dart';
+import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
+import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
 
 class NotificationsViewBody extends StatefulWidget {
   const NotificationsViewBody({super.key});
@@ -15,19 +20,6 @@ class NotificationsViewBody extends StatefulWidget {
 class _NotificationsViewBodyState extends State<NotificationsViewBody>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  // TODO: استبدليها بداتا من الـ API
-  final List<NotificationModel> _allNotifications = [
-    NotificationModel(
-      id: '6987316f18d09d957653c8d4',
-      title: 'تمت الموافقة على الشحنة',
-      body: 'تمت الموافقة على الشحنة رقم SC-20260207-00255',
-      relatedEntity: 'shipment',
-      relatedEntityId: '6987302718d09d957653c85a',
-      seen: false,
-      createdAt: DateTime.now(),
-    ),
-  ];
 
   @override
   void initState() {
@@ -41,11 +33,19 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
     super.dispose();
   }
 
-  List<NotificationModel> get _unreadNotifications =>
-      _allNotifications.where((n) => !n.isRead).toList();
+  // دالة لفلترة الإشعارات غير المقروءة
+  List<NotificationModel> _getUnreadNotifications(
+    List<NotificationModel> allNotifications,
+  ) {
+    return allNotifications.where((n) => !n.isRead).toList();
+  }
 
-  List<NotificationModel> get _readNotifications =>
-      _allNotifications.where((n) => n.isRead).toList();
+  // دالة لفلترة الإشعارات المقروءة
+  List<NotificationModel> _getReadNotifications(
+    List<NotificationModel> allNotifications,
+  ) {
+    return allNotifications.where((n) => n.isRead).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,13 +120,65 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
 
   Widget _buildContent() {
     return Expanded(
-      child: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildNotificationsList(_allNotifications, 'الكل'),
-          _buildNotificationsList(_unreadNotifications, 'غير مقروءة'),
-          _buildNotificationsList(_readNotifications, 'مقروءة'),
-        ],
+      child: BlocBuilder<GetNotificationsCubit, GetNotificationsState>(
+        builder: (context, state) {
+          // حالة التحميل
+          if (state is GetNotificationsLoading) {
+            return const Center(
+              child: CircularProgressIndicator(color: Color(0xFF10B981)),
+            );
+          }
+
+          // حالة الخطأ
+          if (state is GetNotificationsFailure) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 64, color: Colors.grey[400]),
+                  const SizedBox(height: 16),
+                  Text(
+                    'حدث خطأ في تحميل الإشعارات',
+                    style: AppStyles.styleMedium16(
+                      context,
+                    ).copyWith(color: Colors.grey[600]),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    state.errorMessage,
+                    style: AppStyles.styleRegular12(
+                      context,
+                    ).copyWith(color: Colors.grey[400]),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // حالة النجاح أو الحالة الأولية
+          final allNotifications = state is GetNotificationsSuccess
+              ? state.notifications
+              : <NotificationModel>[];
+
+          return TabBarView(
+            controller: _tabController,
+            children: [
+              // تاب الكل
+              _buildNotificationsList(allNotifications, 'الكل'),
+              // تاب غير مقروءة
+              _buildNotificationsList(
+                _getUnreadNotifications(allNotifications),
+                'غير مقروءة',
+              ),
+              // تاب مقروءة
+              _buildNotificationsList(
+                _getReadNotifications(allNotifications),
+                'مقروءة',
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -146,6 +198,24 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
       itemBuilder: (context, index) {
         final notification = notifications[index];
         return NotificationItem(
+          onRead: () {
+            BlocProvider.of<GetNotificationsCubit>(
+              context,
+            ).markAsRead(notification.id);
+
+            BlocProvider.of<ReadNotificationCubit>(
+              context,
+            ).readNotification(id: notification.id);
+          },
+          onDelete: () {
+            BlocProvider.of<GetNotificationsCubit>(
+              context,
+            ).markAsRead(notification.id);
+
+            BlocProvider.of<DeleteNotificationCubit>(
+              context,
+            ).deleteNotification(id: notification.id);
+          },
           notContext: context,
           notification: notification,
           onTap: () => _handleNotificationTap(notification),

@@ -1,4 +1,4 @@
-part of 'read_notification_cubit.dart';
+import 'package:equatable/equatable.dart';
 
 sealed class ReadNotificationState extends Equatable {
   const ReadNotificationState();

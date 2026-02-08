@@ -122,21 +122,18 @@ void main() async {
         ),
 
         BlocProvider(
-          create: (context) => GetNotificationsCubit(
-            notificationsRepoImp: getIt.get<NotificationsRepoImp>(),
-          ),
+          create: (context) =>
+              GetNotificationsCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
 
         BlocProvider(
-          create: (context) => ReadNotificationCubit(
-            notificationsRepoImp: getIt.get<NotificationsRepoImp>(),
-          ),
+          create: (context) =>
+              ReadNotificationCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
 
         BlocProvider(
-          create: (context) => DeleteNotificationCubit(
-            notificationsRepoImp: getIt.get<NotificationsRepoImp>(),
-          ),
+          create: (context) =>
+              DeleteNotificationCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
 
         BlocProvider(create: (context) => ProfileCubit()),

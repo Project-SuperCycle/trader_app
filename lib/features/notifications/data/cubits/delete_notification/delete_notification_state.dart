@@ -1,4 +1,4 @@
-part of 'delete_notification_cubit.dart';
+import 'package:equatable/equatable.dart';
 
 sealed class DeleteNotificationState extends Equatable {
   const DeleteNotificationState();

@@ -6,17 +6,17 @@ class NotificationItem extends StatelessWidget {
   const NotificationItem({
     super.key,
     required this.notification,
-    this.onTap,
     required this.notContext,
-    this.onRead,
-    this.onDelete,
+    this.onTap,
+    required this.onRead,
+    required this.onDelete,
   });
 
   final NotificationModel notification;
-  final VoidCallback? onTap;
   final BuildContext notContext;
-  final VoidCallback? onRead;
-  final VoidCallback? onDelete;
+  final VoidCallback? onTap;
+  final VoidCallback onRead;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,12 @@ class NotificationItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: notification.isRead ? Colors.white : const Color(0xFFF0FDF4),
+          color: notification.seen ? Colors.white : const Color(0xFFF0FDF4),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: notification.isRead
+            color: notification.seen
                 ? Colors.grey[200]!
                 : const Color(0xFF10B981).withAlpha(100),
-            width: 1,
           ),
         ),
         child: Row(
@@ -41,7 +40,7 @@ class NotificationItem extends StatelessWidget {
               children: [
                 _buildIcon(),
                 const SizedBox(height: 16),
-                _buildMenuIcon(),
+                _buildMenuIcon(context),
               ],
             ),
             const SizedBox(width: 12),
@@ -68,103 +67,89 @@ class NotificationItem extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuIcon() {
+  Widget _buildMenuIcon(BuildContext context) {
     return Builder(
-      builder: (BuildContext iconContext) {
+      builder: (iconContext) {
         return GestureDetector(
           onTap: () {
-            final RenderBox? renderBox =
-                iconContext.findRenderObject() as RenderBox?;
-            if (renderBox == null) return;
+            final box = iconContext.findRenderObject() as RenderBox?;
+            if (box == null) return;
 
-            final position = renderBox.localToGlobal(Offset.zero);
+            final position = box.localToGlobal(Offset.zero);
+            OverlayEntry? overlay;
 
-            // أنشئ overlay entry منفصل للـ menu
-            OverlayEntry? menuOverlay;
-
-            menuOverlay = OverlayEntry(
-              builder: (overlayContext) => GestureDetector(
-                onTap: () {
-                  menuOverlay?.remove();
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: position.dx - 150,
-                        top: position.dy + 30,
-                        child: GestureDetector(
-                          onTap: () {}, // عشان ميقفلش لما تضغط على الـ menu
-                          child: Material(
-                            elevation: 16,
+            overlay = OverlayEntry(
+              builder: (_) => GestureDetector(
+                onTap: () => overlay?.remove(),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: position.dx - 150,
+                      top: position.dy + 30,
+                      child: Material(
+                        elevation: 16,
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 180,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              width: 180,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _buildMenuItem(
+                                context: context,
+                                icon: Icons.mark_email_read_rounded,
+                                iconColor: const Color(0xFF10B981),
+                                label: 'قراءة',
+                                onTap: () {
+                                  onRead();
+                                  overlay?.remove();
+                                },
                               ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  _buildMenuItem(
-                                    overlayContext,
-                                    icon: Icons.mark_email_read_rounded,
-                                    iconColor: const Color(0xFF10B981),
-                                    label: 'قراءة',
-                                    onTap: () {
-                                      menuOverlay?.remove();
-                                    },
-                                  ),
-                                  Divider(height: 1, color: Colors.grey[200]),
-                                  _buildMenuItem(
-                                    overlayContext,
-                                    icon: Icons.delete_rounded,
-                                    iconColor: Colors.red,
-                                    label: 'حذف',
-                                    onTap: () {
-                                      menuOverlay?.remove();
-                                    },
-                                  ),
-                                ],
+                              Divider(height: 1, color: Colors.grey[200]),
+                              _buildMenuItem(
+                                context: context,
+                                icon: Icons.delete_rounded,
+                                iconColor: Colors.red,
+                                label: 'حذف',
+                                onTap: () {
+                                  onDelete();
+                                  overlay?.remove();
+                                },
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
 
-            // أدخل الـ overlay
-            Overlay.of(notContext).insert(menuOverlay);
+            Overlay.of(notContext).insert(overlay);
           },
-          child: Container(
-            padding: const EdgeInsets.all(4),
-            child: const Icon(
-              Icons.more_horiz_rounded,
-              color: Color(0xFF10B981),
-              size: 20,
-            ),
+          child: const Icon(
+            Icons.more_horiz_rounded,
+            color: Color(0xFF10B981),
+            size: 20,
           ),
         );
       },
     );
   }
 
-  Widget _buildMenuItem(
-    BuildContext context, {
+  Widget _buildMenuItem({
     required IconData icon,
     required Color iconColor,
     required String label,
     required VoidCallback onTap,
+    required BuildContext context,
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
       child: Container(
         height: 48,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -191,19 +176,19 @@ class NotificationItem extends StatelessWidget {
                 style: AppStyles.styleBold14(context),
               ),
             ),
-            if (!notification.isRead) _buildUnreadBadge(),
+            if (!notification.seen) _buildUnreadBadge(),
           ],
         ),
         const SizedBox(height: 4),
         Text(
-          notification.message,
+          notification.body,
           style: AppStyles.styleMedium12(
             context,
           ).copyWith(color: Colors.grey[600]),
         ),
         const SizedBox(height: 4),
         Text(
-          notification.time,
+          notification.createdAt.toString(),
           style: AppStyles.styleRegular12(
             context,
           ).copyWith(color: Colors.grey[400]),

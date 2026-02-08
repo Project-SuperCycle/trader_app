@@ -1,32 +1,21 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trader_app/features/notifications/data/repos/notifications_repo_imp.dart';
 
-part 'read_notification_state.dart';
+import 'read_notification_state.dart';
 
 class ReadNotificationCubit extends Cubit<ReadNotificationState> {
-  final NotificationsRepoImp notificationsRepoImp;
+  final NotificationsRepoImp repo;
 
-  ReadNotificationCubit({required this.notificationsRepoImp})
+  ReadNotificationCubit({required this.repo})
     : super(ReadNotificationInitial());
 
   Future<void> readNotification({required String id}) async {
     emit(ReadNotificationLoading());
-    try {
-      var result = await notificationsRepoImp.readNotification(
-        notificationId: id,
-      );
-      result.fold(
-        (failure) {
-          emit(ReadNotificationFailure(errorMessage: failure.errMessage));
-        },
-        (_) {
-          emit(ReadNotificationSuccess(message: "تم قراءة الإشعار"));
-          // Store user globally
-        },
-      );
-    } catch (error) {
-      emit(ReadNotificationFailure(errorMessage: error.toString()));
-    }
+    final result = await repo.readNotification(notificationId: id);
+
+    result.fold(
+      (f) => emit(ReadNotificationFailure(errorMessage: f.errMessage)),
+      (_) => emit(ReadNotificationSuccess(message: "تم قراءة الإشعار")),
+    );
   }
 }

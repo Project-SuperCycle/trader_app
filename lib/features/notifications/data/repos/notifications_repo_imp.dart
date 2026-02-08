@@ -19,7 +19,7 @@ class NotificationsRepoImp implements NotificationsRepo {
     return ErrorHandler.handleApiCall<String>(
       apiCall: () async {
         final response = await apiServices.delete(
-          endPoint: ApiEndpoints.readNotification.replaceFirst(
+          endPoint: ApiEndpoints.deleteNotification.replaceFirst(
             '{id}',
             notificationId,
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
@@ -18,6 +19,9 @@ class TodayShipmentsCard extends StatefulWidget {
 }
 
 class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
+  // ✅ Track which shipment is currently loading
+  String? _loadingShipmentId;
+
   @override
   void initState() {
     super.initState();
@@ -28,14 +32,22 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
     });
   }
 
+  // ✅ FIX: Pass the shipment ID to track which card is loading
   void _showShipmentDetails(
     BuildContext context,
     String shipmentID,
     String type,
   ) {
-    BlocProvider.of<ShipmentsCalendarCubit>(
-      context,
-    ).getShipmentById(shipmentId: shipmentID, type: type);
+    if (_loadingShipmentId != null) return; // Prevent multiple clicks
+
+    setState(() {
+      _loadingShipmentId = shipmentID; // Mark this shipment as loading
+    });
+
+    context.read<ShipmentsCalendarCubit>().getShipmentById(
+      shipmentId: shipmentID,
+      type: type,
+    );
   }
 
   @override
@@ -51,7 +63,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.orange.withOpacity(0.3),
+            color: Colors.orange.withAlpha(150),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -109,7 +121,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
             height: 120,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withAlpha(50),
             ),
           ),
         ),
@@ -121,7 +133,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
             height: 100,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withAlpha(50),
             ),
           ),
         ),
@@ -136,7 +148,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withAlpha(100),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
@@ -160,7 +172,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
                           '${shipments.length} ${shipments.length == 1 ? 'شحنة' : 'شحنات'} مجدولة',
                           style: AppStyles.styleMedium12(
                             context,
-                          ).copyWith(color: Colors.white.withOpacity(0.8)),
+                          ).copyWith(color: Colors.white.withAlpha(400)),
                         ),
                       ],
                     ),
@@ -186,32 +198,26 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
 
               const SizedBox(height: 16),
 
-              // Shipments List
+              // Shipments List with BlocListener
               ...shipments.map(
                 (shipment) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child:
-                      BlocListener<
-                        ShipmentsCalendarCubit,
-                        ShipmentsCalendarState
-                      >(
-                        listener: (context, state) {
-                          if (state is GetShipmentSuccess) {
-                            GoRouter.of(context).push(
-                              EndPoints.traderShipmentDetailsView,
-                              extra: state.shipment,
-                            );
-                          }
-                        },
-                        child: _ShipmentItem(
-                          shipment: shipment,
-                          onTap: () => _showShipmentDetails(
-                            context,
-                            shipment.id,
-                            shipment.type,
-                          ),
-                        ),
-                      ),
+                  child: _ShipmentItemWithListener(
+                    shipment: shipment,
+                    isLoading: _loadingShipmentId == shipment.id,
+                    onTap: () => _showShipmentDetails(
+                      context,
+                      shipment.id,
+                      shipment.type,
+                    ),
+                    onNavigationComplete: () {
+                      if (mounted) {
+                        setState(() {
+                          _loadingShipmentId = null;
+                        });
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -240,7 +246,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
             message,
             style: AppStyles.styleMedium12(
               context,
-            ).copyWith(color: Colors.white.withOpacity(0.8)),
+            ).copyWith(color: Colors.white.withAlpha(400)),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -261,23 +267,110 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
   }
 }
 
+// ✅ NEW: Separate widget with BlocListener for each shipment item
+class _ShipmentItemWithListener extends StatefulWidget {
+  const _ShipmentItemWithListener({
+    required this.shipment,
+    required this.isLoading,
+    required this.onTap,
+    required this.onNavigationComplete,
+  });
+
+  final ShipmentModel shipment;
+  final bool isLoading;
+  final VoidCallback onTap;
+  final VoidCallback onNavigationComplete;
+
+  @override
+  State<_ShipmentItemWithListener> createState() =>
+      _ShipmentItemWithListenerState();
+}
+
+class _ShipmentItemWithListenerState extends State<_ShipmentItemWithListener> {
+  bool _hasNavigated = false;
+
+  @override
+  void didUpdateWidget(_ShipmentItemWithListener oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset navigation flag when loading stops
+    if (oldWidget.isLoading && !widget.isLoading) {
+      _hasNavigated = false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<ShipmentsCalendarCubit, ShipmentsCalendarState>(
+      listenWhen: (previous, current) {
+        // Only listen if this card is loading and hasn't navigated yet
+        return widget.isLoading &&
+            !_hasNavigated &&
+            (current is GetShipmentSuccess || current is GetShipmentFailure);
+      },
+      listener: (context, state) {
+        if (state is GetShipmentSuccess) {
+          // Double check this is our shipment
+          if (state.shipment.id == widget.shipment.id) {
+            _hasNavigated = true;
+
+            Future.microtask(() {
+              if (mounted) {
+                GoRouter.of(context)
+                    .push(
+                      EndPoints.traderShipmentDetailsView,
+                      extra: state.shipment,
+                    )
+                    .then((_) {
+                      widget.onNavigationComplete();
+                      if (mounted) {
+                        setState(() {
+                          _hasNavigated = false;
+                        });
+                      }
+                    });
+              }
+            });
+          }
+        } else if (state is GetShipmentFailure) {
+          _hasNavigated = false;
+          widget.onNavigationComplete();
+
+          if (mounted) {
+            CustomSnackBar.showError(context, state.errorMessage);
+          }
+        }
+      },
+      child: _ShipmentItem(
+        shipment: widget.shipment,
+        onTap: widget.onTap,
+        isNavigating: widget.isLoading,
+      ),
+    );
+  }
+}
+
 class _ShipmentItem extends StatelessWidget {
-  const _ShipmentItem({required this.shipment, required this.onTap});
+  const _ShipmentItem({
+    required this.shipment,
+    required this.onTap,
+    required this.isNavigating,
+  });
 
   final ShipmentModel shipment;
   final VoidCallback onTap;
+  final bool isNavigating;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: isNavigating ? null : onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withAlpha(50),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+          border: Border.all(color: Colors.white.withAlpha(150), width: 1),
         ),
         child: Row(
           children: [
@@ -313,7 +406,7 @@ class _ShipmentItem extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.access_time,
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withAlpha(300),
                         size: 14,
                       ),
                       const SizedBox(width: 4),
@@ -321,12 +414,12 @@ class _ShipmentItem extends StatelessWidget {
                         _formatTimeToArabic(shipment.requestedPickupAt),
                         style: AppStyles.styleMedium12(
                           context,
-                        ).copyWith(color: Colors.white.withOpacity(0.9)),
+                        ).copyWith(color: Colors.white.withAlpha(500)),
                       ),
                       const SizedBox(width: 12),
                       Icon(
                         Icons.location_on,
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withAlpha(300),
                         size: 14,
                       ),
                       const SizedBox(width: 4),
@@ -335,7 +428,7 @@ class _ShipmentItem extends StatelessWidget {
                           shipment.customPickupAddress,
                           style: AppStyles.styleMedium12(
                             context,
-                          ).copyWith(color: Colors.white.withOpacity(0.9)),
+                          ).copyWith(color: Colors.white.withAlpha(400)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -346,19 +439,26 @@ class _ShipmentItem extends StatelessWidget {
               ),
             ),
 
-            // Arrow Icon
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                shape: BoxShape.circle,
+            // Arrow Icon or Loading
+            if (isNavigating)
+              const SizedBox(
+                width: 20,
+                height: 20,
+                child: CustomLoadingIndicator(color: Colors.white),
+              )
+            else
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withAlpha(100),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                  size: 14,
+                ),
               ),
-              child: const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-                size: 14,
-              ),
-            ),
           ],
         ),
       ),

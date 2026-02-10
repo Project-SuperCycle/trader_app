@@ -2,17 +2,22 @@ import 'package:trader_app/features/shipments_calendar/data/models/shipment_mode
 
 class ShipmentsCalendarHelper {
   final List<ShipmentModel> shipments;
+
   ShipmentsCalendarHelper({required this.shipments});
 
   bool areAllShipmentsDeliveredWithTime(String dateKey) {
     final shipmentsForDate = getShipmentsForDate(dateKey);
     return shipmentsForDate.isNotEmpty &&
-        shipmentsForDate.every((s) => s.status == "delivered");
+        shipmentsForDate.every(
+          (s) => s.status == "delivered" || s.status == "complete_weighted",
+        );
   }
 
   bool hasAnyPendingShipmentsWithTime(String dateKey) {
     final shipmentsForDate = getShipmentsForDate(dateKey);
-    return shipmentsForDate.any((s) => s.status != "delivered");
+    return shipmentsForDate.any(
+      (s) => s.status != "delivered" || s.status == "complete_weighted",
+    );
   }
 
   List<ShipmentModel> getShipmentsForDate(String dateKey) {

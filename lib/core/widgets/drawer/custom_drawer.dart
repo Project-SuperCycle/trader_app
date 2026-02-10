@@ -238,7 +238,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               );
                       },
                     ),
-
                   _buildDrawerItem(
                     icon: Icons.support_agent_rounded,
                     title: 'الدعم والمساعدة',

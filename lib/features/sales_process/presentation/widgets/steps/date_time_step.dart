@@ -49,7 +49,8 @@ class _DateTimeStepState extends State<DateTimeStep> {
 
   String _formatDate(DateTime? dateTime) {
     if (dateTime == null) return 'لم يتم تحديد الموعد';
-    return DateFormat('dd/MM/yyyy  HH:mm').format(dateTime);
+    final date = dateTime.copyWith(hour: dateTime.hour - 2);
+    return DateFormat('dd/MM/yyyy  HH:mm').format(date);
   }
 
   @override

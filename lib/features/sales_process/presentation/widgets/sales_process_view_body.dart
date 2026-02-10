@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
@@ -156,14 +157,7 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
 
   void _showError(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
+    CustomSnackBar.showError(context, message);
   }
 
   // ─── Navigation ───────────────────────────────────────────
@@ -224,14 +218,7 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
 
   void _showSuccess(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
+    CustomSnackBar.showSuccess(context, message);
   }
 
   // ─── Build ────────────────────────────────────────────────

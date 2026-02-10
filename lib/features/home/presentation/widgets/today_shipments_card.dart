@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/routes/end_points.dart';
-import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
 import 'package:trader_app/features/home/presentation/widgets/empty_shipments_card.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
 import 'package:trader_app/features/shipments_calendar/data/models/shipment_model.dart';
-import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 class TodayShipmentsCard extends StatefulWidget {
   const TodayShipmentsCard({super.key});
@@ -20,37 +18,13 @@ class TodayShipmentsCard extends StatefulWidget {
 }
 
 class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
-  late LoginedUserModel user;
-
   @override
   void initState() {
     super.initState();
-    getUserData();
 
-    // ✅ الحل: فك التعليق عن استدعاء البيانات
+    // ✅ جلب البيانات بعد بناء الـ Widget
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final cubit = context.read<TodayShipmentsCubit>();
-
-      // لو في cache، اعرضه
-      if (cubit.cachedTodayShipments != null &&
-          cubit.cachedTodayShipments!.isNotEmpty) {
-        cubit.emit(
-          TodayShipmentsSuccess(shipments: cubit.cachedTodayShipments!),
-        );
-      }
-
-      // ✅ المهم: استدعاء البيانات من الـ API
-      cubit.fetchInitialData();
-    });
-  }
-
-  void getUserData() {
-    StorageServices.getUserData().then((value) {
-      if (mounted && value != null) {
-        setState(() {
-          user = value;
-        });
-      }
+      context.read<TodayShipmentsCubit>().fetchInitialData();
     });
   }
 
@@ -77,7 +51,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.orange.withAlpha(50),
+            color: Colors.orange.withOpacity(0.3),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -85,16 +59,8 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
       ),
       child: BlocBuilder<TodayShipmentsCubit, TodayShipmentsState>(
         builder: (context, state) {
-          // لو في cache، اعرضه حتى لو الـ state لسه Initial
-          final cubit = context.read<TodayShipmentsCubit>();
-
+          // ✅ حالة التحميل
           if (state is TodayShipmentsLoading) {
-            // لو في cached data، اعرضه مع loading indicator صغير
-            if (cubit.cachedTodayShipments != null &&
-                cubit.cachedTodayShipments!.isNotEmpty) {
-              return _buildShipmentsContent(cubit.cachedTodayShipments!);
-            }
-            // لو مفيش cache، اعرض loading
             return const Center(
               child: Padding(
                 padding: EdgeInsets.all(40.0),
@@ -103,23 +69,34 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
             );
           }
 
-          if (state is TodayShipmentsSuccess && state.shipments.isNotEmpty) {
+          // ✅ حالة النجاح - عرض الشحنات
+          if (state is TodayShipmentsSuccess) {
             return _buildShipmentsContent(state.shipments);
           }
 
-          if (state is TodayShipmentsInitial &&
-              cubit.cachedTodayShipments != null &&
-              cubit.cachedTodayShipments!.isNotEmpty) {
-            return _buildShipmentsContent(cubit.cachedTodayShipments!);
+          // ✅ حالة عدم وجود شحنات
+          if (state is TodayShipmentsEmpty) {
+            return const EmptyShipmentsCard();
           }
 
-          // لو مفيش شحنات
-          return const EmptyShipmentsCard();
+          // ✅ حالة الخطأ
+          if (state is TodayShipmentsFailure) {
+            return _buildErrorContent(state.message);
+          }
+
+          // ✅ الحالة الافتراضية (Initial)
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(40.0),
+              child: CustomLoadingIndicator(color: Colors.white),
+            ),
+          );
         },
       ),
     );
   }
 
+  /// ✅ عرض محتوى الشحنات
   Widget _buildShipmentsContent(List<ShipmentModel> shipments) {
     return Stack(
       children: [
@@ -132,7 +109,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
             height: 120,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withAlpha(25),
+              color: Colors.white.withOpacity(0.1),
             ),
           ),
         ),
@@ -144,7 +121,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
             height: 100,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withAlpha(25),
+              color: Colors.white.withOpacity(0.1),
             ),
           ),
         ),
@@ -159,7 +136,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(100),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
@@ -183,7 +160,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
                           '${shipments.length} ${shipments.length == 1 ? 'شحنة' : 'شحنات'} مجدولة',
                           style: AppStyles.styleMedium12(
                             context,
-                          ).copyWith(color: Colors.white.withAlpha(500)),
+                          ).copyWith(color: Colors.white.withOpacity(0.8)),
                         ),
                       ],
                     ),
@@ -243,6 +220,45 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
       ],
     );
   }
+
+  /// ✅ عرض رسالة الخطأ
+  Widget _buildErrorContent(String message) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_outline, color: Colors.white, size: 48),
+          const SizedBox(height: 12),
+          Text(
+            'حدث خطأ أثناء تحميل الشحنات',
+            style: AppStyles.styleBold14(context).copyWith(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            message,
+            style: AppStyles.styleMedium12(
+              context,
+            ).copyWith(color: Colors.white.withOpacity(0.8)),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: () {
+              context.read<TodayShipmentsCubit>().refreshData();
+            },
+            icon: const Icon(Icons.refresh),
+            label: const Text('إعادة المحاولة'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.orange.shade700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _ShipmentItem extends StatelessWidget {
@@ -259,9 +275,9 @@ class _ShipmentItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.white.withAlpha(100),
+          color: Colors.white.withOpacity(0.15),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withAlpha(150), width: 1),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
         ),
         child: Row(
           children: [
@@ -297,7 +313,7 @@ class _ShipmentItem extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.access_time,
-                        color: Colors.white.withAlpha(400),
+                        color: Colors.white.withOpacity(0.7),
                         size: 14,
                       ),
                       const SizedBox(width: 4),
@@ -305,12 +321,12 @@ class _ShipmentItem extends StatelessWidget {
                         _formatTimeToArabic(shipment.requestedPickupAt),
                         style: AppStyles.styleMedium12(
                           context,
-                        ).copyWith(color: Colors.white.withAlpha(500)),
+                        ).copyWith(color: Colors.white.withOpacity(0.9)),
                       ),
                       const SizedBox(width: 12),
                       Icon(
                         Icons.location_on,
-                        color: Colors.white.withAlpha(400),
+                        color: Colors.white.withOpacity(0.7),
                         size: 14,
                       ),
                       const SizedBox(width: 4),
@@ -319,7 +335,7 @@ class _ShipmentItem extends StatelessWidget {
                           shipment.customPickupAddress,
                           style: AppStyles.styleMedium12(
                             context,
-                          ).copyWith(color: Colors.white.withAlpha(500)),
+                          ).copyWith(color: Colors.white.withOpacity(0.9)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -334,7 +350,7 @@ class _ShipmentItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha(100),
+                color: Colors.white.withOpacity(0.2),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -352,7 +368,7 @@ class _ShipmentItem extends StatelessWidget {
   String _formatTimeToArabic(DateTime dateTime) {
     int hour = dateTime.hour;
     int displayHour = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
-    String period = hour < 12 ? "صباحا" : "مساءا";
+    String period = hour < 12 ? "صباحًا" : "مساءً";
     return "$displayHour $period";
   }
 }

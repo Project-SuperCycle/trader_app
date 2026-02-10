@@ -7,13 +7,14 @@ import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_assets.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
 import 'package:trader_app/features/shipments_calendar/data/models/shipment_model.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 class ShipmentsCalendarCard extends StatefulWidget {
   final ShipmentModel shipment;
+
   const ShipmentsCalendarCard({super.key, required this.shipment});
 
   @override
@@ -171,7 +172,8 @@ class _ShipmentsCalendarCardState extends State<ShipmentsCalendarCard> {
                           ),
                         ),
 
-                        (widget.shipment.isExtra)
+                        (widget.shipment.isExtra &&
+                                userRole == 'trader_contracted')
                             ? Image.asset(
                                 AppAssets.extraBox,
                                 width: 25,
@@ -208,7 +210,7 @@ class _ShipmentsCalendarCardState extends State<ShipmentsCalendarCard> {
                             style: AppStyles.styleSemiBold14(context),
                           ),
                           Text(
-                            widget.shipment.status.toUpperCase(),
+                            widget.shipment.statusDisplay,
                             style: AppStyles.styleMedium14(context).copyWith(
                               color: _getStatusColor(),
                               fontWeight: FontWeight.bold,
@@ -271,7 +273,7 @@ class _ShipmentsCalendarCardState extends State<ShipmentsCalendarCard> {
   }
 
   Color _getStatusColor() {
-    switch (widget.shipment.status) {
+    switch (widget.shipment.statusDisplay) {
       case 'قيد المراجعة':
         return Color(0xff1624A2);
       case 'تمت الموافقة':

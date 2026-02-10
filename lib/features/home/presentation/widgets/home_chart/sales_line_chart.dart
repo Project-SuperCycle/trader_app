@@ -16,6 +16,7 @@ import 'package:trader_app/generated/l10n.dart';
 class ChartPriceData {
   final String month;
   final double price;
+
   const ChartPriceData({required this.month, required this.price});
 
   factory ChartPriceData.fromTypeHistory(TypeHistoryModel typeHistory) {
@@ -32,18 +33,18 @@ class ChartPriceData {
     final monthNum = int.tryParse(parts[1]);
     if (monthNum == null || monthNum < 1 || monthNum > 12) return monthString;
     const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
+      'يناير',
+      'فبراير',
+      'مارس',
+      'إبريل',
+      'مايو',
+      'يونيو',
+      'يوليو',
+      'أغسطس',
+      'سبتمبر',
+      'أكتوبر',
+      'توفمبر',
+      'ديسمبر',
     ];
     return months[monthNum - 1];
   }
@@ -92,16 +93,19 @@ class _LineChart extends StatelessWidget {
       handleBuiltInTouches: true,
       touchTooltipData: LineTouchTooltipData(
         getTooltipColor: (_) => Colors.blueGrey.withValues(alpha: 0.8),
-        getTooltipItems: (spots) => spots.map((spot) {
-          final index = spot.x.toInt();
-          if (index < 0 || index >= priceData.length) return null;
-          final price =
-              priceFormatter?.call(spot.y) ?? '\$${spot.y.toStringAsFixed(1)}';
-          return LineTooltipItem(
-            '${priceData[index].month}\n$price',
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          );
-        }).toList(),
+        getTooltipItems: (spots) =>
+            spots.map((spot) {
+              final index = spot.x.toInt();
+              if (index < 0 || index >= priceData.length) return null;
+              final price =
+                  priceFormatter?.call(spot.y) ??
+                      '\$${spot.y.toStringAsFixed(1)}';
+              return LineTooltipItem(
+                '${priceData[index].month}\n$price',
+                const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              );
+            }).toList(),
       ),
     );
   }
@@ -246,12 +250,12 @@ class SalesLineChartState extends State<SalesLineChart> {
   List<String> get _typeOptions {
     try {
       final typesList =
-          getIt<DoshTypesManager>().typesList
-              .map((type) => type.name)
-              .where((name) => name.isNotEmpty)
-              .toSet()
-              .toList()
-            ..sort();
+      getIt<DoshTypesManager>().typesList
+          .map((type) => type.name)
+          .where((name) => name.isNotEmpty)
+          .toSet()
+          .toList()
+        ..sort();
       return typesList;
     } catch (_) {
       return [];
@@ -300,7 +304,7 @@ class SalesLineChartState extends State<SalesLineChart> {
 
         // البحث عن النوع المحدد في DoshTypesManager
         final selectedType = typesList.firstWhere(
-          (e) => e.name == value,
+              (e) => e.name == value,
           orElse: () {
             return typesList.first;
           },
@@ -322,7 +326,7 @@ class SalesLineChartState extends State<SalesLineChart> {
     // إذا كانت _doshData موجودة، استخدمها
     try {
       final selectedType = _doshData.firstWhere(
-        (e) => e.name == value,
+            (e) => e.name == value,
         orElse: () {
           return _doshData.first;
         },
@@ -386,7 +390,9 @@ class SalesLineChartState extends State<SalesLineChart> {
       children: [
         Flexible(
           child: Text(
-            S.of(context).price_indicator,
+            S
+                .of(context)
+                .price_indicator,
             style: AppStyles.styleSemiBold20(
               context,
             ).copyWith(fontWeight: FontWeight.bold),
@@ -413,7 +419,7 @@ class SalesLineChartState extends State<SalesLineChart> {
         }
       },
       buildWhen: (prev, curr) =>
-          curr is FetchTypesDataSuccess ||
+      curr is FetchTypesDataSuccess ||
           curr is FetchTypesDataFailure ||
           curr is FetchTypesDataLoading,
       builder: (context, state) {
@@ -426,7 +432,7 @@ class SalesLineChartState extends State<SalesLineChart> {
             : _typeOptions;
 
         final currentValue =
-            (_selectedTypeName != null && options.contains(_selectedTypeName))
+        (_selectedTypeName != null && options.contains(_selectedTypeName))
             ? _selectedTypeName
             : (options.isNotEmpty ? options.first : null);
 
@@ -457,7 +463,11 @@ class SalesLineChartState extends State<SalesLineChart> {
                     Flexible(
                       child: Text(
                         value,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(
                           color: Colors.black87,
                           fontWeight: FontWeight.w500,
                         ),
@@ -474,10 +484,16 @@ class SalesLineChartState extends State<SalesLineChart> {
             },
             icon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
             decoration: InputDecoration(
-              hintText: S.of(context).select_type,
-              hintStyle: Theme.of(
+              hintText: S
+                  .of(context)
+                  .select_type,
+              hintStyle: Theme
+                  .of(
                 context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
+              )
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey[500]),
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
               isDense: true,
@@ -513,7 +529,7 @@ class SalesLineChartState extends State<SalesLineChart> {
   Widget _buildChart() {
     return BlocBuilder<HomeCubit, HomeState>(
       buildWhen: (prev, curr) =>
-          curr is FetchTypeHistorySuccess ||
+      curr is FetchTypeHistorySuccess ||
           curr is FetchTypeHistoryFailure ||
           curr is FetchTypeHistoryLoading,
       builder: (context, state) {

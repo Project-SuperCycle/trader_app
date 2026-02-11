@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_assets.dart' show AppAssets;
 import 'package:trader_app/core/widgets/notifications/notifications_overlay.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
-import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 class HomeHeaderNavActions extends StatefulWidget {
@@ -46,6 +44,7 @@ class _HomeHeaderNavActionsState extends State<HomeHeaderNavActions> {
       widget.onNotificationPressed!();
     } else {
       BlocProvider.of<GetNotificationsCubit>(context).getNotifications();
+      NotificationsOverlay.toggle(context);
     }
   }
 
@@ -58,26 +57,7 @@ class _HomeHeaderNavActionsState extends State<HomeHeaderNavActions> {
       children: [
         _buildDrawerButton(),
         SizedBox(width: 15),
-        if (isUserLoggedIn)
-          BlocConsumer<GetNotificationsCubit, GetNotificationsState>(
-            listener: (context, state) {
-              // TODO: implement listener
-              if (state is GetNotificationsSuccess) {
-                NotificationsOverlay.toggle(context);
-              }
-            },
-            builder: (context, state) {
-              return (state is GetNotificationsLoading)
-                  ? const Center(
-                      child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: CustomLoadingIndicator(color: Colors.white),
-                      ),
-                    )
-                  : _buildNotificationButton();
-            },
-          ),
+        if (isUserLoggedIn) _buildNotificationButton(),
       ],
     );
   }

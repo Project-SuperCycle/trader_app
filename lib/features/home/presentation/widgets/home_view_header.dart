@@ -37,8 +37,6 @@ class HomeViewHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // HomeHeaderLogo(),
-          // const SizedBox(height: 12),
           Row(
             textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

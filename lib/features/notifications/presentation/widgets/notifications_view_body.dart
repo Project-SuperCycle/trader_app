@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/home/presentation/widgets/notifications/notification_item.dart';
-import 'package:trader_app/features/home/presentation/widgets/notifications/notifications_empty_state.dart';
+import 'package:trader_app/core/widgets/notifications/notification_item.dart';
+import 'package:trader_app/core/widgets/notifications/notifications_empty_state.dart';
 import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
@@ -124,9 +125,7 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
         builder: (context, state) {
           // حالة التحميل
           if (state is GetNotificationsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: Color(0xFF10B981)),
-            );
+            return const Center(child: CustomLoadingIndicator());
           }
 
           // حالة الخطأ

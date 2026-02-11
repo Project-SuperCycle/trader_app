@@ -12,7 +12,6 @@ import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/drawer/user_info_list_tile.dart';
 import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
-import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -205,48 +204,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
 
                   if (user != null)
-                    BlocConsumer<GetNotificationsCubit, GetNotificationsState>(
-                      listener: (context, state) {
-                        if (state is GetNotificationsSuccess) {
-                          GoRouter.of(
-                            context,
-                          ).push(EndPoints.notificationsView);
-                        }
-
-                        if (state is GetNotificationsFailure) {
-                          CustomSnackBar.showError(context, state.errorMessage);
-                        }
-                      },
-                      builder: (context, state) {
-                        return (state is GetNotificationsLoading)
-                            ? SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: const CustomLoadingIndicator(),
-                              )
-                            : _buildDrawerItem(
-                                icon: Icons.eco_rounded,
-                                title: 'الإشعارات',
-                                isActive:
-                                    currentLocation ==
-                                    EndPoints.notificationsView,
-                                onTap: () {
-                                  BlocProvider.of<GetNotificationsCubit>(
-                                    context,
-                                  ).getNotifications();
-                                },
-                              );
+                    _buildDrawerItem(
+                      icon: Icons.notifications_active_rounded,
+                      title: 'الإشعارات',
+                      isActive: currentLocation == EndPoints.notificationsView,
+                      onTap: () {
+                        Navigator.pop(context);
+                        BlocProvider.of<GetNotificationsCubit>(
+                          context,
+                        ).getNotifications();
+                        context.push(EndPoints.notificationsView);
                       },
                     ),
-                  _buildDrawerItem(
-                    icon: Icons.support_agent_rounded,
-                    title: 'الدعم والمساعدة',
-                    isActive: currentLocation == EndPoints.contactUsView,
-                    onTap: () {
-                      Navigator.pop(context);
-                      context.push(EndPoints.contactUsView);
-                    },
-                  ),
                 ],
               ),
             ),

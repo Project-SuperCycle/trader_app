@@ -1,3 +1,5 @@
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
+
 class TraderBranchModel {
   final String branchId;
   final String branchName;
@@ -7,6 +9,7 @@ class TraderBranchModel {
   final int deliveryVolume;
   final List<String> recyclableTypes;
   final List<int> deliverySchedule; // تغير من String لـ List<int>
+  final PaymentInfoModel? paymentInfo;
 
   const TraderBranchModel({
     required this.branchId,
@@ -17,6 +20,7 @@ class TraderBranchModel {
     required this.deliveryVolume,
     required this.recyclableTypes,
     required this.deliverySchedule,
+    this.paymentInfo,
   });
 
   factory TraderBranchModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +48,9 @@ class TraderBranchModel {
       deliveryVolume: json['stats']?['totalDeliveredKg'] ?? 0,
       recyclableTypes: types,
       deliverySchedule: shipmentDays,
+      paymentInfo: json['paymentInfo'] != null
+          ? _paymentInfoFromJson(json['paymentInfo'])
+          : null,
     );
   }
 
@@ -57,6 +64,7 @@ class TraderBranchModel {
       'deliveryVolume': deliveryVolume,
       'recyclableTypes': recyclableTypes,
       'deliverySchedule': deliverySchedule,
+      'paymentInfo': paymentInfo != null ? _paymentInfoToMap(paymentInfo!) : null,
     };
   }
 
@@ -71,6 +79,7 @@ class TraderBranchModel {
       'deliveryVolume': deliveryVolume,
       'recyclableTypes': recyclableTypes,
       'deliverySchedule': deliverySchedule,
+      'paymentInfo': paymentInfo != null ? _paymentInfoToMap(paymentInfo!) : null,
     };
   }
 
@@ -85,6 +94,9 @@ class TraderBranchModel {
       deliveryVolume: map['deliveryVolume'] ?? 0,
       recyclableTypes: List<String>.from(map['recyclableTypes'] ?? []),
       deliverySchedule: List<int>.from(map['deliverySchedule'] ?? []),
+      paymentInfo: map['paymentInfo'] != null
+          ? _paymentInfoFromJson(map['paymentInfo'])
+          : null,
     );
   }
 
@@ -113,6 +125,7 @@ TraderBranchModel {
     int? deliveryVolume,
     List<String>? recyclableTypes,
     List<int>? deliverySchedule,
+    PaymentInfoModel? paymentInfo,
   }) {
     return TraderBranchModel(
       branchId: branchId ?? this.branchId,
@@ -123,7 +136,42 @@ TraderBranchModel {
       deliveryVolume: deliveryVolume ?? this.deliveryVolume,
       recyclableTypes: recyclableTypes ?? this.recyclableTypes,
       deliverySchedule: deliverySchedule ?? this.deliverySchedule,
+      paymentInfo: paymentInfo ?? this.paymentInfo,
     );
+  }
+
+  // ── Payment Info Helpers ──────────────────────────────────────────────────
+
+  static PaymentInfoModel _paymentInfoFromJson(Map<String, dynamic> json) {
+    final methodType = PaymentMethodType.values.firstWhere(
+          (e) => e.name == json['methodType'],
+      orElse: () => PaymentMethodType.cash,
+    );
+    return PaymentInfoModel(
+      methodType: methodType,
+      cardNumber: json['cardNumber'],
+      cardHolder: json['cardHolder'],
+      cardExpiry: json['cardExpiry'],
+      eWalletProvider: json['eWalletProvider'],
+      walletPhone: json['walletPhone'],
+      bankName: json['bankName'],
+      accountHolder: json['accountHolder'],
+      accountNumber: json['accountNumber'],
+    );
+  }
+
+  static Map<String, dynamic> _paymentInfoToMap(PaymentInfoModel p) {
+    return {
+      'methodType': p.methodType.name,
+      'cardNumber': p.cardNumber,
+      'cardHolder': p.cardHolder,
+      'cardExpiry': p.cardExpiry,
+      'eWalletProvider': p.eWalletProvider,
+      'walletPhone': p.walletPhone,
+      'bankName': p.bankName,
+      'accountHolder': p.accountHolder,
+      'accountNumber': p.accountNumber,
+    };
   }
 
   // Helper method لتحويل shipmentDays لأسماء الأيام

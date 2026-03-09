@@ -1,10 +1,12 @@
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
+
 class TraderMainBranchModel {
-  // Main Branch
   final String? branchName;
   final String? address;
   final String? contactName;
   final String? contactPhone;
   final DateTime? startDate;
+  final PaymentInfoModel? paymentInfo;
 
   TraderMainBranchModel({
     required this.branchName,
@@ -12,6 +14,7 @@ class TraderMainBranchModel {
     required this.contactName,
     required this.contactPhone,
     required this.startDate,
+    this.paymentInfo,
   });
 
   // Factory constructor for creating a new instance from a map (JSON)
@@ -22,6 +25,9 @@ class TraderMainBranchModel {
       contactName: json['contactName'],
       contactPhone: json['contactPhone'],
       startDate: DateTime.parse(json['createdAt']),
+      paymentInfo: json['paymentInfo'] != null
+          ? _paymentInfoFromJson(json['paymentInfo'])
+          : null,
     );
   }
 
@@ -32,16 +38,17 @@ class TraderMainBranchModel {
       'contactName': contactName,
       'contactPhone': contactPhone,
       'startDate': DateTime.parse(startDate.toString()),
+      'paymentInfo': paymentInfo != null ? _paymentInfoToMap(paymentInfo!) : null,
     };
   }
 
-  // CopyWith method for creating a new instance with updated values
   TraderMainBranchModel copyWith({
     String? branchName,
     String? address,
     String? contactName,
     String? contactPhone,
     DateTime? startDate,
+    PaymentInfoModel? paymentInfo,
   }) {
     return TraderMainBranchModel(
       branchName: branchName ?? this.branchName,
@@ -49,6 +56,41 @@ class TraderMainBranchModel {
       contactName: contactName ?? this.contactName,
       contactPhone: contactPhone ?? this.contactPhone,
       startDate: startDate ?? this.startDate,
+      paymentInfo: paymentInfo ?? this.paymentInfo,
     );
+  }
+
+  // ── Payment Info Helpers ──────────────────────────────────────────────────
+
+  static PaymentInfoModel _paymentInfoFromJson(Map<String, dynamic> json) {
+    final methodType = PaymentMethodType.values.firstWhere(
+          (e) => e.name == json['methodType'],
+      orElse: () => PaymentMethodType.cash,
+    );
+    return PaymentInfoModel(
+      methodType: methodType,
+      cardNumber: json['cardNumber'],
+      cardHolder: json['cardHolder'],
+      cardExpiry: json['cardExpiry'],
+      eWalletProvider: json['eWalletProvider'],
+      walletPhone: json['walletPhone'],
+      bankName: json['bankName'],
+      accountHolder: json['accountHolder'],
+      accountNumber: json['accountNumber'],
+    );
+  }
+
+  static Map<String, dynamic> _paymentInfoToMap(PaymentInfoModel p) {
+    return {
+      'methodType': p.methodType.name,
+      'cardNumber': p.cardNumber,
+      'cardHolder': p.cardHolder,
+      'cardExpiry': p.cardExpiry,
+      'eWalletProvider': p.eWalletProvider,
+      'walletPhone': p.walletPhone,
+      'bankName': p.bankName,
+      'accountHolder': p.accountHolder,
+      'accountNumber': p.accountNumber,
+    };
   }
 }

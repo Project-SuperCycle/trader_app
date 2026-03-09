@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:trader_app/core/models/trader_branch_model.dart';
+import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
 
 abstract class StorageServices {
   /// Create storage
@@ -147,7 +149,7 @@ abstract class StorageServices {
       return branchsMap
           .map(
             (json) => TraderBranchModel.fromJson(json as Map<String, dynamic>),
-          )
+      )
           .toList();
     } catch (e) {
       throw Exception('Failed to retrieve user branchs: ${e.toString()}');
@@ -162,5 +164,65 @@ abstract class StorageServices {
     }
 
     return token;
+  }
+
+  /// SAVE PAYMENT INFO
+  static Future<void> saveUserPaymentInfo(PaymentInfoModel paymentInfo) async {
+    final map = {
+      'methodType': paymentInfo.methodType.name,
+      'cardNumber': paymentInfo.cardNumber,
+      'cardHolder': paymentInfo.cardHolder,
+      'cardExpiry': paymentInfo.cardExpiry,
+      'eWalletProvider': paymentInfo.eWalletProvider,
+      'walletPhone': paymentInfo.walletPhone,
+      'bankName': paymentInfo.bankName,
+      'accountHolder': paymentInfo.accountHolder,
+      'accountNumber': paymentInfo.accountNumber,
+    };
+    await StorageServices.storeData('user_payment_info', map);
+  }
+
+  /// GET PAYMENT INFO
+  static Future<PaymentInfoModel?> getUserPaymentInfo() async {
+    try {
+      final data =
+      await StorageServices.readData<Map<String, dynamic>>('user_payment_info');
+      if (data == null) return null;
+
+      final methodType = PaymentMethodType.values.firstWhere(
+            (e) => e.name == data['methodType'],
+        orElse: () => PaymentMethodType.cash,
+      );
+
+      return PaymentInfoModel(
+        methodType: methodType,
+        cardNumber: data['cardNumber'],
+        cardHolder: data['cardHolder'],
+        cardExpiry: data['cardExpiry'],
+        eWalletProvider: data['eWalletProvider'],
+        walletPhone: data['walletPhone'],
+        bankName: data['bankName'],
+        accountHolder: data['accountHolder'],
+        accountNumber: data['accountNumber'],
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// GET USER PROFILE
+  static Future<UserProfileModel?> getUserProfile() async {
+    try {
+      final data = await StorageServices.readData<Map<String, dynamic>>('user_profile');
+      if (data == null) return null;
+      return UserProfileModel.fromMap(data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// SAVE USER PROFILE
+  static Future<void> saveUserProfile(UserProfileModel profile) async {
+    await StorageServices.storeData('user_profile', profile.toMap());
   }
 }

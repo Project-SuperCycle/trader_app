@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/models/trader_contract_model.dart';
 import 'package:trader_app/core/models/trader_main_branch_model.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
 
 class UserProfileModel {
   // Basic Info
@@ -35,6 +36,9 @@ class UserProfileModel {
   final num? deliveredInContract;
   final num? deliveredOutContract;
 
+  // Payment
+  final PaymentInfoModel? paymentInfo;
+
   // Representative
   final String? repPhone;
   final String? repEmail;
@@ -62,6 +66,7 @@ class UserProfileModel {
     required this.repPhone,
     required this.repEmail,
     required this.repName,
+    this.paymentInfo,
     required this.mainBranch,
     required this.branchs,
     required this.contract,
@@ -92,10 +97,10 @@ class UserProfileModel {
           : null,
       branchs: json['branches'] != null
           ? List<TraderBranchModel>.from(
-              json['branches'].map(
-                (brnach) => TraderBranchModel.fromJson(brnach),
-              ),
-            )
+        json['branches'].map(
+              (brnach) => TraderBranchModel.fromJson(brnach),
+        ),
+      )
           : [],
       totalShipmentsCount: (json['stats'] != null)
           ? json['stats']['totalShipmentsCount']
@@ -136,6 +141,9 @@ class UserProfileModel {
       repName: (json['representative'] != null)
           ? json['representative']['displayName']
           : null,
+      paymentInfo: (json['paymentInfo'] != null)
+          ? _paymentInfoFromJson(json['paymentInfo'])
+          : null,
       contract: (json['contract'] != null)
           ? TraderContractModel.fromJson(json['contract'])
           : null,
@@ -166,6 +174,7 @@ class UserProfileModel {
       'repPhone': repPhone,
       'repEmail': repEmail,
       'repName': repName,
+      'paymentInfo': paymentInfo != null ? _paymentInfoToMap(paymentInfo!) : null,
       'mainBranch': mainBranch != null ? _branchToJsonSafe(mainBranch!) : null,
       'branches': branchs.map((branch) => branch.toJson()).toList(),
       'contract': contract != null ? _contractToJsonSafe(contract!) : null,
@@ -244,15 +253,18 @@ class UserProfileModel {
       repPhone: map['repPhone'],
       repEmail: map['repEmail'],
       repName: map['repName'],
+      paymentInfo: map['paymentInfo'] != null
+          ? _paymentInfoFromJson(map['paymentInfo'])
+          : null,
       mainBranch: map['mainBranch'] != null
           ? TraderMainBranchModel.fromJson(map['mainBranch'])
           : null,
       branchs: map['branches'] != null
           ? List<TraderBranchModel>.from(
-              map['branches'].map(
-                (branch) => TraderBranchModel.fromMap(branch),
-              ),
-            )
+        map['branches'].map(
+              (branch) => TraderBranchModel.fromMap(branch),
+        ),
+      )
           : [],
       contract: map['contract'] != null
           ? TraderContractModel.fromJson(map['contract'])
@@ -285,6 +297,7 @@ class UserProfileModel {
     String? repPhone,
     String? repEmail,
     String? repName,
+    PaymentInfoModel? paymentInfo,
     TraderContractModel? contract,
   }) {
     return UserProfileModel(
@@ -300,7 +313,7 @@ class UserProfileModel {
       totalShipmentsCount: totalShipmentsCount ?? this.totalShipmentsCount,
       fullyDeliveredCount: fullyDeliveredCount ?? this.fullyDeliveredCount,
       partiallyDeliveredCount:
-          partiallyDeliveredCount ?? this.partiallyDeliveredCount,
+      partiallyDeliveredCount ?? this.partiallyDeliveredCount,
       totalShipments: totalShipments ?? this.totalShipments,
       delivered: delivered ?? this.delivered,
       failed: failed ?? this.failed,
@@ -312,8 +325,43 @@ class UserProfileModel {
       repPhone: repPhone ?? this.repPhone,
       repEmail: repEmail ?? this.repEmail,
       repName: repName ?? this.repName,
+      paymentInfo: paymentInfo ?? this.paymentInfo,
       contract: contract ?? this.contract,
     );
+  }
+
+  // ── Payment Info Helpers ──────────────────────────────────────────────────
+
+  static PaymentInfoModel _paymentInfoFromJson(Map<String, dynamic> json) {
+    final methodType = PaymentMethodType.values.firstWhere(
+          (e) => e.name == json['methodType'],
+      orElse: () => PaymentMethodType.cash,
+    );
+    return PaymentInfoModel(
+      methodType: methodType,
+      cardNumber: json['cardNumber'],
+      cardHolder: json['cardHolder'],
+      cardExpiry: json['cardExpiry'],
+      eWalletProvider: json['eWalletProvider'],
+      walletPhone: json['walletPhone'],
+      bankName: json['bankName'],
+      accountHolder: json['accountHolder'],
+      accountNumber: json['accountNumber'],
+    );
+  }
+
+  static Map<String, dynamic> _paymentInfoToMap(PaymentInfoModel p) {
+    return {
+      'methodType': p.methodType.name,
+      'cardNumber': p.cardNumber,
+      'cardHolder': p.cardHolder,
+      'cardExpiry': p.cardExpiry,
+      'eWalletProvider': p.eWalletProvider,
+      'walletPhone': p.walletPhone,
+      'bankName': p.bankName,
+      'accountHolder': p.accountHolder,
+      'accountNumber': p.accountNumber,
+    };
   }
 
   @override

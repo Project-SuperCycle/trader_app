@@ -3,6 +3,7 @@ import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_branchs_section/trader_branchs_chart.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
 
 class TraderBranchesSection extends StatefulWidget {
   const TraderBranchesSection({super.key, required this.branches});
@@ -237,6 +238,11 @@ class _BranchDetailsSheet extends StatelessWidget {
                 ],
               ),
             ),
+
+            // ── بيانات الدفع ─────────────────────────────────────
+            if (branch.paymentInfo != null)
+              BranchPaymentInfoRows(paymentInfo: branch.paymentInfo!),
+
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,

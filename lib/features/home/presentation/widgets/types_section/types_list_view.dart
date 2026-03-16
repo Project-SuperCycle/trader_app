@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/services/dosh_types_manager.dart';
 import 'package:trader_app/core/services/services_locator.dart';
 import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dart';
 import 'package:trader_app/features/home/presentation/widgets/types_section/type_card_item.dart';
+import 'package:trader_app/features/home/presentation/widgets/types_section/types_list_loading_indicator.dart';
 
 class TypesListView extends StatefulWidget {
   const TypesListView({super.key});
@@ -44,7 +44,7 @@ class _TypesListViewState extends State<TypesListView> {
       },
       builder: (context, state) {
         if (state is FetchDoshTypesLoading) {
-          return const Center(child: CustomLoadingIndicator());
+          return TypesListLoadingIndicator();
         }
 
         if (state is FetchDoshTypesSuccess) {

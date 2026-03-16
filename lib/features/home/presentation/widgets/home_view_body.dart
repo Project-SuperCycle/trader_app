@@ -6,7 +6,7 @@ import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dar
 import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
 import 'package:trader_app/features/home/presentation/widgets/home_chart/sales_chart_card.dart';
 import 'package:trader_app/features/home/presentation/widgets/home_view_header.dart';
-import 'package:trader_app/features/home/presentation/widgets/today_shipments_card.dart';
+import 'package:trader_app/features/home/presentation/widgets/today_shipments/today_shipments_card.dart';
 import 'package:trader_app/features/home/presentation/widgets/types_section/types_list_view.dart';
 import 'package:trader_app/features/home/presentation/widgets/types_section/types_section_header.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';

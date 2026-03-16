@@ -10,6 +10,8 @@ import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dart';
 import 'package:trader_app/features/home/data/models/dosh_data_model.dart';
 import 'package:trader_app/features/home/data/models/type_history_model.dart';
+import 'package:trader_app/features/home/presentation/widgets/home_chart/loading/dropdown_loading_indicator.dart';
+import 'package:trader_app/features/home/presentation/widgets/home_chart/loading/line_chart_loading_indicator.dart';
 import 'package:trader_app/generated/l10n.dart';
 
 // Data model for chart (wrapper around TypeHistoryModel)
@@ -426,7 +428,7 @@ class SalesLineChartState extends State<SalesLineChart> {
           curr is FetchTypesDataLoading,
       builder: (context, state) {
         if (state is FetchTypesDataLoading) {
-          return _buildLoadingDropdown();
+          return DropdownLoadingIndicator();
         }
 
         final options = _doshData.isNotEmpty
@@ -498,26 +500,6 @@ class SalesLineChartState extends State<SalesLineChart> {
     );
   }
 
-  Widget _buildLoadingDropdown() {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.withAlpha(100)),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: const Center(
-        child: SizedBox(
-          height: 20,
-          width: 20,
-          child: CircularProgressIndicator(
-            color: AppColors.primaryColor,
-            strokeWidth: 2,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildChart() {
     return BlocBuilder<HomeCubit, HomeState>(
       buildWhen: (prev, curr) =>
@@ -526,9 +508,7 @@ class SalesLineChartState extends State<SalesLineChart> {
           curr is FetchTypeHistoryLoading,
       builder: (context, state) {
         if (state is FetchTypeHistoryLoading) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColors.primaryColor),
-          );
+          return LineChartLoadingIndicator();
         }
 
         if (state is FetchTypeHistoryFailure) {

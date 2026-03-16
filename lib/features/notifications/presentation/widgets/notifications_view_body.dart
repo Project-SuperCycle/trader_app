@@ -62,24 +62,11 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
       backgroundColor: AppColors.primaryColor,
       elevation: 0,
       leading: const SizedBox.shrink(),
-      centerTitle: false,
-      leadingWidth: 10.0,
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
+      centerTitle: true,
+      leadingWidth: 0.0,
       title: Text(
         'الإشعارات',
         style: AppStyles.styleBold18(context).copyWith(color: Colors.white),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Container(height: 1, color: Colors.grey[200]),
       ),
     );
   }

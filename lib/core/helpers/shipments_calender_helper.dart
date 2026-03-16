@@ -16,7 +16,7 @@ class ShipmentsCalendarHelper {
   bool hasAnyPendingShipmentsWithTime(String dateKey) {
     final shipmentsForDate = getShipmentsForDate(dateKey);
     return shipmentsForDate.any(
-      (s) => s.status != "delivered" || s.status == "complete_weighted",
+      (s) => s.status != "delivered" && s.status != "complete_weighted",
     );
   }
 

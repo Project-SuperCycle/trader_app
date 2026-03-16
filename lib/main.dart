@@ -3,10 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:trader_app/core/cubits/add_notes_cubit/add_notes_cubit.dart';
 import 'package:trader_app/core/cubits/local_cubit/local_cubit.dart';
 import 'package:trader_app/core/cubits/social_auth/social_auth_cubit.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/repos/social_auth_repo_imp.dart';
+import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/routes/routes.dart';
 import 'package:trader_app/core/services/notifications/local_notifications_service.dart';
 import 'package:trader_app/core/services/notifications/push_notifications_service.dart';
@@ -30,6 +34,7 @@ import 'package:trader_app/features/sales_process/data/repos/sales_process_repo_
 import 'package:trader_app/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
 import 'package:trader_app/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
 import 'package:trader_app/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
 import 'package:trader_app/features/sign_in/data/cubits/sign-in-cubit/sign_in_cubit.dart';
 import 'package:trader_app/features/sign_in/data/repos/signin_repo_imp.dart';
@@ -108,34 +113,28 @@ void main() async {
             forgetPasswordRepoImp: getIt.get<ForgetPasswordRepoImp>(),
           ),
         ),
-
         BlocProvider(
           create: (context) => RequestsCubit(
             environmentRepoImp: getIt.get<EnvironmentRepoImp>(),
           ),
         ),
-
         BlocProvider(
           create: (context) => CreateRequestCubit(
             environmentRepoImp: getIt.get<EnvironmentRepoImp>(),
           ),
         ),
-
         BlocProvider(
           create: (context) =>
               GetNotificationsCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
-
         BlocProvider(
           create: (context) =>
               ReadNotificationCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
-
         BlocProvider(
           create: (context) =>
               DeleteNotificationCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
-
         BlocProvider(create: (context) => ProfileCubit()),
       ],
       child: const MyApp(),
@@ -162,6 +161,90 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    super.initState();
+    _listenToNotificationTaps();
+  }
+
+  /// 🔔 Listen to notification taps and handle routing
+  void _listenToNotificationTaps() {
+    notificationStreamController.stream.listen((response) {
+      // Parse the payload using the service method
+      final Map<String, dynamic>? data = LocalNotificationsService.parsePayload(
+        response.payload,
+      );
+
+      if (data == null) {
+        Logger().w("❌ No valid data found in notification payload");
+        return;
+      }
+
+      // Handle routing based on entity type
+      _handleRooting(data: data);
+    });
+  }
+
+  /// 🎯 Handle routing based on notification data
+  void _handleRooting({required Map<String, dynamic> data}) {
+    String entityType = data['entity'] ?? '';
+    String entityId = data['entityId'] ?? '';
+    String type = data['type'] ?? '';
+
+    // Get the router from AppRouter
+    final router = AppRouter.router;
+
+    switch (entityType) {
+      case "shipment":
+        {
+          // Get context from the navigator key
+          final BuildContext? ctx =
+              router.routerDelegate.navigatorKey.currentContext;
+
+          if (ctx == null) {
+            Logger().e("❌ Context is null, cannot navigate");
+            return;
+          }
+
+          // Get the cubit and fetch shipment data
+          final cubit = BlocProvider.of<ShipmentsCalendarCubit>(ctx);
+
+          // Listen to the cubit state changes
+          final subscription = cubit.stream.listen((state) {
+            if (state is GetShipmentSuccess && state.shipment.id == entityId) {
+              // Navigate to shipment details
+              GoRouter.of(ctx).push(
+                EndPoints.traderShipmentDetailsView,
+                extra: state.shipment,
+              );
+            } else if (state is GetShipmentFailure) {
+              CustomSnackBar.showError(context, state.errorMessage);
+            }
+          });
+
+          // Fetch the shipment
+          cubit.getShipmentById(shipmentId: entityId, type: type);
+
+          // Cancel subscription after 10 seconds to prevent memory leaks
+          Future.delayed(const Duration(seconds: 10), () {
+            subscription.cancel();
+          });
+        }
+        break;
+
+      // Add more cases for other entity types
+      case "order":
+        {
+          Logger().i("📦 Handling order routing...");
+          // Handle order routing here
+        }
+        break;
+
+      default:
+        Logger().w("⚠️ Unknown entity type: $entityType");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LocalCubit()..getSavedLang(),
@@ -181,11 +264,8 @@ class _MyAppState extends State<MyApp> {
                 textDirection: TextDirection.rtl,
                 child: Banner(
                   message: 'تجريبية',
-                  // غير النص للي تحبه
                   location: BannerLocation.topStart,
-                  // أو topEnd
                   color: Color(0xff803C2B),
-                  // غير اللون للي تحبه
                   textStyle: AppStyles.styleBold12(context).copyWith(
                     color: Colors.white,
                     fontSize: 8,
@@ -207,5 +287,12 @@ class _MyAppState extends State<MyApp> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Close the stream controller when disposing
+    notificationStreamController.close();
+    super.dispose();
   }
 }

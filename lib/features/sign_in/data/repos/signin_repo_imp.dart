@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
 import 'package:trader_app/core/constants.dart';
@@ -50,7 +52,7 @@ class SignInRepoImp implements SignInRepo {
       },
       onSuccess: (user, response) async {
         await _saveUserData(user, response['token']);
-        _registerDeviceToServer(); // non-blocking
+        unawaited(_registerDeviceToServer()); // ✅ Fix #1: truly non-blocking
       },
     );
   }
@@ -63,10 +65,13 @@ class SignInRepoImp implements SignInRepo {
       errorContext: 'Google authentication',
     );
 
+    // ✅ Fix #4: correct error handling for Google sign-in
     if (tokenResult.isLeft()) {
-      return tokenResult.fold(
-        left,
-        (_) => left(ServerFailure('Unexpected error', 520)),
+      return left(
+        tokenResult.fold(
+          (failure) => failure,
+          (_) => ServerFailure('Unexpected error', 520),
+        ),
       );
     }
 
@@ -86,19 +91,19 @@ class SignInRepoImp implements SignInRepo {
       },
       onSuccess: (user, response) async {
         await _saveUserData(user, response['token']);
-        _registerDeviceToServer(); // non-blocking
+        unawaited(_registerDeviceToServer()); // ✅ Fix #1: truly non-blocking
       },
     );
   }
 
   /// حفظ بيانات المستخدم
   Future<void> _saveUserData(LoginedUserModel user, String token) async {
+    // ✅ Fix #2: always save token regardless of role
+    await StorageServices.storeData('token', token);
+
     if (user.role == "representative") return;
 
-    await Future.wait([
-      StorageServices.storeData('user', user.toJson()),
-      StorageServices.storeData('token', token),
-    ]);
+    await Future.wait([StorageServices.storeData('user', user.toJson())]);
 
     await UserProfileService.fetchAndStoreUserProfile();
     await _authManager.onLoginSuccess();
@@ -108,22 +113,37 @@ class SignInRepoImp implements SignInRepo {
   Future<void> _registerDeviceToServer() async {
     try {
       final canRegister = await PushNotificationsService.canRegisterDevice();
-      if (!canRegister) return;
+      if (!canRegister) {
+        // ✅ Fix #3: log the reason instead of silently returning
+        _logger.w(
+          '⚠️ Device registration skipped: canRegisterDevice() = false',
+        );
+        return;
+      }
 
       final fcmData = await PushNotificationsService.getStoredFCMData();
-      if (fcmData == null) return;
+      if (fcmData == null) {
+        _logger.w('⚠️ Device registration skipped: FCM data is null');
+        return;
+      }
 
       final token = fcmData['token'];
       final platform = fcmData['platform'];
 
-      if (token == null || token.isEmpty || platform == null) return;
+      if (token == null || token.isEmpty || platform == null) {
+        _logger.w(
+          '⚠️ Device registration skipped: token or platform is missing',
+        );
+        return;
+      }
 
-      _logger.i('''
+      _logger.d('''
 ╔════════════════════════════════════════
-║ Registering Device
+║ Registering Device REPO
 ╠════════════════════════════════════════
 ║ Token: ${token.substring(0, token.length.clamp(0, 20))}...
 ║ Platform: $platform
+║ App: trader
 ╚════════════════════════════════════════
 ''');
 

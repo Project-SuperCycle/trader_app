@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
@@ -156,52 +154,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     },
                   ),
 
-                  if (user != null)
-                    BlocConsumer<EcoCubit, EcoState>(
-                      listener: (context, state) {
-                        if (state is GetEcoDataSuccess) {
-                          Logger().i(state.ecoInfoModel.isEcoParticiapant);
-                          (state.ecoInfoModel.isEcoParticiapant == true)
-                              ? GoRouter.of(
-                                  context,
-                                ).push(EndPoints.environmentalImpactView)
-                              : GoRouter.of(
-                                  context,
-                                ).push(EndPoints.environmentalDefaultView);
-                        }
-                      },
-                      builder: (context, state) {
-                        return (state is GetEcoDataLoading)
-                            ? SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: const CustomLoadingIndicator(),
-                              )
-                            : _buildDrawerItem(
-                                icon: Icons.eco_rounded,
-                                title: 'الأثر البيئي',
-                                isActive:
-                                    currentLocation ==
-                                    EndPoints.environmentalImpactView,
-                                onTap: () {
-                                  context.read<EcoCubit>().getTraderEcoInfo();
-                                },
-                              );
-                      },
-                    ),
-
-                  if (user == null)
-                    _buildDrawerItem(
-                      icon: Icons.eco_rounded,
-                      title: 'الأثر البيئي',
-                      isActive:
-                          currentLocation == EndPoints.environmentalDefaultView,
-                      onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).push(EndPoints.environmentalDefaultView);
-                      },
-                    ),
+                  _buildDrawerItem(
+                    icon: Icons.eco_rounded,
+                    title: 'الأثر البيئي',
+                    isActive: currentLocation == EndPoints.environmentalPreView,
+                    onTap: () {
+                      context.read<EcoCubit>().getTraderEcoInfo();
+                      GoRouter.of(context).push(EndPoints.environmentalPreView);
+                    },
+                  ),
 
                   if (user != null)
                     _buildDrawerItem(

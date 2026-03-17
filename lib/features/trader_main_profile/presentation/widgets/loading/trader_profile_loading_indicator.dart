@@ -108,17 +108,6 @@ class TraderProfileLoadingIndicator extends StatelessWidget {
 
                     // Stat 2
                     Expanded(child: _buildStatShimmer(delay: 100)),
-
-                    // Divider
-                    Container(
-                      height: 50,
-                      width: 1,
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      color: Colors.white.withAlpha(80),
-                    ),
-
-                    // Stat 3
-                    Expanded(child: _buildStatShimmer(delay: 200)),
                   ],
                 ),
               ),

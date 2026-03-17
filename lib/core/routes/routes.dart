@@ -8,6 +8,7 @@ import 'package:trader_app/features/calculator/presentation/view/calculator_view
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
+import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
@@ -232,6 +233,18 @@ class AppRouter {
         pageBuilder: (context, state) => AppTransitions.smoothFade(
           state.pageKey,
           TraderProfileView(userProfile: state.extra as UserProfileModel),
+        ),
+      ),
+
+      // ============================================================
+      // Environmental Pre - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.environmentalPreView,
+        name: 'Environmental Pre',
+        pageBuilder: (context, state) => AppTransitions.fadeForMain(
+          state.pageKey,
+          EnvironmentLoadingIndicator(),
         ),
       ),
 

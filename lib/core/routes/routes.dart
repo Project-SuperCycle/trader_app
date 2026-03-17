@@ -26,6 +26,7 @@ import 'package:trader_app/features/sign_up/presentation/views/sign_up_verify_vi
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_view.dart';
 import 'package:trader_app/features/splash/views/splash_view.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/view/trader_profile_view.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/trader_profile_loading_indicator.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
 
 class AppRouter {
@@ -207,6 +208,18 @@ class AppRouter {
         pageBuilder: (context, state) => AppTransitions.fadeForModal(
           state.pageKey,
           ShipmentEditView(shipment: state.extra as SingleShipmentModel),
+        ),
+      ),
+
+      // ============================================================
+      // Pre Profile Views - Smooth Fade
+      // ============================================================
+      GoRoute(
+        path: EndPoints.traderPreProfileView,
+        name: 'Trader Pre Profile',
+        pageBuilder: (context, state) => AppTransitions.smoothFade(
+          state.pageKey,
+          TraderProfileLoadingIndicator(),
         ),
       ),
 

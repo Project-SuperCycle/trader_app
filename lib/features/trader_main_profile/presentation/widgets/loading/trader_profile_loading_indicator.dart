@@ -7,26 +7,26 @@ class TraderProfileLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // ======== Header Section Shimmer ========
-        _buildHeaderShimmer(context),
+    return Scaffold(
+      body: Column(
+        children: [
+          // ======== Header Section Shimmer ========
+          _buildHeaderShimmer(context),
 
-        const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-        // ======== Page Indicator Shimmer ========
-        _buildPageIndicatorShimmer(),
+          // ======== Page Indicator Shimmer ========
+          _buildPageIndicatorShimmer(),
 
-        const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-        // ======== Info Card Shimmer ========
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _buildInfoCardShimmer(),
-        ),
-
-        const SizedBox(height: 40),
-      ],
+          // ======== Info Card Shimmer ========
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: _buildInfoCardShimmer(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -191,21 +191,12 @@ class TraderProfileLoadingIndicator extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             // ----- 5 info rows -----
-            ...List.generate(5, (index) {
+            ...List.generate(2, (index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: _buildInfoRowShimmer(index: index),
               );
             }),
-
-            const SizedBox(height: 10),
-
-            // ----- Branch section placeholder -----
-            CustomFadingWidget.box(
-              height: 80,
-              width: double.infinity,
-              borderRadius: BorderRadius.circular(12),
-            ),
           ],
         ),
       ),
@@ -214,12 +205,13 @@ class TraderProfileLoadingIndicator extends StatelessWidget {
 
   Widget _buildInfoRowShimmer({required int index}) {
     return Row(
+      textDirection: TextDirection.ltr,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         // Value + label column
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Label
               CustomFadingWidget(

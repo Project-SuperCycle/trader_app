@@ -17,6 +17,8 @@ abstract class EndPoints {
   static const String contactUsView = '/contactUsView';
   static const String traderProfileView = '/traderProfileView';
 
+  static const String traderPreProfileView = '/traderPreProfileView';
+
   static const String forgetPasswordView = '/forgetPasswordView';
   static const String verifyResetOtpView = '/verifyResetOtpView';
   static const String resetPasswordView = '/resetPasswordView';

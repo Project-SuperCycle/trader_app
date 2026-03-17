@@ -17,8 +17,9 @@ final class ReadNotificationLoading extends ReadNotificationState {
 
 final class ReadNotificationSuccess extends ReadNotificationState {
   final String message;
+  final String id;
 
-  const ReadNotificationSuccess({required this.message});
+  const ReadNotificationSuccess({required this.message, required this.id});
 
   @override
   List<Object> get props => [];

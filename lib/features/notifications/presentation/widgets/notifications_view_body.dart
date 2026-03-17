@@ -7,9 +7,11 @@ import 'package:trader_app/core/widgets/notifications/notification_item.dart';
 import 'package:trader_app/core/widgets/notifications/notifications_empty_state.dart';
 import 'package:trader_app/core/widgets/notifications/notifications_loading_indicator.dart';
 import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_state.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
 import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_state.dart';
 
 class NotificationsViewBody extends StatefulWidget {
   const NotificationsViewBody({super.key});
@@ -34,26 +36,42 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
     super.dispose();
   }
 
-  // دالة لفلترة الإشعارات غير المقروءة
   List<NotificationModel> _getUnreadNotifications(
     List<NotificationModel> allNotifications,
-  ) {
-    return allNotifications.where((n) => !n.isRead).toList();
-  }
+  ) => allNotifications.where((n) => !n.isRead).toList();
 
-  // دالة لفلترة الإشعارات المقروءة
   List<NotificationModel> _getReadNotifications(
     List<NotificationModel> allNotifications,
-  ) {
-    return allNotifications.where((n) => n.isRead).toList();
-  }
+  ) => allNotifications.where((n) => n.isRead).toList();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(context),
-      body: Column(children: [_buildTabs(), _buildContent()]),
+    return MultiBlocListener(
+      listeners: [
+        // ✅ لما الـ read ينجح → حدّث الـ notification في الـ list
+        BlocListener<ReadNotificationCubit, ReadNotificationState>(
+          listener: (context, state) {
+            if (state is ReadNotificationSuccess) {
+              context.read<GetNotificationsCubit>().markAsRead(state.id);
+            }
+          },
+        ),
+        // ✅ لما الـ delete ينجح → شيل الـ notification من الـ list
+        BlocListener<DeleteNotificationCubit, DeleteNotificationState>(
+          listener: (context, state) {
+            if (state is DeleteNotificationSuccess) {
+              context.read<GetNotificationsCubit>().removeNotification(
+                state.id,
+              );
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(context),
+        body: Column(children: [_buildTabs(), _buildContent()]),
+      ),
     );
   }
 
@@ -143,9 +161,9 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
           }
 
           // حالة النجاح أو الحالة الأولية
-          final allNotifications = state is GetNotificationsSuccess
-              ? state.notifications
-              : <NotificationModel>[];
+          final allNotifications = BlocProvider.of<GetNotificationsCubit>(
+            context,
+          ).notifications;
 
           return TabBarView(
             controller: _tabController,
@@ -185,19 +203,11 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
         final notification = notifications[index];
         return NotificationItem(
           onRead: () {
-            BlocProvider.of<GetNotificationsCubit>(
-              context,
-            ).markAsRead(notification.id);
-
             BlocProvider.of<ReadNotificationCubit>(
               context,
             ).readNotification(id: notification.id);
           },
           onDelete: () {
-            BlocProvider.of<GetNotificationsCubit>(
-              context,
-            ).markAsRead(notification.id);
-
             BlocProvider.of<DeleteNotificationCubit>(
               context,
             ).deleteNotification(id: notification.id);

@@ -15,7 +15,7 @@ class DeleteNotificationCubit extends Cubit<DeleteNotificationState> {
 
     result.fold(
       (f) => emit(DeleteNotificationFailure(errorMessage: f.errMessage)),
-      (_) => emit(DeleteNotificationSuccess(message: "تم حذف الإشعار")),
+      (_) => emit(DeleteNotificationSuccess(message: "تم حذف الإشعار", id: id)),
     );
   }
 }

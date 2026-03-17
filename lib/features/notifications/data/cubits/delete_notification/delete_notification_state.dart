@@ -18,7 +18,9 @@ final class DeleteNotificationLoading extends DeleteNotificationState {
 final class DeleteNotificationSuccess extends DeleteNotificationState {
   final String message;
 
-  const DeleteNotificationSuccess({required this.message});
+  final String id;
+
+  const DeleteNotificationSuccess({required this.message, required this.id});
 
   @override
   List<Object> get props => [];

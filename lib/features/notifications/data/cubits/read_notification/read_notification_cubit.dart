@@ -15,7 +15,7 @@ class ReadNotificationCubit extends Cubit<ReadNotificationState> {
 
     result.fold(
       (f) => emit(ReadNotificationFailure(errorMessage: f.errMessage)),
-      (_) => emit(ReadNotificationSuccess(message: "تم قراءة الإشعار")),
+      (_) => emit(ReadNotificationSuccess(message: "تم قراءة الإشعار", id: id)),
     );
   }
 }

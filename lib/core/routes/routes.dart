@@ -29,6 +29,7 @@ import 'package:trader_app/features/splash/views/splash_view.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/view/trader_profile_view.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/trader_profile_loading_indicator.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
+import 'package:trader_app/features/trader_shipment_details/presentation/widgets/loading/shipment_details_loading_indicator.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -183,6 +184,18 @@ class AppRouter {
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
           const SalesProcessView(),
+        ),
+      ),
+
+      // ============================================================
+      // Shipment Details - Fade with Scale
+      // ============================================================
+      GoRoute(
+        path: EndPoints.shipmentPreDetailsView,
+        name: 'ShipmentPreDetailsView',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          ShipmentDetailsLoadingIndicator(),
         ),
       ),
 

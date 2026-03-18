@@ -10,8 +10,9 @@ abstract class EndPoints {
   static const String thirdOnboardingView = '/thirdOnboardingView';
   static const String fourthOnboardingView = '/fourthOnboardingView';
   static const String salesProcessView = '/salesProcessView';
-  static const String traderShipmentPreviewView = '/traderShipmentPreviewView';
   static const String traderShipmentDetailsView = '/traderShipmentDetailsView';
+  static const String shipmentPreDetailsView = '/shipmentPreDetailsView';
+
   static const String shipmentEditView = '/shipmentEditView';
   static const String shipmentsCalendarView = '/shipmentsCalendarView';
   static const String contactUsView = '/contactUsView';

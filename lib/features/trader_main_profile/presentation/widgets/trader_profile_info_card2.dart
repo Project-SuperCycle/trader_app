@@ -109,7 +109,7 @@ class _TraderProfileInfoCard2State extends State<TraderProfileInfoCard2> {
                 }
               },
               builder: (context, state) {
-                if (state is GetAllShipmentsLoading && shipments.isEmpty) {
+                if (state is GetAllShipmentsLoading) {
                   return const ShipmentsHistoryLoadingIndicator();
                 }
 

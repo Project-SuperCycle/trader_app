@@ -72,14 +72,6 @@ class _UserProfileWelcomeCardState extends State<UserProfileWelcomeCard> {
     } else {
       context.push(EndPoints.signInView);
     }
-
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        setState(() {
-          _isNavigating = false;
-        });
-      }
-    });
   }
 
   Widget _buildProfileImage() {

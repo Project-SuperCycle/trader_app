@@ -85,14 +85,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final currentLocation = GoRouter.of(
+    final currentLocation = GoRouter
+        .of(
       context,
-    ).routeInformationProvider.value.uri.path;
+    )
+        .routeInformationProvider
+        .value
+        .uri
+        .path;
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        width: MediaQuery.sizeOf(context).width * .75,
+        width: MediaQuery
+            .sizeOf(context)
+            .width * .75,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -103,7 +110,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: SizedBox(height: MediaQuery.of(context).padding.top + 10),
+              child: SizedBox(height: MediaQuery
+                  .of(context)
+                  .padding
+                  .top + 10),
             ),
 
             const SliverToBoxAdapter(child: UserInfoListTile()),
@@ -133,7 +143,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     icon: Icons.calendar_today_rounded,
                     title: 'جدول الشحنات',
                     isActive:
-                        currentLocation == EndPoints.shipmentsCalendarView,
+                    currentLocation == EndPoints.shipmentsCalendarView,
                     onTap: () {
                       Navigator.pop(context);
                       if (isUserLoggedIn) {
@@ -174,9 +184,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         BlocProvider.of<GetNotificationsCubit>(
                           context,
                         ).getNotifications();
-                        context.push(EndPoints.notificationsView);
+                        GoRouter.of(context).push(EndPoints.notificationsView);
                       },
                     ),
+
+                  _buildDrawerItem(
+                    icon: Icons.support_agent_rounded,
+                    title: 'الدعم والمساعدة',
+                    isActive: currentLocation == EndPoints.contactUsView,
+                    onTap: () {
+                      Navigator.pop(context);
+                      GoRouter.of(context).push(EndPoints.contactUsView);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -265,11 +285,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     title,
                     style: isActive
                         ? AppStyles.styleBold16(
-                            context,
-                          ).copyWith(color: const Color(0xFF10B981))
+                      context,
+                    ).copyWith(color: const Color(0xFF10B981))
                         : AppStyles.styleMedium16(
-                            context,
-                          ).copyWith(color: Colors.grey[700]),
+                      context,
+                    ).copyWith(color: Colors.grey[700]),
                   ),
                 ),
                 if (isActive)

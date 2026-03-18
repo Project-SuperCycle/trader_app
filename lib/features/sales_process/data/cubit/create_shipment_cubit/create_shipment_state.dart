@@ -15,15 +15,19 @@ final class CreateShipmentLoading extends CreateShipmentState {
 }
 
 final class CreateShipmentSuccess extends CreateShipmentState {
-  final String message;
-  const CreateShipmentSuccess({required this.message});
+  final CreateShipmentResponse response;
+
+  const CreateShipmentSuccess({required this.response});
+
   @override
   List<Object> get props => [];
 }
 
 final class CreateShipmentFailure extends CreateShipmentState {
   final String errorMessage;
+
   const CreateShipmentFailure({required this.errorMessage});
+
   @override
   List<Object> get props => [];
 }

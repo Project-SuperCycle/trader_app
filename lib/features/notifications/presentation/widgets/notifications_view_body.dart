@@ -203,24 +203,36 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
         final notification = notifications[index];
         return NotificationItem(
           onRead: () {
-            BlocProvider.of<ReadNotificationCubit>(
-              context,
-            ).readNotification(id: notification.id);
+            context.read<GetNotificationsCubit>().markAsRead(
+              notifications[index].id,
+            );
+
+            context.read<ReadNotificationCubit>().readNotification(
+              id: notifications[index].id,
+            );
           },
           onDelete: () {
-            BlocProvider.of<DeleteNotificationCubit>(
-              context,
-            ).deleteNotification(id: notification.id);
+            context.read<GetNotificationsCubit>().removeNotification(
+              notifications[index].id,
+            );
+
+            context.read<DeleteNotificationCubit>().deleteNotification(
+              id: notifications[index].id,
+            );
           },
           notContext: context,
           notification: notification,
-          onTap: () => _handleNotificationTap(notification),
+          onTap: () {
+            context.read<GetNotificationsCubit>().markAsRead(
+              notifications[index].id,
+            );
+
+            context.read<ReadNotificationCubit>().readNotification(
+              id: notifications[index].id,
+            );
+          },
         );
       },
     );
-  }
-
-  void _handleNotificationTap(NotificationModel notification) {
-    // TODO: اعملي الأكشن اللي عايزاه لما يضغط على إشعار
   }
 }

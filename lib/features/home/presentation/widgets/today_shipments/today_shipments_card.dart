@@ -7,6 +7,8 @@ import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/home/data/managers/shipments_cubit/today_shipments_cubit.dart';
 import 'package:trader_app/features/home/presentation/widgets/empty_shipments_card.dart';
+import 'package:trader_app/features/home/presentation/widgets/today_shipments/today_shipments_initial_card.dart';
+import 'package:trader_app/features/home/presentation/widgets/today_shipments/today_shipments_loading_indicator.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
 import 'package:trader_app/features/shipments_calendar/data/models/shipment_model.dart';
@@ -73,12 +75,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
         builder: (context, state) {
           // ✅ حالة التحميل
           if (state is TodayShipmentsLoading) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(40.0),
-                child: CustomLoadingIndicator(color: Colors.white),
-              ),
-            );
+            return TodayShipmentsLoadingIndicator();
           }
 
           // ✅ حالة النجاح - عرض الشحنات
@@ -97,12 +94,7 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
           }
 
           // ✅ الحالة الافتراضية (Initial)
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(40.0),
-              child: CustomLoadingIndicator(color: Colors.white),
-            ),
-          );
+          return TodayShipmentsInitialCard();
         },
       ),
     );

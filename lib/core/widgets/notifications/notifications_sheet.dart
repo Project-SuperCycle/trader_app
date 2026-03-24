@@ -19,16 +19,7 @@ class _NotificationsSheetState extends State<NotificationsSheet>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  // TODO: استبدليها بداتا من الـ API
-  final List<NotificationModel> _allNotifications = [
-    // NotificationModel(
-    //   id: '1',
-    //   title: 'شحنة جديدة',
-    //   message: 'تم إضافة شحنة جديدة #12345',
-    //   time: 'منذ ساعة',
-    //   isRead: false,
-    // ),
-  ];
+  final List<NotificationModel> _allNotifications = [];
 
   @override
   void initState() {

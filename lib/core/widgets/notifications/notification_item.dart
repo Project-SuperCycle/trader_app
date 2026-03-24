@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
+import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
 
-class NotificationItem extends StatelessWidget {
+class NotificationItem extends StatefulWidget {
   const NotificationItem({
     super.key,
     required this.notification,
@@ -19,16 +24,28 @@ class NotificationItem extends StatelessWidget {
   final VoidCallback onDelete;
 
   @override
+  State<NotificationItem> createState() => _NotificationItemState();
+}
+
+class _NotificationItemState extends State<NotificationItem> {
+  bool isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        _handleRooting(notification: widget.notification, context: context);
+        widget.onTap;
+      },
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: notification.seen ? Colors.white : const Color(0xFFF0FDF4),
+          color: widget.notification.seen
+              ? Colors.white
+              : const Color(0xFFF0FDF4),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: notification.seen
+            color: widget.notification.seen
                 ? Colors.grey[200]!
                 : const Color(0xFF10B981).withAlpha(100),
           ),
@@ -104,7 +121,7 @@ class NotificationItem extends StatelessWidget {
                                 iconColor: const Color(0xFF10B981),
                                 label: 'قراءة',
                                 onTap: () {
-                                  onRead();
+                                  widget.onRead();
                                   overlay?.remove();
                                 },
                               ),
@@ -115,7 +132,7 @@ class NotificationItem extends StatelessWidget {
                                 iconColor: Colors.red,
                                 label: 'حذف',
                                 onTap: () {
-                                  onDelete();
+                                  widget.onDelete();
                                   overlay?.remove();
                                 },
                               ),
@@ -129,7 +146,7 @@ class NotificationItem extends StatelessWidget {
               ),
             );
 
-            Overlay.of(notContext).insert(overlay);
+            Overlay.of(widget.notContext).insert(overlay);
           },
           child: const Icon(
             Icons.more_horiz_rounded,
@@ -172,23 +189,23 @@ class NotificationItem extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                notification.title,
+                widget.notification.title,
                 style: AppStyles.styleBold14(context),
               ),
             ),
-            if (!notification.seen) _buildUnreadBadge(),
+            if (!widget.notification.seen) _buildUnreadBadge(),
           ],
         ),
         const SizedBox(height: 4),
         Text(
-          notification.body,
+          widget.notification.body,
           style: AppStyles.styleMedium12(
             context,
           ).copyWith(color: Colors.grey[600]),
         ),
         const SizedBox(height: 4),
         Text(
-          notification.createdAt.toString(),
+          widget.notification.time,
           style: AppStyles.styleRegular12(
             context,
           ).copyWith(color: Colors.grey[400]),
@@ -206,5 +223,26 @@ class NotificationItem extends StatelessWidget {
         shape: BoxShape.circle,
       ),
     );
+  }
+
+  void _handleRooting({
+    required NotificationModel notification,
+    required BuildContext context,
+  }) {
+    BlocProvider.of<ReadNotificationCubit>(
+      context,
+    ).readNotification(id: notification.id);
+    String entityType = notification.relatedEntity;
+    String entityId = notification.relatedEntityId;
+
+    switch (entityType) {
+      case "shipment":
+        {
+          final cubit = context.read<ShipmentsCalendarCubit>();
+          cubit.getShipmentById(shipmentId: entityId, type: 'shipment');
+          GoRouter.of(context).push(EndPoints.shipmentPreDetailsView);
+        }
+        break;
+    }
   }
 }

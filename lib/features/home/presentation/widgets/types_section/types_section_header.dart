@@ -46,28 +46,28 @@ class _TypesSectionHeaderState extends State<TypesSectionHeader> {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  },
-                  icon: AnimatedRotation(
-                    turns: isExpanded ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 300),
-                    child: Icon(
-                      Icons.filter_list,
-                      color: AppColors.primaryColor,
-                      size: 24,
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: Colors.grey[100],
+              //     borderRadius: BorderRadius.circular(12),
+              //   ),
+              //   child: IconButton(
+              //     onPressed: () {
+              //       setState(() {
+              //         isExpanded = !isExpanded;
+              //       });
+              //     },
+              //     icon: AnimatedRotation(
+              //       turns: isExpanded ? 0.5 : 0,
+              //       duration: const Duration(milliseconds: 300),
+              //       child: Icon(
+              //         Icons.filter_list,
+              //         color: AppColors.primaryColor,
+              //         size: 24,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           // AnimatedSize(

@@ -8,6 +8,7 @@ import 'package:trader_app/features/calculator/presentation/view/calculator_view
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
+import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
@@ -26,7 +27,9 @@ import 'package:trader_app/features/sign_up/presentation/views/sign_up_verify_vi
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_view.dart';
 import 'package:trader_app/features/splash/views/splash_view.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/view/trader_profile_view.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/trader_profile_loading_indicator.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
+import 'package:trader_app/features/trader_shipment_details/presentation/widgets/loading/shipment_details_loading_indicator.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -188,6 +191,18 @@ class AppRouter {
       // Shipment Details - Fade with Scale
       // ============================================================
       GoRoute(
+        path: EndPoints.shipmentPreDetailsView,
+        name: 'ShipmentPreDetailsView',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          ShipmentDetailsLoadingIndicator(),
+        ),
+      ),
+
+      // ============================================================
+      // Shipment Details - Fade with Scale
+      // ============================================================
+      GoRoute(
         path: EndPoints.traderShipmentDetailsView,
         name: 'TraderShipmentDetails',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
@@ -211,6 +226,18 @@ class AppRouter {
       ),
 
       // ============================================================
+      // Pre Profile Views - Smooth Fade
+      // ============================================================
+      GoRoute(
+        path: EndPoints.traderPreProfileView,
+        name: 'Trader Pre Profile',
+        pageBuilder: (context, state) => AppTransitions.smoothFade(
+          state.pageKey,
+          TraderProfileLoadingIndicator(),
+        ),
+      ),
+
+      // ============================================================
       // Profile Views - Smooth Fade
       // ============================================================
       GoRoute(
@@ -219,6 +246,18 @@ class AppRouter {
         pageBuilder: (context, state) => AppTransitions.smoothFade(
           state.pageKey,
           TraderProfileView(userProfile: state.extra as UserProfileModel),
+        ),
+      ),
+
+      // ============================================================
+      // Environmental Pre - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.environmentalPreView,
+        name: 'Environmental Pre',
+        pageBuilder: (context, state) => AppTransitions.fadeForMain(
+          state.pageKey,
+          EnvironmentLoadingIndicator(),
         ),
       ),
 

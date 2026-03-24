@@ -1,20 +1,24 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' hide TextDirection;
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' hide TextDirection;
+import 'package:trader_app/core/functions/shipment_manager.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/services/dosh_types_manager.dart';
+import 'package:trader_app/core/services/services_locator.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/core/functions/shipment_manager.dart';
-import 'package:trader_app/core/routes/end_points.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
-import 'package:trader_app/core/services/dosh_types_manager.dart';
-import 'package:trader_app/core/services/services_locator.dart';
 import 'package:trader_app/features/sales_process/data/cubit/create_shipment_cubit/create_shipment_cubit.dart';
 import 'package:trader_app/features/sales_process/data/models/create_shipment_model.dart';
 import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
+
+import 'loading/shipment_review_loading_indicator.dart';
 
 class ShipmentReviewDialog extends StatefulWidget {
   final CreateShipmentModel shipment;
@@ -110,7 +114,10 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
 
   void _removeItem(int index) {
     if (items.length == 1) {
-      _showError('يجب أن تحتوي الشحنة على منتج واحد على الأقل');
+      CustomSnackBar.showError(
+        context,
+        'يجب أن تحتوي الشحنة على منتج واحد على الأقل',
+      );
       return;
     }
 
@@ -143,13 +150,15 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
 
   void _saveChanges() async {
     if (addressController.text.trim().isEmpty) {
-      _showError('يرجى إدخال عنوان الاستلام');
+      CustomSnackBar.showError(context, 'يرجى إدخال عنوان الاستلام');
+
       return;
     }
 
     for (var item in items) {
       if (item.quantity <= 0) {
-        _showError('يرجى التأكد من صحة الكميات');
+        CustomSnackBar.showError(context, 'يرجى التأكد من صحة الكميات');
+
         return;
       }
     }
@@ -160,19 +169,14 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
       images: images,
       items: items,
       userNotes: notesController.text.trim(),
-      selectedBranchId: selectedBranchId, // تمرير الفرع
+      selectedBranchId: selectedBranchId,
+      // تمرير الفرع
       selectedBranchName: selectedBranchName, // تمرير الفرع
     );
 
     widget.onUpdate?.call(updated);
 
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(child: CustomLoadingIndicator()),
-      );
-
       FormData shipment = await _createFormData(updated);
 
       if (mounted) {
@@ -182,7 +186,7 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
       }
     } catch (e) {
       if (mounted) Navigator.pop(context);
-      _showError('حدث خطأ أثناء معالجة البيانات');
+      CustomSnackBar.showError(context, 'حدث خطأ أثناء معالجة البيانات');
     }
   }
 
@@ -210,70 +214,6 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
     return formData;
   }
 
-  void _showError(String msg) {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-
-    _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 20,
-        left: 16,
-        right: 16,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(100),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withAlpha(100),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.error_outline,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    msg,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context).insert(_overlayEntry!);
-
-    Future.delayed(const Duration(seconds: 3), () {
-      _overlayEntry?.remove();
-      _overlayEntry = null;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -294,43 +234,68 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
         ? availableHeight * 0.92
         : availableHeight * 0.9;
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: isSmall ? 8 : 12,
-        vertical: isShortScreen ? 16 : 24,
-      ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Container(
-          width: dialogWidth,
-          constraints: BoxConstraints(maxHeight: maxDialogHeight),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(28),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(50),
-                blurRadius: 30,
-                offset: const Offset(0, 10),
-              ),
-            ],
+    return BlocConsumer<CreateShipmentCubit, CreateShipmentState>(
+      listener: (context, state) {
+        // TODO: implement listener
+        if (state is CreateShipmentSuccess) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          BlocProvider.of<ShipmentsCalendarCubit>(
+            context,
+          ).getShipmentById(shipmentId: state.response.id, type: "shipment");
+          GoRouter.of(
+            context,
+          ).pushReplacement(EndPoints.shipmentPreDetailsView);
+        }
+        if (state is CreateShipmentFailure) {
+          Navigator.pop(context);
+          CustomSnackBar.showError(context, state.errorMessage);
+        }
+      },
+      builder: (context, state) {
+        if (state is CreateShipmentLoading) {
+          return const ShipmentReviewLoadingIndicator();
+        }
+
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: isSmall ? 8 : 12,
+            vertical: isShortScreen ? 16 : 24,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildHeader(isSmall),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(isSmall ? 16 : 20),
-                  child: _buildProducts(isSmall, isMedium, isShortScreen),
-                ),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Container(
+              width: dialogWidth,
+              constraints: BoxConstraints(maxHeight: maxDialogHeight),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(50),
+                    blurRadius: 30,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
               ),
-              _buildFooter(isSmall),
-            ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildHeader(isSmall),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(isSmall ? 16 : 20),
+                      child: _buildProducts(isSmall, isMedium, isShortScreen),
+                    ),
+                  ),
+                  _buildFooter(isSmall),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -1033,123 +998,91 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
   }
 
   Widget _buildFooter(bool isSmall) {
-    return BlocConsumer<CreateShipmentCubit, CreateShipmentState>(
-      listener: (context, state) {
-        if (state is CreateShipmentSuccess) {
-          Navigator.pop(context);
-          Navigator.pop(context);
-          GoRouter.of(context).pushReplacement(EndPoints.shipmentsCalendarView);
-        }
-        if (state is CreateShipmentFailure) {
-          Navigator.pop(context);
-          _showError(state.errorMessage);
-        }
-      },
-      builder: (context, state) {
-        return Container(
-          padding: EdgeInsets.all(isSmall ? 16 : 20),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade50,
-            borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(28),
-            ),
-            border: Border(
-              top: BorderSide(color: Colors.grey.shade200, width: 1),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  height: 52,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primaryColor,
-                        AppColors.primaryColor.withAlpha(400),
+    return Container(
+      padding: EdgeInsets.all(isSmall ? 16 : 20),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(28)),
+        border: Border(top: BorderSide(color: Colors.grey.shade200, width: 1)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: 52,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primaryColor,
+                    AppColors.primaryColor.withAlpha(400),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryColor.withAlpha(150),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: _saveChanges,
+                  borderRadius: BorderRadius.circular(16),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.check_circle_rounded,
+                          color: Colors.white,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'تأكيد',
+                          style: AppStyles.styleBold16(
+                            context,
+                          ).copyWith(color: Colors.white),
+                        ),
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primaryColor.withAlpha(150),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: state is CreateShipmentLoading
-                          ? null
-                          : _saveChanges,
-                      borderRadius: BorderRadius.circular(16),
-                      child: Center(
-                        child: state is CreateShipmentLoading
-                            ? const SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.check_circle_rounded,
-                                    color: Colors.white,
-                                    size: 22,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'حفظ وتأكيد',
-                                    style: AppStyles.styleBold16(
-                                      context,
-                                    ).copyWith(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                      ),
-                    ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Container(
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade300, width: 1.5),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: state is CreateShipmentLoading
-                          ? null
-                          : () => Navigator.pop(context),
-                      borderRadius: BorderRadius.circular(16),
-                      child: Center(
-                        child: Text(
-                          'إلغاء',
-                          style: AppStyles.styleSemiBold16(
-                            context,
-                          ).copyWith(color: Colors.grey.shade700),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        );
-      },
+          const SizedBox(width: 12),
+          Expanded(
+            child: Container(
+              height: 52,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade300, width: 1.5),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Center(
+                    child: Text(
+                      'إلغاء',
+                      style: AppStyles.styleSemiBold16(
+                        context,
+                      ).copyWith(color: Colors.grey.shade700),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/notifications/notification_item.dart';
 import 'package:trader_app/core/widgets/notifications/notifications_empty_state.dart';
+import 'package:trader_app/core/widgets/notifications/notifications_loading_indicator.dart';
 import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_state.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
 import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
+import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_state.dart';
 
 class NotificationsViewBody extends StatefulWidget {
   const NotificationsViewBody({super.key});
@@ -34,26 +36,42 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
     super.dispose();
   }
 
-  // دالة لفلترة الإشعارات غير المقروءة
   List<NotificationModel> _getUnreadNotifications(
     List<NotificationModel> allNotifications,
-  ) {
-    return allNotifications.where((n) => !n.isRead).toList();
-  }
+  ) => allNotifications.where((n) => !n.isRead).toList();
 
-  // دالة لفلترة الإشعارات المقروءة
   List<NotificationModel> _getReadNotifications(
     List<NotificationModel> allNotifications,
-  ) {
-    return allNotifications.where((n) => n.isRead).toList();
-  }
+  ) => allNotifications.where((n) => n.isRead).toList();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(context),
-      body: Column(children: [_buildTabs(), _buildContent()]),
+    return MultiBlocListener(
+      listeners: [
+        // ✅ لما الـ read ينجح → حدّث الـ notification في الـ list
+        BlocListener<ReadNotificationCubit, ReadNotificationState>(
+          listener: (context, state) {
+            if (state is ReadNotificationSuccess) {
+              context.read<GetNotificationsCubit>().markAsRead(state.id);
+            }
+          },
+        ),
+        // ✅ لما الـ delete ينجح → شيل الـ notification من الـ list
+        BlocListener<DeleteNotificationCubit, DeleteNotificationState>(
+          listener: (context, state) {
+            if (state is DeleteNotificationSuccess) {
+              context.read<GetNotificationsCubit>().removeNotification(
+                state.id,
+              );
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(context),
+        body: Column(children: [_buildTabs(), _buildContent()]),
+      ),
     );
   }
 
@@ -62,24 +80,11 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
       backgroundColor: AppColors.primaryColor,
       elevation: 0,
       leading: const SizedBox.shrink(),
-      centerTitle: false,
-      leadingWidth: 10.0,
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
+      centerTitle: true,
+      leadingWidth: 0.0,
       title: Text(
         'الإشعارات',
         style: AppStyles.styleBold18(context).copyWith(color: Colors.white),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Container(height: 1, color: Colors.grey[200]),
       ),
     );
   }
@@ -125,7 +130,7 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
         builder: (context, state) {
           // حالة التحميل
           if (state is GetNotificationsLoading) {
-            return const Center(child: CustomLoadingIndicator());
+            return NotificationsLoadingIndicator();
           }
 
           // حالة الخطأ
@@ -156,9 +161,9 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
           }
 
           // حالة النجاح أو الحالة الأولية
-          final allNotifications = state is GetNotificationsSuccess
-              ? state.notifications
-              : <NotificationModel>[];
+          final allNotifications = BlocProvider.of<GetNotificationsCubit>(
+            context,
+          ).notifications;
 
           return TabBarView(
             controller: _tabController,
@@ -198,32 +203,36 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
         final notification = notifications[index];
         return NotificationItem(
           onRead: () {
-            BlocProvider.of<GetNotificationsCubit>(
-              context,
-            ).markAsRead(notification.id);
+            context.read<GetNotificationsCubit>().markAsRead(
+              notifications[index].id,
+            );
 
-            BlocProvider.of<ReadNotificationCubit>(
-              context,
-            ).readNotification(id: notification.id);
+            context.read<ReadNotificationCubit>().readNotification(
+              id: notifications[index].id,
+            );
           },
           onDelete: () {
-            BlocProvider.of<GetNotificationsCubit>(
-              context,
-            ).markAsRead(notification.id);
+            context.read<GetNotificationsCubit>().removeNotification(
+              notifications[index].id,
+            );
 
-            BlocProvider.of<DeleteNotificationCubit>(
-              context,
-            ).deleteNotification(id: notification.id);
+            context.read<DeleteNotificationCubit>().deleteNotification(
+              id: notifications[index].id,
+            );
           },
           notContext: context,
           notification: notification,
-          onTap: () => _handleNotificationTap(notification),
+          onTap: () {
+            context.read<GetNotificationsCubit>().markAsRead(
+              notifications[index].id,
+            );
+
+            context.read<ReadNotificationCubit>().readNotification(
+              id: notifications[index].id,
+            );
+          },
         );
       },
     );
-  }
-
-  void _handleNotificationTap(NotificationModel notification) {
-    // TODO: اعملي الأكشن اللي عايزاه لما يضغط على إشعار
   }
 }

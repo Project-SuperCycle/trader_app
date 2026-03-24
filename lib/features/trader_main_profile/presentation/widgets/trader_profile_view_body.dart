@@ -11,6 +11,7 @@ import 'package:trader_app/features/trader_main_profile/presentation/widgets/tra
 
 class TraderProfileViewBody extends StatefulWidget {
   final UserProfileModel userProfile;
+
   const TraderProfileViewBody({super.key, required this.userProfile});
 
   @override
@@ -45,7 +46,6 @@ class _TraderProfileViewBodyState extends State<TraderProfileViewBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       drawer: CustomDrawer(isInProfilePage: true),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -86,17 +86,17 @@ class _TraderProfileViewBodyState extends State<TraderProfileViewBody> {
                   duration: const Duration(milliseconds: 300),
                   transitionBuilder:
                       (Widget child, Animation<double> animation) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(-0.1, 0),
-                              end: Offset.zero,
-                            ).animate(animation),
-                            child: child,
-                          ),
-                        );
-                      },
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(-0.1, 0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      ),
+                    );
+                  },
                   child: KeyedSubtree(
                     key: ValueKey<int>(currentPage),
                     child: _getPages()[currentPage],

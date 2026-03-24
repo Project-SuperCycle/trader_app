@@ -10,6 +10,7 @@ import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_cal
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_state.dart';
 import 'package:trader_app/features/shipments_calendar/data/models/shipment_model.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/widget/shipment_calendar_card.dart';
+import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/shipments_history_loading_indicator.dart';
 
 class TraderProfileInfoCard2 extends StatefulWidget {
   const TraderProfileInfoCard2({super.key});
@@ -108,13 +109,8 @@ class _TraderProfileInfoCard2State extends State<TraderProfileInfoCard2> {
                 }
               },
               builder: (context, state) {
-                if (state is GetAllShipmentsLoading && shipments.isEmpty) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: CustomLoadingIndicator(),
-                    ),
-                  );
+                if (state is GetAllShipmentsLoading) {
+                  return const ShipmentsHistoryLoadingIndicator();
                 }
 
                 if (shipments.isNotEmpty) {

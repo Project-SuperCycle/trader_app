@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/notifications/notification_item.dart';
+import 'package:trader_app/core/widgets/notifications/notifications_loading_indicator.dart';
 import 'package:trader_app/features/notifications/data/cubits/delete_notification/delete_notification_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/get_notifications/get_notifications_state.dart';
@@ -272,7 +272,7 @@ class _NotificationsPanelState extends State<NotificationsPanel>
   ) {
     // حالة التحميل
     if (state is GetNotificationsLoading) {
-      return const Expanded(child: Center(child: CustomLoadingIndicator()));
+      return NotificationsLoadingIndicator();
     }
 
     // حالة الخطأ
@@ -344,6 +344,13 @@ class _NotificationsPanelState extends State<NotificationsPanel>
             notContext: context,
             notification: filteredNotifications[index],
             onTap: () {
+              context.read<GetNotificationsCubit>().markAsRead(
+                filteredNotifications[index].id,
+              );
+
+              context.read<ReadNotificationCubit>().readNotification(
+                id: filteredNotifications[index].id,
+              );
               _close();
             },
           );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
-import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
@@ -87,14 +85,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final currentLocation = GoRouter.of(
+    final currentLocation = GoRouter
+        .of(
       context,
-    ).routeInformationProvider.value.uri.path;
+    )
+        .routeInformationProvider
+        .value
+        .uri
+        .path;
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        width: MediaQuery.sizeOf(context).width * .75,
+        width: MediaQuery
+            .sizeOf(context)
+            .width * .75,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -105,7 +110,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: SizedBox(height: MediaQuery.of(context).padding.top + 10),
+              child: SizedBox(height: MediaQuery
+                  .of(context)
+                  .padding
+                  .top + 10),
             ),
 
             const SliverToBoxAdapter(child: UserInfoListTile()),
@@ -135,7 +143,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     icon: Icons.calendar_today_rounded,
                     title: 'جدول الشحنات',
                     isActive:
-                        currentLocation == EndPoints.shipmentsCalendarView,
+                    currentLocation == EndPoints.shipmentsCalendarView,
                     onTap: () {
                       Navigator.pop(context);
                       if (isUserLoggedIn) {
@@ -156,52 +164,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     },
                   ),
 
-                  if (user != null)
-                    BlocConsumer<EcoCubit, EcoState>(
-                      listener: (context, state) {
-                        if (state is GetEcoDataSuccess) {
-                          Logger().i(state.ecoInfoModel.isEcoParticiapant);
-                          (state.ecoInfoModel.isEcoParticiapant == true)
-                              ? GoRouter.of(
-                                  context,
-                                ).push(EndPoints.environmentalImpactView)
-                              : GoRouter.of(
-                                  context,
-                                ).push(EndPoints.environmentalDefaultView);
-                        }
-                      },
-                      builder: (context, state) {
-                        return (state is GetEcoDataLoading)
-                            ? SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: const CustomLoadingIndicator(),
-                              )
-                            : _buildDrawerItem(
-                                icon: Icons.eco_rounded,
-                                title: 'الأثر البيئي',
-                                isActive:
-                                    currentLocation ==
-                                    EndPoints.environmentalImpactView,
-                                onTap: () {
-                                  context.read<EcoCubit>().getTraderEcoInfo();
-                                },
-                              );
-                      },
-                    ),
-
-                  if (user == null)
-                    _buildDrawerItem(
-                      icon: Icons.eco_rounded,
-                      title: 'الأثر البيئي',
-                      isActive:
-                          currentLocation == EndPoints.environmentalDefaultView,
-                      onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).push(EndPoints.environmentalDefaultView);
-                      },
-                    ),
+                  _buildDrawerItem(
+                    icon: Icons.eco_rounded,
+                    title: 'الأثر البيئي',
+                    isActive: currentLocation == EndPoints.environmentalPreView,
+                    onTap: () {
+                      context.read<EcoCubit>().getTraderEcoInfo();
+                      GoRouter.of(context).push(EndPoints.environmentalPreView);
+                    },
+                  ),
 
                   if (user != null)
                     _buildDrawerItem(
@@ -213,9 +184,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         BlocProvider.of<GetNotificationsCubit>(
                           context,
                         ).getNotifications();
-                        context.push(EndPoints.notificationsView);
+                        GoRouter.of(context).push(EndPoints.notificationsView);
                       },
                     ),
+
+                  _buildDrawerItem(
+                    icon: Icons.support_agent_rounded,
+                    title: 'الدعم والمساعدة',
+                    isActive: currentLocation == EndPoints.contactUsView,
+                    onTap: () {
+                      Navigator.pop(context);
+                      GoRouter.of(context).push(EndPoints.contactUsView);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -304,11 +285,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     title,
                     style: isActive
                         ? AppStyles.styleBold16(
-                            context,
-                          ).copyWith(color: const Color(0xFF10B981))
+                      context,
+                    ).copyWith(color: const Color(0xFF10B981))
                         : AppStyles.styleMedium16(
-                            context,
-                          ).copyWith(color: Colors.grey[700]),
+                      context,
+                    ).copyWith(color: Colors.grey[700]),
                   ),
                 ),
                 if (isActive)

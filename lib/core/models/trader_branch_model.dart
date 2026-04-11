@@ -60,7 +60,7 @@ class TraderBranchModel {
     };
   }
 
-  // toMap method for storage (same as toJson for this model)
+  // toMap method for storage (same as toJson for this models)
   Map<String, dynamic> toMap() {
     return {
       'branchId': branchId,

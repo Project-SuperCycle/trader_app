@@ -29,4 +29,23 @@ abstract class ApiEndpoints {
   static const String getNotifications = '/notifications';
   static const String deleteNotification = '/notifications/{id}';
   static const String readNotification = '/notifications/{id}/seen';
+
+  // finances
+  static const String getFinancesMethods = '/trader/me/receiving-methods';
+
+  static const String getFinancesSummary = '/trader/me/finance/summary';
+
+  static const String getFinancesItems = '/trader/me/finance/items';
+
+  static const String getExternalFinanceDetails =
+      '/trader/me/finance/external/shipments/{shipmentId}';
+
+  static const String getMealFinanceDetails =
+      '/trader/me/finance/meal/payments/{paymentId}';
+
+  static const String getMonthlyFinanceDetails =
+      '/trader/me/finance/monthly/payments/{paymentId}';
+
+  static const String getFinancePaymentPdf =
+      '/trader/me/finance/payments/{paymentId}/invoice/download';
 }

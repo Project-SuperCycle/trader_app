@@ -4,6 +4,7 @@ import 'package:trader_app/core/helpers/app_transitions.dart';
 import 'package:trader_app/core/models/shipment/single_shipment_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/features/Financial_transactions/presentation/view/financial_transaction_view.dart';
 import 'package:trader_app/features/calculator/presentation/view/calculator_view.dart';
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
@@ -294,6 +295,20 @@ class AppRouter {
         pageBuilder: (context, state) =>
             AppTransitions.fadeForMain(state.pageKey, NotificationsView()),
       ),
+
+      // ============================================================
+      // Financial Transaction View - Main Style
+      // ============================================================
+
+      GoRoute(
+        path: EndPoints.FinancialTransactionView,
+        name: 'financialTransaction',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const FinancialTransactionView(),
+        ),
+      ),
+
     ],
 
     // Custom error page with smooth fade

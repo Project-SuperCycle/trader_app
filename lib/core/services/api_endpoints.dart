@@ -48,4 +48,17 @@ abstract class ApiEndpoints {
 
   static const String getFinancePaymentPdf =
       '/trader/me/finance/payments/{paymentId}/invoice/download';
+
+  // settings
+  static const String updateProfile = '/trader/settings/profile';
+  static const String updateFinanceMethods =
+      '/trader/settings/receiving-methods';
+  static const String updateNotificationsPermissions =
+      '/trader/settings/notifications';
+  static const String updatePassword = '/trader/settings/password';
+  static const String requestEmailChange =
+      '/trader/settings/email/request-change';
+  static const String confirmEmailChange =
+      '/trader/settings/email/confirm-change';
+  static const String updateLogo = '/trader/settings/logo';
 }

@@ -32,4 +32,9 @@ abstract class EndPoints {
 
   // Notifications
   static const String notificationsView = '/notificationsView';
+
+  // SETTINGS
+  static const String settingsView = '/settingsView';
+
+  static const String placeHolderView = '/placeHolderView';
 }

@@ -10,22 +10,20 @@ class ConfirmEmailChangeCubit extends Cubit<ConfirmEmailChangeState> {
   ConfirmEmailChangeCubit({required this.repo})
     : super(ConfirmEmailChangeInitial());
 
-  // Future<void> getExternalFinanceDetails({required String shipmentId}) async {
-  //   emit(GetExternalFinanceDetailsLoading());
-  //   try {
-  //     var result = await repo.getExternalFinanceDetails(shipmentId: shipmentId);
-  //     result.fold(
-  //           (failure) {
-  //         emit(
-  //           GetExternalFinanceDetailsFailure(errMessage: failure.errMessage),
-  //         );
-  //       },
-  //           (data) {
-  //         emit(GetExternalFinanceDetailsSuccess(finance: data));
-  //       },
-  //     );
-  //   } catch (error) {
-  //     emit(GetExternalFinanceDetailsFailure(errMessage: error.toString()));
-  //   }
-  // }
+  Future<void> confirmEmailChange({required String otp}) async {
+    emit(ConfirmEmailChangeLoading());
+    try {
+      var result = await repo.confirmEmailChange(otp: otp);
+      result.fold(
+        (failure) {
+          emit(ConfirmEmailChangeFailure(errMessage: failure.errMessage));
+        },
+        (data) {
+          emit(ConfirmEmailChangeSuccess(message: data));
+        },
+      );
+    } catch (error) {
+      emit(ConfirmEmailChangeFailure(errMessage: error.toString()));
+    }
+  }
 }

@@ -19,6 +19,8 @@ import 'package:trader_app/features/onboarding/presentation/views/fourth_onboard
 import 'package:trader_app/features/onboarding/presentation/views/second_onboarding_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/third_onboarding_view.dart';
 import 'package:trader_app/features/sales_process/presentation/views/sales_process_view.dart';
+import 'package:trader_app/features/settings/presentation/views/settings_view.dart';
+import 'package:trader_app/features/settings/presentation/widgets/settings_screen/placeholder_screen.dart';
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/sign_in/presentation/views/sign_in_view.dart';
@@ -293,6 +295,28 @@ class AppRouter {
         name: 'Notifications View',
         pageBuilder: (context, state) =>
             AppTransitions.fadeForMain(state.pageKey, NotificationsView()),
+      ),
+
+      // ============================================================
+      // Settings View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.settingsView,
+        name: 'Settings View',
+        pageBuilder: (context, state) =>
+            AppTransitions.fadeForMain(state.pageKey, SettingsView()),
+      ),
+
+      // ============================================================
+      // PlaceHolder View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.placeHolderView,
+        name: 'PlaceHolder View',
+        pageBuilder: (context, state) => AppTransitions.smoothFade(
+          state.pageKey,
+          PlaceholderScreen(title: state.extra as String),
+        ),
       ),
     ],
 

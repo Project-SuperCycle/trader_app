@@ -7,8 +7,6 @@ class MealShipmentSegmentModel {
   final num actualWeightKg;
   final DateTime weighedAt;
 
-  // NOTE: no items list in meal segments unlike monthly segments
-
   MealShipmentSegmentModel({
     required this.segmentId,
     required this.destinationType,

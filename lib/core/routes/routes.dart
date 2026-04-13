@@ -4,11 +4,14 @@ import 'package:trader_app/core/helpers/app_transitions.dart';
 import 'package:trader_app/core/models/shipment/single_shipment_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/features/Contracted_Fiance/presentation/view/contracted_fiance_details_view.dart';
+import 'package:trader_app/features/Financial_transactions/presentation/view/financial_transaction_view.dart';
 import 'package:trader_app/features/calculator/presentation/view/calculator_view.dart';
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
 import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
+import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
@@ -39,7 +42,7 @@ import 'package:trader_app/features/trader_main_profile/presentation/view/trader
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/trader_profile_loading_indicator.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/widgets/loading/shipment_details_loading_indicator.dart';
-
+import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: EndPoints.splashView,
@@ -305,98 +308,44 @@ class AppRouter {
       ),
 
       // ============================================================
-      // Settings View - Main Style
+      // Financial Transaction View - Main Style
       // ============================================================
-      GoRoute(
-        path: EndPoints.settingsView,
-        name: 'Settings View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, SettingsView()),
-      ),
 
-      // ============================================================
-      // Update Profile View - Main Style
-      // ============================================================
       GoRoute(
-        path: EndPoints.updateProfileView,
-        name: 'Update Profile  View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, UpdateProfileView()),
-      ),
-
-      // ============================================================
-      // Update Logo View - Main Style
-      // ============================================================
-      GoRoute(
-        path: EndPoints.updateLogoView,
-        name: 'Update Logo  View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, UpdateLogoView()),
-      ),
-
-      // ============================================================
-      // Update Password View - Main Style
-      // ============================================================
-      GoRoute(
-        path: EndPoints.updatePasswordView,
-        name: 'Update Password  View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, UpdatePasswordView()),
-      ),
-
-      // ============================================================
-      // Update Notifications View - Main Style
-      // ============================================================
-      GoRoute(
-        path: EndPoints.updateNotificationsView,
-        name: 'Update Notifications  View',
-        pageBuilder: (context, state) => AppTransitions.fadeForMain(
+        path: EndPoints.FinancialTransactionView,
+        name: 'financialTransaction',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          UpdateNotificationsView(),
+          const FinancialTransactionView(),
         ),
       ),
 
       // ============================================================
-      // Update Finances View - Main Style
+      // Financial Transaction Dateils View - Main Style
       // ============================================================
-      GoRoute(
-        path: EndPoints.updateFinancesView,
-        name: 'Update Finances View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, UpdateFinancesView()),
-      ),
 
-      // ============================================================
-      // Request Change Email View - Main Style
-      // ============================================================
       GoRoute(
-        path: EndPoints.requestEmailChangeView,
-        name: 'Request Change Email View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, RequestEmailChangeView()),
-      ),
-
-      // ============================================================
-      // Confirm Change Email View - Main Style
-      // ============================================================
-      GoRoute(
-        path: EndPoints.confirmEmailChangeView,
-        name: 'Confirm Change Email View',
-        pageBuilder: (context, state) =>
-            AppTransitions.fadeForMain(state.pageKey, ConfirmEmailChangeView()),
-      ),
-
-      // ============================================================
-      // PlaceHolder View - Main Style
-      // ============================================================
-      GoRoute(
-        path: EndPoints.placeHolderView,
-        name: 'PlaceHolder View',
-        pageBuilder: (context, state) => AppTransitions.smoothFade(
+        path: EndPoints.FinancialTransactiondetailsView,
+        name: 'financialTransactionْDetails',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          PlaceholderScreen(title: state.extra as String),
+          const FinancialTransactionDetailsView(),
         ),
       ),
+
+      // ============================================================
+      // Contracted Fiance Dateils View - Main Style
+      // ============================================================
+
+      GoRoute(
+        path: EndPoints.ContractedFianceDetailsView,
+        name: 'ContractedFianceDetails',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const ContractedFianceDetailsView(),
+        ),
+      ),
+
     ],
 
     // Custom error page with smooth fade

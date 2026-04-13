@@ -37,11 +37,9 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     super.initState();
     _currentIndex = _getIndexFromCurrentRoute();
     _loadUserData();
-    // الاستماع لتغييرات حالة المصادقة
     _authManager.authStateChangeNotifier.addListener(_onAuthStateChanged);
   }
 
-  /// الحصول على الـ index من الـ route الحالي
   int _getIndexFromCurrentRoute() {
     final currentRoute = _getCurrentRoute();
 
@@ -56,15 +54,16 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
       return 3;
     } else if (currentRoute.contains(EndPoints.contactUsView)) {
       return 4;
+    } else if (currentRoute.contains(EndPoints.FinancialTransactionView)) {
+      return 5;
     }
 
-    return widget.currentIndex; // default fallback
+    return widget.currentIndex;
   }
 
   @override
   void didUpdateWidget(CustomCurvedNavigationBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // تحديث الـ index بناءً على الـ route الحالي
     final newIndex = _getIndexFromCurrentRoute();
     if (_currentIndex != newIndex) {
       setState(() {
@@ -76,7 +75,6 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // تحديث الـ index كل ما الـ route يتغير
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         final newIndex = _getIndexFromCurrentRoute();
@@ -95,14 +93,10 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     super.dispose();
   }
 
-  /// يتم استدعاؤها عند تغيير حالة المصادقة
   void _onAuthStateChanged() {
-    if (mounted) {
-      _loadUserData();
-    }
+    if (mounted) _loadUserData();
   }
 
-  /// تحميل بيانات المستخدم
   Future<void> _loadUserData() async {
     LoginedUserModel? user = await StorageServices.getUserData();
     if (mounted) {
@@ -112,7 +106,6 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     }
   }
 
-  /// الحصول على الـ route الحالي
   String _getCurrentRoute() {
     try {
       final router = GoRouter.of(context);
@@ -124,7 +117,6 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     }
   }
 
-  /// تحديد الـ route المطلوب بناءً على الـ index
   String? _getTargetRoute(int index) {
     switch (index) {
       case 0:
@@ -141,37 +133,32 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             : EndPoints.signInView;
       case 4:
         return EndPoints.contactUsView;
+      case 5:
+        return isUserLoggedIn
+            ? EndPoints.FinancialTransactionView
+            : EndPoints.signInView;
       default:
         return null;
     }
   }
 
-  /// معالجة النقر على الـ navigation item
   void _handleTap(int index) {
-    // تحديث الـ index الحالي
     setState(() {
       _currentIndex = index;
     });
 
-    // استدعاء callback إذا كان موجود
     if (widget.onTap != null) {
       widget.onTap!(index);
     }
 
-    // التحقق من الـ route الحالي
     final currentRoute = _getCurrentRoute();
     final targetRoute = _getTargetRoute(index);
 
-    // لو على نفس الصفحة، لا تعمل navigation
-    if (targetRoute != null && currentRoute == targetRoute) {
-      return;
-    }
+    if (targetRoute != null && currentRoute == targetRoute) return;
 
-    // التنقل للصفحة المطلوبة
     _navigateToScreen(index);
   }
 
-  /// التنقل للصفحة المحددة
   void _navigateToScreen(int index) {
     if (!mounted) return;
 
@@ -180,12 +167,9 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     try {
       switch (index) {
         case 0:
-          // حاسبة الشحنات - متاحة للجميع
           router.push(EndPoints.calculatorView);
           break;
-
         case 1:
-          // عملية البيع - تتطلب تسجيل دخول
           if (isUserLoggedIn) {
             router.push(EndPoints.salesProcessView);
           } else {
@@ -193,14 +177,10 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             router.push(EndPoints.signInView);
           }
           break;
-
         case 2:
-          // الصفحة الرئيسية - متاحة للجميع
           router.pushReplacement(EndPoints.homeView);
           break;
-
         case 3:
-          // جدول الشحنات - يتطلب تسجيل دخول
           if (isUserLoggedIn) {
             router.push(EndPoints.shipmentsCalendarView);
           } else {
@@ -208,10 +188,16 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             router.push(EndPoints.signInView);
           }
           break;
-
         case 4:
-          // اتصل بنا - متاح للجميع
           router.push(EndPoints.contactUsView);
+          break;
+        case 5:
+          if (isUserLoggedIn) {
+            router.push(EndPoints.FinancialTransactionView);
+          } else {
+            _showLoginRequired('الماليات');
+            router.push(EndPoints.signInView);
+          }
           break;
       }
     } catch (e) {
@@ -224,7 +210,6 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     }
   }
 
-  /// عرض رسالة تطلب تسجيل الدخول
   void _showLoginRequired(String featureName) {
     if (!mounted) return;
     CustomSnackBar.showWarning(
@@ -233,9 +218,15 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
     );
   }
 
+  // ✅ لون الأيقونة — أخضر لو active، رمادي لو لا
+  Color _iconColor(int itemIndex) {
+    return _currentIndex == itemIndex
+        ? AppColors.primaryColor
+        : Colors.grey;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // تحديث الـ index كل ما الـ widget يعمل rebuild
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         final newIndex = _getIndexFromCurrentRoute();
@@ -256,58 +247,84 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
       animationDuration: const Duration(milliseconds: 300),
       animationCurve: Curves.easeInOut,
       items: <Widget>[
-        _buildNavigationItem(
-          asset: AppAssets.calculatorIcon,
-          isSvg: true,
-          label: 'حاسبة',
+        // 0 - حاسبة
+        Tooltip(
+          message: 'حاسبة',
+          child: SvgPicture.asset(
+            AppAssets.calculatorIcon,
+            height: 24,
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              _iconColor(0),
+              BlendMode.srcIn,
+            ),
+          ),
         ),
-        _buildNavigationItem(
-          asset: AppAssets.boxIcon,
-          isSvg: true,
-          height: 30,
-          label: 'عملية بيع',
+
+        // 1 - عملية بيع
+        Tooltip(
+          message: 'عملية بيع',
+          child: SvgPicture.asset(
+            AppAssets.boxIcon,
+            height: 30,
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              _iconColor(1),
+              BlendMode.srcIn,
+            ),
+          ),
         ),
-        _buildNavigationItem(
-          asset: AppAssets.homeIcon,
-          isSvg: false,
-          height: 30,
-          label: 'الرئيسية',
+
+        // 2 - الرئيسية (ثابت في النص دايمًا)
+        Tooltip(
+          message: 'الرئيسية',
+          child: Image.asset(
+            AppAssets.homeIcon,
+            height: 30,
+            fit: BoxFit.cover,
+            color: _iconColor(2),
+          ),
         ),
-        _buildNavigationItem(
-          asset: AppAssets.calendarIcon,
-          isSvg: true,
-          label: 'الجدول',
+
+        // 3 - الجدول
+        Tooltip(
+          message: 'الجدول',
+          child: SvgPicture.asset(
+            AppAssets.calendarIcon,
+            height: 24,
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              _iconColor(3),
+              BlendMode.srcIn,
+            ),
+          ),
         ),
-        _buildNavigationItem(
-          asset: AppAssets.chatIcon,
-          isSvg: true,
-          label: 'اتصل بنا',
+
+        // 4 - اتصل بنا
+        Tooltip(
+          message: 'اتصل بنا',
+          child: SvgPicture.asset(
+            AppAssets.chatIcon,
+            height: 24,
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              _iconColor(4),
+              BlendMode.srcIn,
+            ),
+          ),
+        ),
+
+        // 5 - الماليات
+        Tooltip(
+          message: 'الماليات',
+          child: Icon(
+            Icons.account_balance_wallet_outlined,
+            size: 24,
+            color: _iconColor(5),
+          ),
         ),
       ],
       onTap: _handleTap,
     );
-  }
-
-  /// بناء عنصر الـ navigation
-  Widget _buildNavigationItem({
-    required String asset,
-    required bool isSvg,
-    required String label,
-    double? height,
-  }) {
-    Widget iconWidget;
-
-    if (isSvg) {
-      iconWidget = SvgPicture.asset(
-        asset,
-        fit: BoxFit.cover,
-        height: height ?? 24,
-      );
-    } else {
-      iconWidget = Image.asset(asset, height: height ?? 24, fit: BoxFit.cover);
-    }
-
-    // إضافة Tooltip للـ accessibility
-    return Tooltip(message: label, child: iconWidget);
   }
 }

@@ -31,6 +31,8 @@ abstract class EndPoints {
   static const String calculatorView = '/calculatorView';
 
   static const String FinancialTransactionView = '/FinancialTransactionView';
+  static const String FinancialTransactiondetailsView = '/FinancialTransactionDetailsView';
+
 
   // Notifications
   static const String notificationsView = '/notificationsView';

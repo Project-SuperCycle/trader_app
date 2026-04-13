@@ -10,6 +10,7 @@ import 'package:trader_app/features/contact_us/presentation/view/contact_us_view
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
 import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
+import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
@@ -31,7 +32,7 @@ import 'package:trader_app/features/trader_main_profile/presentation/view/trader
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/trader_profile_loading_indicator.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/widgets/loading/shipment_details_loading_indicator.dart';
-
+import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: EndPoints.splashView,
@@ -308,6 +309,20 @@ class AppRouter {
           const FinancialTransactionView(),
         ),
       ),
+
+      // ============================================================
+      // Financial Transaction Dateils View - Main Style
+      // ============================================================
+
+      GoRoute(
+        path: EndPoints.FinancialTransactiondetailsView,
+        name: 'financialTransactionْDetails',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const FinancialTransactionDetailsView(),
+        ),
+      ),
+
 
     ],
 

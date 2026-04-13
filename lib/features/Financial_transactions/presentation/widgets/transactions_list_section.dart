@@ -34,6 +34,7 @@ final List<TransactionModel> dummyTransactions = [
   ),
 ];
 
+
 // ======== Transactions List Section ========
 class TransactionsListSection extends StatelessWidget {
   const TransactionsListSection({super.key});

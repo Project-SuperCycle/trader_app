@@ -4,6 +4,7 @@ import 'package:trader_app/core/helpers/app_transitions.dart';
 import 'package:trader_app/core/models/shipment/single_shipment_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/features/Contracted_Fiance/presentation/view/contracted_fiance_details_view.dart';
 import 'package:trader_app/features/Financial_transactions/presentation/view/financial_transaction_view.dart';
 import 'package:trader_app/features/calculator/presentation/view/calculator_view.dart';
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
@@ -323,6 +324,18 @@ class AppRouter {
         ),
       ),
 
+      // ============================================================
+      // Contracted Fiance Dateils View - Main Style
+      // ============================================================
+
+      GoRoute(
+        path: EndPoints.ContractedFianceDetailsView,
+        name: 'ContractedFianceDetails',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const ContractedFianceDetailsView(),
+        ),
+      ),
 
     ],
 

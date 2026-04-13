@@ -10,7 +10,7 @@ class SettingsTabs extends StatelessWidget {
     SettingItem(
       title: 'تغيير البيانات',
       icon: Icons.person_outline_rounded,
-      route: EndPoints.placeHolderView,
+      route: EndPoints.updateProfileView,
     ),
     SettingItem(
       title: 'تغيير الصورة',

@@ -20,6 +20,7 @@ import 'package:trader_app/features/onboarding/presentation/views/second_onboard
 import 'package:trader_app/features/onboarding/presentation/views/third_onboarding_view.dart';
 import 'package:trader_app/features/sales_process/presentation/views/sales_process_view.dart';
 import 'package:trader_app/features/settings/presentation/views/settings_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_profile_view.dart';
 import 'package:trader_app/features/settings/presentation/widgets/settings_screen/placeholder_screen.dart';
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
@@ -305,6 +306,16 @@ class AppRouter {
         name: 'Settings View',
         pageBuilder: (context, state) =>
             AppTransitions.fadeForMain(state.pageKey, SettingsView()),
+      ),
+
+      // ============================================================
+      // Update Profile View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateProfileView,
+        name: 'Update Profile  View',
+        pageBuilder: (context, state) =>
+            AppTransitions.fadeForMain(state.pageKey, UpdateProfileView()),
       ),
 
       // ============================================================

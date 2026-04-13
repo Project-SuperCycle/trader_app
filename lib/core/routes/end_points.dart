@@ -36,5 +36,6 @@ abstract class EndPoints {
   // SETTINGS
   static const String settingsView = '/settingsView';
 
+  static const String updateProfileView = '/updateProfileView';
   static const String placeHolderView = '/placeHolderView';
 }

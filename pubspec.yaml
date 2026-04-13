@@ -91,6 +91,17 @@ flutter:
         - asset: assets/fonts/Cairo/Cairo-Bold.ttf
           weight: 700
 
+    - family: Beiruti
+      fonts:
+        - asset: assets/fonts/Beiruti/Beiruti-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Beiruti/Beiruti-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Beiruti/Beiruti-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Beiruti/Beiruti-Bold.ttf
+          weight: 700
+
 flutter_intl:
   enabled: true
 

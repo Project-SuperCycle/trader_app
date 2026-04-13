@@ -22,6 +22,15 @@ import 'package:trader_app/features/onboarding/presentation/views/fourth_onboard
 import 'package:trader_app/features/onboarding/presentation/views/second_onboarding_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/third_onboarding_view.dart';
 import 'package:trader_app/features/sales_process/presentation/views/sales_process_view.dart';
+import 'package:trader_app/features/settings/presentation/views/confirm_email_change_view.dart';
+import 'package:trader_app/features/settings/presentation/views/request_email_change_view.dart';
+import 'package:trader_app/features/settings/presentation/views/settings_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_finances_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_logo_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_notifications_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_password_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_profile_view.dart';
+import 'package:trader_app/features/settings/presentation/widgets/settings_screen/placeholder_screen.dart';
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/sign_in/presentation/views/sign_in_view.dart';

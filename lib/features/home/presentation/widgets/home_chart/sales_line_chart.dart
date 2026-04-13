@@ -14,7 +14,7 @@ import 'package:trader_app/features/home/presentation/widgets/home_chart/loading
 import 'package:trader_app/features/home/presentation/widgets/home_chart/loading/line_chart_loading_indicator.dart';
 import 'package:trader_app/generated/l10n.dart';
 
-// Data model for chart (wrapper around TypeHistoryModel)
+// Data models for chart (wrapper around TypeHistoryModel)
 class ChartPriceData {
   final String month;
   final double price;

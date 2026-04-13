@@ -21,7 +21,6 @@ class _UserProfileWelcomeCardState extends State<UserProfileWelcomeCard> {
   String userName = '';
   String userRole = '';
   LoginedUserModel? user;
-  bool _isNavigating = false;
   final AuthManager _authManager = AuthManager();
 
   @override

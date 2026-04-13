@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
@@ -116,7 +117,12 @@ class _UpdatePasswordSectionState extends State<UpdatePasswordSection> {
             const SizedBox(height: 16),
 
             // Title
-            Text('تأمين حسابك', style: AppStyles.styleSemiBold24(context)),
+            Text(
+              'تأمين حسابك',
+              style: AppStyles.styleBold24(
+                context,
+              ).copyWith(color: AppColors.primaryColor),
+            ),
             const SizedBox(height: 8),
 
             // Subtitle

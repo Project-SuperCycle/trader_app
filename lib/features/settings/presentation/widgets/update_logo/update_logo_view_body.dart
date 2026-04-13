@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_assets.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_logo/change_image_widget.dart';
@@ -42,7 +43,7 @@ class UpdateLogoViewBody extends StatelessWidget {
                         'تغيير صورة البروفايل',
                         style: AppStyles.styleBold20(
                           context,
-                        ).copyWith(color: Color(0xFF1C1C1C)),
+                        ).copyWith(color: AppColors.primaryColor),
                       ),
                       const SizedBox(height: 24),
 

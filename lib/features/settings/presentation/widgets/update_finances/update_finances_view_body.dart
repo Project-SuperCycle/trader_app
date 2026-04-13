@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
 import 'package:trader_app/features/settings/data/classes/finances_methods_data.dart';
@@ -42,7 +43,7 @@ class UpdateFinancesViewBody extends StatelessWidget {
                         'تغيير طرق التحصيل',
                         style: AppStyles.styleBold20(
                           context,
-                        ).copyWith(color: Color(0xFF1C1C1C)),
+                        ).copyWith(color: AppColors.primaryColor),
                       ),
                       const SizedBox(height: 24),
 

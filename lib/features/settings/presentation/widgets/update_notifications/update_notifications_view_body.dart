@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
+import 'package:trader_app/features/settings/data/classes/notification_channel_data.dart';
+import 'package:trader_app/features/settings/data/classes/notifications_settings_data.dart';
+import 'package:trader_app/features/settings/presentation/widgets/update_notifications/update_notifications_permissions.dart';
 
 class UpdateNotificationsViewBody extends StatelessWidget {
   const UpdateNotificationsViewBody({super.key});
@@ -40,9 +44,28 @@ class UpdateNotificationsViewBody extends StatelessWidget {
                         'تعديل صلاحيات الإشعارات',
                         style: AppStyles.styleBold20(
                           context,
-                        ).copyWith(color: Color(0xFF1C1C1C)),
+                        ).copyWith(color: AppColors.primaryColor),
                       ),
                       const SizedBox(height: 24),
+                      UpdateNotificationsPermissions(
+                        initialData: NotificationsSettingsData(
+                          shipments: NotificationChannelData(
+                            inApp: true,
+                            local: true,
+                            email: false,
+                          ),
+                          finances: NotificationChannelData(
+                            inApp: true,
+                            local: true,
+                            email: false,
+                          ),
+                          system: NotificationChannelData(
+                            inApp: true,
+                            local: false,
+                            email: false,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

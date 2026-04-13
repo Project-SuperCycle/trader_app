@@ -33,7 +33,7 @@ class UpdatePasswordViewBody extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(32),
-                  child: Column(children: [UpdatePasswordSection()]),
+                  child: UpdatePasswordSection(),
                 ),
               ),
             ),

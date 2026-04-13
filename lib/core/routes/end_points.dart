@@ -32,4 +32,23 @@ abstract class EndPoints {
 
   // Notifications
   static const String notificationsView = '/notificationsView';
+
+  // SETTINGS
+  static const String settingsView = '/settingsView';
+
+  static const String updateProfileView = '/updateProfileView';
+
+  static const String updateLogoView = '/updateLogoView';
+
+  static const String updatePasswordView = '/updatePasswordView';
+
+  static const String updateFinancesView = '/updateFinancesView';
+
+  static const String updateNotificationsView = '/updateNotificationsView';
+
+  static const String requestEmailChangeView = '/requestEmailChangeView';
+
+  static const String confirmEmailChangeView = '/confirmEmailChangeView';
+
+  static const String placeHolderView = '/placeHolderView';
 }

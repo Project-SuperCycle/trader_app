@@ -13,6 +13,7 @@ import 'package:trader_app/generated/l10n.dart';
 
 class TypeCardItem extends StatefulWidget {
   final DoshTypeModel typeModel;
+
   const TypeCardItem({super.key, required this.typeModel});
 
   @override
@@ -146,12 +147,15 @@ class _TypeCardItemState extends State<TypeCardItem> {
                       // ----- Title -----
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          typeModel.name,
-                          textDirection: TextDirection.rtl,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppStyles.styleBold18(context).copyWith(),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            typeModel.name,
+                            textDirection: TextDirection.rtl,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppStyles.styleBold18(context).copyWith(),
+                          ),
                         ),
                       ),
                       // ----- Price Container -----

@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
     this.textColor,
     required this.onPress,
     this.enabled = true,
+    this.borderRadius = 50,
     required this.title,
   });
 
@@ -17,17 +18,19 @@ class CustomButton extends StatelessWidget {
   final bool enabled;
   final String title;
 
+  final double borderRadius;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: enabled ? kGradientButton : null,
         color: enabled ? null : Colors.grey[300],
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: enabled
             ? [
                 BoxShadow(
-                  color: Colors.grey.withAlpha(150),
+                  color: Colors.grey.withValues(alpha: 0.2),
                   spreadRadius: 2,
                   blurRadius: 4,
                   offset: const Offset(0, 2),
@@ -42,7 +45,7 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          elevation: enabled ? 4 : 0,
+          elevation: enabled ? 2 : 0,
           backgroundColor: Colors.transparent,
           disabledBackgroundColor: Colors.transparent,
         ),

@@ -1,6 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
 class CustomDropdown extends StatefulWidget {
@@ -19,7 +18,7 @@ class CustomDropdown extends StatefulWidget {
     required this.options,
     required this.onChanged,
     this.initialValue,
-    this.hintText = 'Select Item',
+    this.hintText = 'اختر',
     this.width,
     this.maxHeight = 200,
     this.padding,
@@ -97,7 +96,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
         iconStyleData: IconStyleData(
           icon: Icon(Icons.keyboard_arrow_down_rounded),
           iconSize: 25,
-          iconEnabledColor: AppColors.primaryColor.withAlpha(150),
+          iconEnabledColor: Colors.grey.withValues(alpha: 0.75),
           iconDisabledColor: Colors.grey,
         ),
         dropdownStyleData: DropdownStyleData(
@@ -130,14 +129,14 @@ class _CustomDropdownState extends State<CustomDropdown> {
                   padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
                   child: TextFormField(
                     controller: _searchController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                         vertical: 8,
                       ),
                       hintText: 'Search...',
-                      hintStyle: TextStyle(fontSize: 12),
+                      hintStyle: AppStyles.styleRegular12(context),
                     ),
                   ),
                 ),

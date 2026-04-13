@@ -3,8 +3,8 @@ import 'package:logger/logger.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/core/widgets/custom_button.dart';
-import 'package:trader_app/features/settings/presentation/widgets/update_profile/cancel_button.dart';
+import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
+import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 
 class UpdateProfileInfo extends StatefulWidget {
   const UpdateProfileInfo({super.key});
@@ -198,11 +198,7 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
               const SizedBox(height: 32),
 
               // ── Save Button ───────────────────────────────────────
-              CustomButton(
-                onPress: _submit,
-                title: 'حفظ التغييرات',
-                borderRadius: 12,
-              ),
+              SaveButton(onSave: _submit),
 
               const SizedBox(height: 12),
 

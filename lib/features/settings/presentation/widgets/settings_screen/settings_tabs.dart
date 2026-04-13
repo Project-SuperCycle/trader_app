@@ -15,27 +15,27 @@ class SettingsTabs extends StatelessWidget {
     SettingItem(
       title: 'تغيير الصورة',
       icon: Icons.image_outlined,
-      route: EndPoints.placeHolderView,
+      route: EndPoints.updateLogoView,
     ),
     SettingItem(
       title: 'تغيير كلمة المرور',
       icon: Icons.lock_outline_rounded,
-      route: EndPoints.placeHolderView,
+      route: EndPoints.updatePasswordView,
     ),
     SettingItem(
       title: 'تغيير البريد الإلكتروني',
       icon: Icons.mail_outline_rounded,
-      route: EndPoints.placeHolderView,
+      route: EndPoints.requestEmailChangeView,
     ),
     SettingItem(
       title: 'صلاحيات الإشعارات',
       icon: Icons.notifications_none_rounded,
-      route: EndPoints.placeHolderView,
+      route: EndPoints.updateNotificationsView,
     ),
     SettingItem(
       title: 'تغيير طرق التحصيل',
       icon: Icons.camera_outlined,
-      route: EndPoints.placeHolderView,
+      route: EndPoints.updateFinancesView,
     ),
   ];
 

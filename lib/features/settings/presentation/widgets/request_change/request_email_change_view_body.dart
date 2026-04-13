@@ -3,7 +3,7 @@ import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
-import 'package:trader_app/features/settings/presentation/widgets/request_change/request_email_change.dart';
+import 'package:trader_app/features/settings/presentation/widgets/request_change/request_email_change_widget.dart';
 
 class RequestEmailChangeViewBody extends StatelessWidget {
   const RequestEmailChangeViewBody({super.key});

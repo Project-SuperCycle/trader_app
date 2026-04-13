@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
@@ -32,6 +33,7 @@ class _RequestEmailChangeWidgetState extends State<RequestEmailChangeWidget> {
   }
 
   Future<void> _submit() async {
+    GoRouter.of(context).push(EndPoints.confirmEmailChangeView);
     if (!(_formKey.currentState?.validate() ?? false)) return;
     // setState(() => _isLoading = true);
     // // Simulate async call
@@ -116,7 +118,7 @@ class _RequestEmailChangeWidgetState extends State<RequestEmailChangeWidget> {
           const SizedBox(height: 24),
 
           // ── Save Button ──
-          SaveButton(onSave: _submit),
+          SaveButton(onSave: _submit, title: "تأكيد"),
 
           const SizedBox(height: 10),
 

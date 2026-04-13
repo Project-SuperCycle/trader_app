@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
-import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
+import 'package:trader_app/features/settings/presentation/widgets/confirm_change/confirm_email_change_widget.dart';
 
 class ConfirmEmailChangeViewBody extends StatelessWidget {
   const ConfirmEmailChangeViewBody({super.key});
@@ -33,18 +33,7 @@ class ConfirmEmailChangeViewBody extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(32),
-                  child: Column(
-                    children: [
-                      // ── Title ──
-                      Text(
-                        'إدخال رمز التحقق',
-                        style: AppStyles.styleBold20(
-                          context,
-                        ).copyWith(color: Color(0xFF1C1C1C)),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
+                  child: ConfirmEmailChangeWidget(),
                 ),
               ),
             ),

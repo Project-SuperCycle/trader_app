@@ -22,6 +22,7 @@ import 'package:trader_app/features/sales_process/presentation/views/sales_proce
 import 'package:trader_app/features/settings/presentation/views/confirm_email_change_view.dart';
 import 'package:trader_app/features/settings/presentation/views/request_email_change_view.dart';
 import 'package:trader_app/features/settings/presentation/views/settings_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_finances_view.dart';
 import 'package:trader_app/features/settings/presentation/views/update_logo_view.dart';
 import 'package:trader_app/features/settings/presentation/views/update_notifications_view.dart';
 import 'package:trader_app/features/settings/presentation/views/update_password_view.dart';
@@ -353,6 +354,16 @@ class AppRouter {
           state.pageKey,
           UpdateNotificationsView(),
         ),
+      ),
+
+      // ============================================================
+      // Update Finances View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateFinancesView,
+        name: 'Update Finances View',
+        pageBuilder: (context, state) =>
+            AppTransitions.fadeForMain(state.pageKey, UpdateFinancesView()),
       ),
 
       // ============================================================

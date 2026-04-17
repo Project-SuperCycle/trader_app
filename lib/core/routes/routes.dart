@@ -9,7 +9,6 @@ import 'package:trader_app/features/contact_us/presentation/view/contact_us_view
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
 import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
-import 'package:trader_app/features/finances/presentation/views/finance_external_details_view.dart';
 import 'package:trader_app/features/finances/presentation/views/finance_internal_details_view.dart';
 import 'package:trader_app/features/finances/presentation/views/finances_history_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
@@ -303,7 +302,7 @@ class AppRouter {
       // ============================================================
       GoRoute(
         path: EndPoints.financialTransactionsView,
-        name: 'financialTransaction',
+        name: 'Financial Transaction',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
           const FinancesHistoryView(),
@@ -311,23 +310,23 @@ class AppRouter {
       ),
 
       // ============================================================
-      // Financial Transaction Dateils View - Main Style
+      // Financial External Details View - Main Style
       // ============================================================
-      GoRoute(
-        path: EndPoints.financialTransactionDetailsView,
-        name: 'financialTransactionْDetails',
-        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
-          state.pageKey,
-          const FinanceExternalDetailsView(),
-        ),
-      ),
+      // GoRoute(
+      //   path: EndPoints.financialExternalDetailsView,
+      //   name: 'Financial External Details',
+      //   pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+      //     state.pageKey,
+      //     const FinanceExternalDetailsView(),
+      //   ),
+      // ),
 
       // ============================================================
-      // Contracted Fiance Dateils View - Main Style
+      // Financial Internal Details View - Main Style
       // ============================================================
       GoRoute(
-        path: EndPoints.contractedFianceDetailsView,
-        name: 'ContractedFianceDetails',
+        path: EndPoints.financialInternalDetailsView,
+        name: 'Financial Internal Details',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
           const FinanceInternalDetailsView(),

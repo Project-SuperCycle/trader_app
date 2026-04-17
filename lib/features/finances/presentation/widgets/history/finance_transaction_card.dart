@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
 import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
 
 class FinanceTransactionCard extends StatelessWidget {
   const FinanceTransactionCard({super.key, required this.transaction});
 
   final FinanceTransactionModel transaction;
+
+  void _onDetailsTap(BuildContext context) {
+    String type = transaction.settlementType;
+    String status = transaction.paymentStatus;
+    if (status == "pending") return;
+    if (type == 'external') {
+    } else if (type == 'monthly') {
+      BlocProvider.of<GetInternalFinanceDetailsCubit>(
+        context,
+      ).getMonthlyFinanceDetails(paymentId: transaction.paymentId!);
+      GoRouter.of(context).push(EndPoints.financialInternalDetailsView);
+    } else {
+      BlocProvider.of<GetInternalFinanceDetailsCubit>(
+        context,
+      ).getMonthlyFinanceDetails(paymentId: transaction.paymentId!);
+      GoRouter.of(context).push(EndPoints.financialInternalDetailsView);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +37,7 @@ class FinanceTransactionCard extends StatelessWidget {
         : false;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () => _onDetailsTap(context),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

@@ -1,12 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/functions/get_formaated_date.dart';
+import 'package:trader_app/core/functions/show_full_screen_image.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
+import 'package:trader_app/features/finances/data/models/internal/single_finance_internal_model.dart';
 
 class FinancialCollectionCard extends StatelessWidget {
   const FinancialCollectionCard({super.key, required this.transaction});
 
-  final TransactionModel transaction;
+  final SingleFinanceInternalModel transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class FinancialCollectionCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          'رقم المرجع: #${transaction.id}',
+                          'رقم المرجع: ${transaction.referenceNumber}',
                           textDirection: TextDirection.rtl,
                           style: AppStyles.styleSemiBold12(
                             context,
@@ -153,7 +156,9 @@ class FinancialCollectionCard extends StatelessWidget {
                                 const SizedBox(width: 4),
 
                                 Text(
-                                  transaction.date.split('•').first.trim(),
+                                  getFormattedDateLabel(
+                                    transaction.periodFrom!,
+                                  ),
                                   textDirection: TextDirection.rtl,
                                   style: AppStyles.styleBold14(context),
                                 ),
@@ -183,7 +188,7 @@ class FinancialCollectionCard extends StatelessWidget {
                                 const SizedBox(width: 4),
 
                                 Text(
-                                  transaction.date.split('•').first.trim(),
+                                  getFormattedDateLabel(transaction.periodTo!),
                                   textDirection: TextDirection.rtl,
                                   style: AppStyles.styleBold14(context),
                                 ),
@@ -258,7 +263,7 @@ class FinancialCollectionCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  transaction.paymentMethod,
+                                  getPaymentType(transaction.paymentMethod),
                                   textDirection: TextDirection.rtl,
                                   style: AppStyles.styleBold14(
                                     context,
@@ -286,70 +291,28 @@ class FinancialCollectionCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      // Image 1
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          color: Colors.grey.shade100,
-                          child: Icon(
-                            Icons.image_outlined,
-                            color: Colors.grey.shade300,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(width: 10),
-
-                      // Image 2
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          color: Colors.grey.shade100,
-                          child: Icon(
-                            Icons.image_outlined,
-                            color: Colors.grey.shade300,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(width: 10),
-
-                      // Add Image Button
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: const Color(
-                              0xFF3BC577,
-                            ).withValues(alpha: 0.07),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: const Color(
-                                0xFF3BC577,
-                              ).withValues(alpha: 0.2),
-                              width: 1,
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: transaction.paymentProof!.map((imageUrl) {
+                      return GestureDetector(
+                        onTap: () => showFullScreenImage(context, imageUrl),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.grey.shade100,
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          child: Icon(
-                            Icons.add_a_photo_outlined,
-                            color: const Color(
-                              0xFF3BC577,
-                            ).withValues(alpha: 0.5),
-                            size: 28,
-                          ),
                         ),
-                      ),
-                    ],
+                      );
+                    }).toList(),
                   ),
                 ],
               ),
@@ -367,4 +330,17 @@ String getWeightUnit(num totalWeight) {
 
 num getWeightValue(num totalWeight) {
   return totalWeight < 1000 ? totalWeight : totalWeight / 1000;
+}
+
+String getPaymentType(String paymentMethod) {
+  switch (paymentMethod) {
+    case 'cash':
+      return 'نقدي';
+    case 'bankTransfer':
+      return 'بنكي';
+    case 'wallet':
+      return 'محفظة';
+    default:
+      return 'نقدي';
+  }
 }

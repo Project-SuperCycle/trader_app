@@ -1,24 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/functions/get_formaated_date.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-
-// ======== Model ========
-class ShipmentItem {
-  final String shipmentNumber;
-  final String date;
-  final double totalWeight;
-  final double value;
-  final String paymentMethod;
-
-  const ShipmentItem({
-    required this.shipmentNumber,
-    required this.date,
-    required this.totalWeight,
-    required this.value,
-    required this.paymentMethod,
-  });
-}
+import 'package:trader_app/features/finances/data/models/internal/finance_shipment_model.dart';
 
 // ======== Shipment Card ========
 class ShipmentItemCard extends StatelessWidget {
@@ -28,7 +13,7 @@ class ShipmentItemCard extends StatelessWidget {
     required this.onDetailsTap,
   });
 
-  final ShipmentItem shipment;
+  final FinanceShipmentModel shipment;
   final VoidCallback onDetailsTap;
 
   @override
@@ -100,7 +85,7 @@ class ShipmentItemCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            shipment.date,
+                            getFormattedDateLabel(shipment.weightedAt),
                             textDirection: TextDirection.rtl,
                             style: AppStyles.styleBold16(
                               context,
@@ -166,7 +151,7 @@ class ShipmentItemCard extends StatelessWidget {
                                       children: [
                                         Text(
                                           getWeightValue(
-                                            shipment.totalWeight,
+                                            shipment.totalWeightedKg,
                                           ).toString(),
                                           style: AppStyles.styleBold18(
                                             context,
@@ -174,7 +159,9 @@ class ShipmentItemCard extends StatelessWidget {
                                         ),
                                         const SizedBox(width: 3),
                                         Text(
-                                          getWeightUnit(shipment.totalWeight),
+                                          getWeightUnit(
+                                            shipment.totalWeightedKg,
+                                          ),
                                           style:
                                               AppStyles.styleSemiBold12(
                                                 context,
@@ -223,7 +210,7 @@ class ShipmentItemCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  shipment.value
+                                  shipment.amount
                                       .toStringAsFixed(0)
                                       .replaceAllMapped(
                                         RegExp(r'\B(?=(\d{3})+(?!\d))'),

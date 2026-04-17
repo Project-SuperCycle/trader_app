@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/models/internal/finance_shipment_model.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/pagination_footer.dart';
 import 'package:trader_app/features/finances/presentation/widgets/internal/shipment_Item_card.dart';
 
 class ShipmentsListSection extends StatefulWidget {
-  const ShipmentsListSection({super.key});
+  final List<FinanceShipmentModel> shipments;
+
+  const ShipmentsListSection({super.key, required this.shipments});
 
   @override
   State<ShipmentsListSection> createState() => _ShipmentsListSectionState();
@@ -12,32 +15,7 @@ class ShipmentsListSection extends StatefulWidget {
 
 class _ShipmentsListSectionState extends State<ShipmentsListSection> {
   int _currentPage = 1;
-  final int _totalPages = 3;
-
-  // ======== Dummy Data ========
-  final List<ShipmentItem> dummyShipments = [
-    const ShipmentItem(
-      shipmentNumber: 'SC-88215',
-      date: '15 يونيو 2024',
-      totalWeight: 5250,
-      value: 12400,
-      paymentMethod: 'نقداً',
-    ),
-    const ShipmentItem(
-      shipmentNumber: 'SC-88215',
-      date: '18 يونيو 2024',
-      totalWeight: 3.2,
-      value: 8900,
-      paymentMethod: 'نقداً',
-    ),
-    const ShipmentItem(
-      shipmentNumber: 'SC-88220',
-      date: '20 يونيو 2024',
-      totalWeight: 6.1,
-      value: 15300,
-      paymentMethod: 'بنكي',
-    ),
-  ];
+  final int _totalPages = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +35,7 @@ class _ShipmentsListSectionState extends State<ShipmentsListSection> {
                 ).copyWith(color: Colors.white),
               ),
               Text(
-                '${dummyShipments.length} شحنة',
+                '${widget.shipments.length} شحنة',
                 style: AppStyles.styleSemiBold16(
                   context,
                 ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
@@ -72,10 +50,10 @@ class _ShipmentsListSectionState extends State<ShipmentsListSection> {
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: dummyShipments.length,
+          itemCount: widget.shipments.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) => ShipmentItemCard(
-            shipment: dummyShipments[index],
+            shipment: widget.shipments[index],
             onDetailsTap: () {},
           ),
         ),

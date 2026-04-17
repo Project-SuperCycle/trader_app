@@ -30,4 +30,23 @@ class GetInternalFinanceDetailsCubit
       emit(GetInternalFinanceDetailsFailure(errMessage: error.toString()));
     }
   }
+
+  Future<void> getMealFinanceDetails({required String paymentId}) async {
+    emit(GetInternalFinanceDetailsLoading());
+    try {
+      var result = await repo.getMealFinanceDetails(paymentId: paymentId);
+      result.fold(
+        (failure) {
+          emit(
+            GetInternalFinanceDetailsFailure(errMessage: failure.errMessage),
+          );
+        },
+        (data) {
+          emit(GetInternalFinanceDetailsSuccess(finance: data));
+        },
+      );
+    } catch (error) {
+      emit(GetInternalFinanceDetailsFailure(errMessage: error.toString()));
+    }
+  }
 }

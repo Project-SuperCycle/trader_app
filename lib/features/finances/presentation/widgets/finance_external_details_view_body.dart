@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/widgets/collection_details_card.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/widgets/export_receipt_button.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/widgets/product_card.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/widgets/products_list_section.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/widgets/shipment_hero_card.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/collection_details_card.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/export_receipt_button.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/product_card.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/products_list_section.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/shipment_hero_card.dart';
 
-class FinancialTransactionDetailsViewBody extends StatelessWidget {
-  const FinancialTransactionDetailsViewBody({
-    super.key,
-    required this.transaction,
-  });
+class FinanceExternalDetailsViewBody extends StatelessWidget {
+  const FinanceExternalDetailsViewBody({super.key, required this.transaction});
 
   final TransactionModel transaction;
 

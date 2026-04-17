@@ -6,24 +6,20 @@ import 'package:trader_app/features/finances/presentation/widgets/history/financ
 import 'package:trader_app/features/finances/presentation/widgets/history/pagination_footer.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/transactions_list_section.dart';
 
-class FinancialTransactionViewBody extends StatefulWidget {
-  const FinancialTransactionViewBody({
-    super.key,
-    required this.onDrawerPressed,
-  });
+class FinancesHistoryViewBody extends StatefulWidget {
+  const FinancesHistoryViewBody({super.key, required this.onDrawerPressed});
 
   final VoidCallback onDrawerPressed;
 
   @override
-  State<FinancialTransactionViewBody> createState() =>
-      _FinancialTransactionViewBodyState();
+  State<FinancesHistoryViewBody> createState() =>
+      _FinancesHistoryViewBodyState();
 }
 
 int _currentPage = 1;
 int _totalPages = 10;
 
-class _FinancialTransactionViewBodyState
-    extends State<FinancialTransactionViewBody> {
+class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
   bool status = true;
 
   @override

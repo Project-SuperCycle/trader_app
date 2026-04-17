@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/Contracted_Fiance/presentation/widgets/shipment_Item_card.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/pagination_footer.dart';
+import 'package:trader_app/features/finances/presentation/widgets/internal/shipment_Item_card.dart';
 
 class ShipmentsListSection extends StatefulWidget {
   const ShipmentsListSection({super.key});
@@ -74,11 +74,10 @@ class _ShipmentsListSectionState extends State<ShipmentsListSection> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: dummyShipments.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, index) =>
-              ShipmentItemCard(
-                shipment: dummyShipments[index],
-                onDetailsTap: () {},
-              ),
+          itemBuilder: (context, index) => ShipmentItemCard(
+            shipment: dummyShipments[index],
+            onDetailsTap: () {},
+          ),
         ),
 
         const SizedBox(height: 20),

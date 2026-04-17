@@ -88,7 +88,7 @@ class _ChangeImageWidgetState extends State<ChangeImageWidget> {
   }
 }
 
-// ── Sub-widgets ──────────────────────────────────────────────────────────────
+// ── Sub-external ──────────────────────────────────────────────────────────────
 
 class _AvatarPicker extends StatelessWidget {
   final File? selectedImage;

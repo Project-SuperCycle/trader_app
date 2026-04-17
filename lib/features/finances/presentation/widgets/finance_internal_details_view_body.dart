@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/Contracted_Fiance/presentation/widgets/financial_collection_card.dart';
-import 'package:trader_app/features/Contracted_Fiance/presentation/widgets/shipments_list_section.dart';
 import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
+import 'package:trader_app/features/finances/presentation/widgets/internal/financial_collection_card.dart';
+import 'package:trader_app/features/finances/presentation/widgets/internal/shipments_list_section.dart';
 
-class ContractedFianceDetailsViewBody extends StatelessWidget {
-  const ContractedFianceDetailsViewBody({super.key, required this.transaction});
+class FinanceInternalDetailsViewBody extends StatelessWidget {
+  const FinanceInternalDetailsViewBody({super.key, required this.transaction});
 
   final TransactionModel transaction;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/Contracted_Fiance/presentation/widgets/contracted_fiance_details_view_body.dart';
 import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
+import 'package:trader_app/features/finances/presentation/widgets/finance_internal_details_view_body.dart';
 
 class FinanceTransactionCard extends StatelessWidget {
   const FinanceTransactionCard({super.key, required this.transaction});
@@ -18,7 +18,7 @@ class FinanceTransactionCard extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (_) =>
-              ContractedFianceDetailsViewBody(transaction: transaction),
+              FinanceInternalDetailsViewBody(transaction: transaction),
         ),
       ),
       child: Container(

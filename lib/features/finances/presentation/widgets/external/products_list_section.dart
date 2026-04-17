@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/widgets/product_card.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/product_card.dart';
 
 class ProductsListSection extends StatelessWidget {
   const ProductsListSection({super.key, required this.products});

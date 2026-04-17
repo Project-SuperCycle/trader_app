@@ -4,14 +4,14 @@ import 'package:trader_app/core/helpers/app_transitions.dart';
 import 'package:trader_app/core/models/shipment/single_shipment_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
-import 'package:trader_app/features/Contracted_Fiance/presentation/view/contracted_fiance_details_view.dart';
 import 'package:trader_app/features/calculator/presentation/view/calculator_view.dart';
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
 import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
+import 'package:trader_app/features/finances/presentation/views/finance_external_details_view.dart';
+import 'package:trader_app/features/finances/presentation/views/finance_internal_details_view.dart';
 import 'package:trader_app/features/finances/presentation/views/finances_history_view.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
@@ -318,7 +318,7 @@ class AppRouter {
         name: 'financialTransactionْDetails',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          const FinancialTransactionDetailsView(),
+          const FinanceExternalDetailsView(),
         ),
       ),
 
@@ -330,7 +330,7 @@ class AppRouter {
         name: 'ContractedFianceDetails',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          const ContractedFianceDetailsView(),
+          const FinanceInternalDetailsView(),
         ),
       ),
     ],

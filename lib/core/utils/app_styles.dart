@@ -5,7 +5,7 @@ import 'package:trader_app/core/utils/app_colors.dart';
 abstract class AppStyles {
   static const fontFamily = 'Beiruti';
   static const textHeight = 1.4;
-  static const letterSpacing = 1.2;
+  static const letterSpacing = 1.0;
 
   // Styles 14
   static TextStyle styleRegular12(BuildContext context) {

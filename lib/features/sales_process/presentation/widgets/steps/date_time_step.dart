@@ -99,7 +99,7 @@ class _DateTimeStepState extends State<DateTimeStep> {
         ),
         child: Row(
           children: [
-            Icon(Icons.access_time, color: AppColors.primaryColor),
+            Icon(Icons.access_time, color: AppColors.primary),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -107,7 +107,7 @@ class _DateTimeStepState extends State<DateTimeStep> {
                 style: AppStyles.styleMedium14(context),
               ),
             ),
-            Icon(Icons.edit, color: AppColors.primaryColor, size: 18),
+            Icon(Icons.edit, color: AppColors.primary, size: 18),
           ],
         ),
       ),

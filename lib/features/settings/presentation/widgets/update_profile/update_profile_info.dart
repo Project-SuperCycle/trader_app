@@ -71,7 +71,7 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: AppColors.primaryColor, width: 1.0),
+      borderSide: BorderSide(color: AppColors.primary, width: 1.0),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),

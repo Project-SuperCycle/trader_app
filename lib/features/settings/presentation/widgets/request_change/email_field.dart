@@ -54,7 +54,7 @@ class EmailField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.primaryColor, width: 0.75),
+          borderSide: BorderSide(color: AppColors.primary, width: 0.75),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

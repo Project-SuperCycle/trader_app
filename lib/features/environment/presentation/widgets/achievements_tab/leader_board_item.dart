@@ -8,6 +8,7 @@ class LeaderBoardItem extends StatelessWidget {
   final String points;
   final Color color;
   final bool isHighlighted;
+
   const LeaderBoardItem({
     super.key,
     required this.rank,
@@ -25,7 +26,7 @@ class LeaderBoardItem extends StatelessWidget {
         color: isHighlighted ? const Color(0xFFD1FAE5) : Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
         border: isHighlighted
-            ? Border.all(color: AppColors.primaryColor, width: 1.5)
+            ? Border.all(color: AppColors.primary, width: 1.5)
             : null,
       ),
       child: Row(

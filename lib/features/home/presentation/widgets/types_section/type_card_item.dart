@@ -166,7 +166,7 @@ class _TypeCardItemState extends State<TypeCardItem> {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withAlpha(50),
+                          color: AppColors.primary.withAlpha(50),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: FittedBox(
@@ -181,7 +181,7 @@ class _TypeCardItemState extends State<TypeCardItem> {
                                 ),
                                 style: AppStyles.styleBold14(
                                   context,
-                                ).copyWith(color: AppColors.primaryColor),
+                                ).copyWith(color: AppColors.primary),
                               ),
                               const SizedBox(width: 6),
                               Text(

@@ -21,9 +21,9 @@ class AlternateActionLink extends StatelessWidget {
             child: Text(
               'إرسال إلى إيميل مختلف',
               style: AppStyles.styleSemiBold16(context).copyWith(
-                color: AppColors.primaryColor,
+                color: AppColors.primary,
                 decoration: TextDecoration.underline,
-                decorationColor: AppColors.primaryColor,
+                decorationColor: AppColors.primary,
               ),
             ),
           ),

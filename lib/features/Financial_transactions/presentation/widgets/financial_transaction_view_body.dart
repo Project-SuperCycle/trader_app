@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
-import 'package:trader_app/features/Financial_transactions/presentation/widgets/collection_toggle.dart';
-import 'package:trader_app/features/Financial_transactions/presentation/widgets/financial_card.dart';
-import 'package:trader_app/features/Financial_transactions/presentation/widgets/pagination_footer.dart';
-import 'package:trader_app/features/Financial_transactions/presentation/widgets/transactions_list_section.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/presentation/widgets/history/collection_toggle.dart';
+import 'package:trader_app/features/finances/presentation/widgets/history/finance_summary_card.dart';
+import 'package:trader_app/features/finances/presentation/widgets/history/pagination_footer.dart';
+import 'package:trader_app/features/finances/presentation/widgets/history/transactions_list_section.dart';
 
 class FinancialTransactionViewBody extends StatefulWidget {
   const FinancialTransactionViewBody({
@@ -17,11 +18,14 @@ class FinancialTransactionViewBody extends StatefulWidget {
   State<FinancialTransactionViewBody> createState() =>
       _FinancialTransactionViewBodyState();
 }
-  int _currentPage = 1;
-  int _totalPages = 10;
+
+int _currentPage = 1;
+int _totalPages = 10;
 
 class _FinancialTransactionViewBodyState
     extends State<FinancialTransactionViewBody> {
+  bool status = true;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,18 +58,16 @@ class _FinancialTransactionViewBodyState
                   ),
 
                   // Title
-                  const Text(
+                  Text(
                     'المعاملات المالية',
                     textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppStyles.styleBold20(
+                      context,
+                    ).copyWith(color: Colors.white),
                   ),
 
                   // Placeholder لتوازن الـ Row
-                  const SizedBox(width: 40),
+                  Flexible(child: const SizedBox(width: 40)),
                 ],
               ),
             ),
@@ -75,32 +77,29 @@ class _FinancialTransactionViewBodyState
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                    children: [
-                      FinancialCard(),
-                      const SizedBox(height: 20),
-                      CollectionToggle(
-                        onChanged: (isPending) {
-                          // isPending = true  → منتظر التحصيل
-                          // isPending = false → تم التحصيل
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      const TransactionsListSection(),
-                      const SizedBox(height: 20),
-                      PaginationFooter(
-                        currentPage: _currentPage,
-                        totalPages: _totalPages,
-                        onPageChanged: (page) {
-                          setState(() => _currentPage = page);
-                          // هنا تعمل fetch للداتا بتاعة الصفحة دي
-                        },
-                      ),
-                    ],
-                  )
+                  children: [
+                    FinanceSummaryCard(status: status),
+                    const SizedBox(height: 20),
+                    CollectionToggle(
+                      onChanged: (value) {
+                        setState(() => status = value);
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    const TransactionsListSection(),
+                    const SizedBox(height: 20),
+                    PaginationFooter(
+                      currentPage: _currentPage,
+                      totalPages: _totalPages,
+                      onPageChanged: (page) {
+                        setState(() => _currentPage = page);
+                        // هنا تعمل fetch للداتا بتاعة الصفحة دي
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-
-
           ],
         ),
       ),

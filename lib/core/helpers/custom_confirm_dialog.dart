@@ -142,12 +142,9 @@ class _CustomConfirmationDialogState extends State<_CustomConfirmationDialog>
       case DialogType.info:
         return DialogConfig(
           icon: Icons.info_rounded,
-          primaryColor: AppColors.primaryColor,
-          gradientColors: [
-            AppColors.primaryColor,
-            AppColors.primaryColor.withAlpha(400),
-          ],
-          backgroundColor: AppColors.primaryColor.withAlpha(25),
+          primaryColor: AppColors.primary,
+          gradientColors: [AppColors.primary, AppColors.primary.withAlpha(400)],
+          backgroundColor: AppColors.primary.withAlpha(25),
         );
     }
   }

@@ -124,7 +124,7 @@ class _ShipmentCardShimmer extends StatelessWidget {
               width: double.infinity,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.primaryColor.withAlpha(80),
+                color: AppColors.primary.withAlpha(80),
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12),

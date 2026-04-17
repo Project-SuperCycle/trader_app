@@ -94,7 +94,7 @@ class _ShipmentDetailsNotesState extends State<ShipmentDetailsNotes> {
                   IconButton(
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: AppColors.primaryColor,
+                      foregroundColor: AppColors.primary,
                     ),
                     icon: const Icon(Icons.mode_edit_outline_rounded, size: 25),
                     onPressed: _editNotes,

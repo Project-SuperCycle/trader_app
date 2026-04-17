@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
-import 'package:trader_app/features/Financial_transactions/data/models/transaction_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
 
 class ShipmentHeroCard extends StatelessWidget {
   const ShipmentHeroCard({super.key, required this.transaction});
@@ -16,7 +17,7 @@ class ShipmentHeroCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF3BC577).withOpacity(0.1),
+            color: const Color(0xFF3BC577).withValues(alpha: 0.1),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -31,37 +32,33 @@ class ShipmentHeroCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'رقم الشحنة',
                       textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                        color: Colors.grey.shade400,
-                        fontSize: 12,
-                      ),
+                      style: AppStyles.styleMedium12(
+                        context,
+                      ).copyWith(color: Colors.grey.shade400),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       transaction.id,
-                      style: const TextStyle(
-                        color: Color(0xFF10B981),
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
-                      ),
+                      style: AppStyles.styleBold24(
+                        context,
+                      ).copyWith(color: Color(0xFF10B981)),
                     ),
                   ],
                 ),
 
-
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF3BC577).withOpacity(0.08),
+                    color: const Color(0xFF3BC577).withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -75,11 +72,9 @@ class ShipmentHeroCard extends StatelessWidget {
                       Text(
                         transaction.date.split('•').first.trim(),
                         textDirection: TextDirection.rtl,
-                        style: const TextStyle(
-                          color: Color(0xFF10B981),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: AppStyles.styleSemiBold14(
+                          context,
+                        ).copyWith(color: Color(0xFF10B981)),
                       ),
                     ],
                   ),
@@ -95,7 +90,9 @@ class ShipmentHeroCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade50,
                       borderRadius: BorderRadius.circular(12),
@@ -106,30 +103,28 @@ class ShipmentHeroCard extends StatelessWidget {
                         Text(
                           'إجمالي الوزن',
                           textDirection: TextDirection.rtl,
-                          style: TextStyle(
-                            color: Colors.grey.shade400,
-                            fontSize: 11,
-                          ),
+                          style: AppStyles.styleMedium12(
+                            context,
+                          ).copyWith(color: Colors.grey.shade400),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 3),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              '${transaction.totalWeight}',
-                              style: const TextStyle(
-                                color: Color(0xFF10B981),
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              getWeightValue(
+                                transaction.totalWeight,
+                              ).toString(),
+                              style: AppStyles.styleBold22(
+                                context,
+                              ).copyWith(color: Color(0xFF10B981)),
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              'طن',
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 12,
-                              ),
+                              getWeightUnit(transaction.totalWeight),
+                              style: AppStyles.styleMedium12(
+                                context,
+                              ).copyWith(color: Colors.grey.shade400),
                             ),
                           ],
                         ),
@@ -143,7 +138,9 @@ class ShipmentHeroCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 12),
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade50,
                       borderRadius: BorderRadius.circular(12),
@@ -154,23 +151,20 @@ class ShipmentHeroCard extends StatelessWidget {
                         Text(
                           'طريقة الدفع',
                           textDirection: TextDirection.rtl,
-                          style: TextStyle(
-                            color: Colors.grey.shade400,
-                            fontSize: 11,
-                          ),
+                          style: AppStyles.styleMedium12(
+                            context,
+                          ).copyWith(color: Colors.grey.shade400),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 3),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
                               transaction.paymentMethod,
                               textDirection: TextDirection.rtl,
-                              style: const TextStyle(
-                                color: Color(0xFF10B981),
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: AppStyles.styleBold22(
+                                context,
+                              ).copyWith(color: Color(0xFF10B981)),
                             ),
                             const SizedBox(width: 6),
                             const Icon(
@@ -191,4 +185,12 @@ class ShipmentHeroCard extends StatelessWidget {
       ),
     );
   }
+}
+
+String getWeightUnit(num totalWeight) {
+  return totalWeight < 1000 ? 'كجم' : 'طن';
+}
+
+num getWeightValue(num totalWeight) {
+  return totalWeight < 1000 ? totalWeight : totalWeight / 1000;
 }

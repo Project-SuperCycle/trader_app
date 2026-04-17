@@ -216,7 +216,7 @@ class TraderProfileInfoCard3 extends StatelessWidget {
                 type,
                 style: AppStyles.styleSemiBold12(
                   context,
-                ).copyWith(color: AppColors.primaryColor),
+                ).copyWith(color: AppColors.primary),
               ),
             );
           }).toList(),
@@ -227,12 +227,9 @@ class TraderProfileInfoCard3 extends StatelessWidget {
   }
 
   BoxDecoration _decorBox() => BoxDecoration(
-    color: AppColors.primaryColor.withAlpha(25),
+    color: AppColors.primary.withAlpha(25),
     borderRadius: BorderRadius.circular(12),
-    border: Border.all(
-      color: AppColors.primaryColor.withAlpha(100),
-      width: 1.5,
-    ),
+    border: Border.all(color: AppColors.primary.withAlpha(100), width: 1.5),
   );
 
   Widget _divider() => Padding(

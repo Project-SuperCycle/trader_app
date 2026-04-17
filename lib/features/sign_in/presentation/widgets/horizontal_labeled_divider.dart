@@ -17,7 +17,7 @@ class HorizontalLabeledDivider extends StatelessWidget {
             child: Container(
               height: 1,
               decoration: BoxDecoration(
-                color: AppColors.primaryColor,
+                color: AppColors.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -31,7 +31,7 @@ class HorizontalLabeledDivider extends StatelessWidget {
               ).copyWith(color: AppColors.mainTextColor),
             ),
           ),
-          Expanded(child: Container(height: 1, color: AppColors.primaryColor)),
+          Expanded(child: Container(height: 1, color: AppColors.primary)),
         ],
       ),
     );

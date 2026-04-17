@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 
 class InputDecorations {
-  static const focusColor = AppColors.primaryColor;
+  static const focusColor = AppColors.primary;
   static const errorColor = AppColors.failureColor;
 
   static InputBorder enabledBorder({

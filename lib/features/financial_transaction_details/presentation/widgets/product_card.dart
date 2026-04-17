@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
 
 // ======== Model ========
 class ProductItem {
@@ -22,13 +23,15 @@ final List<ProductItem> dummyProducts = [
     nameEn: 'Kraft Paper',
     nameAr: 'ورق كرافت معاد تدويره',
     remainingWeight: 6.2,
-    imageUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=200',
+    imageUrl:
+        'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=200',
   ),
   const ProductItem(
     nameEn: 'Grand Paper',
     nameAr: 'ورق جراند فاخر',
     remainingWeight: 4.3,
-    imageUrl: 'https://images.unsplash.com/photo-1612198273689-b4c5bf27f8a1?w=200',
+    imageUrl:
+        'https://images.unsplash.com/photo-1612198273689-b4c5bf27f8a1?w=200',
   ),
 ];
 
@@ -46,13 +49,14 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF3BC577).withOpacity(0.08),
+            color: const Color(0xFF3BC577).withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ── Image Section ──
           ClipRRect(
@@ -80,148 +84,69 @@ class ProductCard extends StatelessWidget {
 
           // ── Name Section ──
           Expanded(
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    product.nameEn,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Color(0xFF1A1A1A),
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    product.nameAr,
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+              child: Text(
+                product.nameAr,
+                textAlign: TextAlign.right,
+                style: AppStyles.styleBold14(
+                  context,
+                ).copyWith(color: Color(0xFF1A1A1A)),
               ),
             ),
           ),
 
           // ── Weight Section ──
-          Container(
-            width: 90,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-            decoration: BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: Colors.grey.shade100,
-                  width: 1,
-                ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    textBaseline: TextBaseline.alphabetic,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        getWeightValue(product.remainingWeight).toString(),
+                        style: AppStyles.styleBold22(
+                          context,
+                        ).copyWith(color: Color(0xFF10B981)),
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        getWeightUnit(product.remainingWeight),
+                        style: AppStyles.styleMedium12(
+                          context,
+                        ).copyWith(color: Color(0xFF10B981)),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'صافي الوزن',
+                    style: AppStyles.styleMedium12(
+                      context,
+                    ).copyWith(color: Colors.grey.shade400, fontSize: 10),
+                  ),
+                ],
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '${product.remainingWeight}',
-                      style: const TextStyle(
-                        color: Color(0xFF10B981),
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 2),
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 3),
-                      child: Text(
-                        'طن',
-                        style: TextStyle(
-                          color: Color(0xFF10B981),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'الوزن المتبقي',
-                  style: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 10,
-                  ),
-                ),
-              ],
-            ),
           ),
-
         ],
       ),
     );
   }
 }
 
-// ======== Products List Section ========
-class ProductsListSection extends StatelessWidget {
-  const ProductsListSection({
-    super.key,
-    required this.products,
-  });
+String getWeightUnit(num totalWeight) {
+  return totalWeight < 1000 ? 'كجم' : 'طن';
+}
 
-  final List<ProductItem> products;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // ── Section Header ──
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Title
-              const Text(
-                'قائمة المنتجات',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                '${products.length} صنف',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 14),
-
-        // ── Cards ──
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: products.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
-          itemBuilder: (context, index) =>
-              ProductCard(product: products[index]),
-        ),
-      ],
-    );
-  }
+num getWeightValue(num totalWeight) {
+  return totalWeight < 1000 ? totalWeight : totalWeight / 1000;
 }

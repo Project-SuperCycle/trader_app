@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
-import 'package:trader_app/features/Financial_transactions/data/models/transaction_model.dart';
+import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
 
 class CollectionDetailsCard extends StatelessWidget {
   const CollectionDetailsCard({super.key, required this.transaction});
@@ -16,7 +17,7 @@ class CollectionDetailsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF3BC577).withOpacity(0.1),
+            color: const Color(0xFF3BC577).withValues(alpha: 0.1),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -31,7 +32,6 @@ class CollectionDetailsCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 // Title + Icon
                 Row(
                   children: [
@@ -39,7 +39,7 @@ class CollectionDetailsCard extends StatelessWidget {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3BC577).withOpacity(0.1),
+                        color: const Color(0xFF3BC577).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(
@@ -49,25 +49,25 @@ class CollectionDetailsCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
+                    Text(
                       'بيانات التحصيل',
                       textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                        color: Color(0xFF10B981),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: AppStyles.styleBold16(
+                        context,
+                      ).copyWith(color: Color(0xFF10B981)),
                     ),
                     const SizedBox(width: 110),
                     // Status Badge
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: transaction.isPending
-                            ? Colors.orange.withOpacity(0.12)
-                            : const Color(0xFF3BC577).withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(20),
+                            ? Colors.orange.withValues(alpha: 0.12)
+                            : const Color(0xFF3BC577).withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
                         children: [
@@ -82,18 +82,15 @@ class CollectionDetailsCard extends StatelessWidget {
                           Text(
                             transaction.isPending ? 'منتظر' : 'تم التحصيل',
                             textDirection: TextDirection.rtl,
-                            style: TextStyle(
+                            style: AppStyles.styleBold12(context).copyWith(
                               color: transaction.isPending
                                   ? Colors.orange.shade700
                                   : const Color(0xFF10B981),
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
                     ),
-
                   ],
                 ),
               ],
@@ -106,10 +103,10 @@ class CollectionDetailsCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: const Color(0xFF3BC577).withOpacity(0.07),
+                color: const Color(0xFF3BC577).withValues(alpha: 0.07),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: const Color(0xFF3BC577).withOpacity(0.15),
+                  color: const Color(0xFF3BC577).withValues(alpha: 0.15),
                   width: 0.5,
                 ),
               ),
@@ -124,33 +121,28 @@ class CollectionDetailsCard extends StatelessWidget {
                       Text(
                         'إجمالي المبلغ المستحق',
                         textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 11,
-                        ),
+                        style: AppStyles.styleMedium12(
+                          context,
+                        ).copyWith(color: Colors.grey.shade400),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         transaction.totalAmount
                             .toStringAsFixed(0)
                             .replaceAllMapped(
-                          RegExp(r'\B(?=(\d{3})+(?!\d))'),
+                              RegExp(r'\B(?=(\d{3})+(?!\d))'),
                               (m) => ',',
-                        ),
-                        style: const TextStyle(
-                          color: Color(0xFF10B981),
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
+                            ),
+                        style: AppStyles.styleBold24(
+                          context,
+                        ).copyWith(color: Color(0xFF10B981), fontSize: 30),
                       ),
                       Text(
                         'جنيه مصري',
                         textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 12,
-                        ),
+                        style: AppStyles.styleMedium12(
+                          context,
+                        ).copyWith(color: Colors.grey.shade400),
                       ),
                     ],
                   ),
@@ -162,20 +154,17 @@ class CollectionDetailsCard extends StatelessWidget {
                       Text(
                         'طريقة التحصيل',
                         textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 11,
-                        ),
+                        style: AppStyles.styleMedium12(
+                          context,
+                        ).copyWith(color: Colors.grey.shade400),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 2),
                       Text(
                         transaction.paymentMethod,
                         textDirection: TextDirection.rtl,
-                        style: const TextStyle(
-                          color: Color(0xFF10B981),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppStyles.styleBold16(
+                          context,
+                        ).copyWith(color: Color(0xFF10B981)),
                       ),
                     ],
                   ),
@@ -193,10 +182,10 @@ class CollectionDetailsCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
                       height: 100,
-                      color: const Color(0xFF3BC577).withOpacity(0.07),
+                      color: const Color(0xFF3BC577).withValues(alpha: 0.07),
                       child: Icon(
                         Icons.image_outlined,
-                        color: const Color(0xFF3BC577).withOpacity(0.4),
+                        color: const Color(0xFF3BC577).withValues(alpha: 0.4),
                         size: 32,
                       ),
                     ),
@@ -208,10 +197,10 @@ class CollectionDetailsCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
                       height: 100,
-                      color: const Color(0xFF3BC577).withOpacity(0.07),
+                      color: const Color(0xFF3BC577).withValues(alpha: 0.07),
                       child: Icon(
                         Icons.image_outlined,
-                        color: const Color(0xFF3BC577).withOpacity(0.4),
+                        color: const Color(0xFF3BC577).withValues(alpha: 0.4),
                         size: 32,
                       ),
                     ),

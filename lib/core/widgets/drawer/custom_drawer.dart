@@ -178,6 +178,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
 
+                  if (user != null)
+                    _buildDrawerItem(
+                      icon: Icons.calendar_today_rounded,
+                      title: 'سجل الماليات',
+                      isActive:
+                          currentLocation ==
+                          EndPoints.financialTransactionsView,
+                      onTap: () {
+                        Navigator.pop(context);
+                        if (isUserLoggedIn) {
+                          context.push(EndPoints.financialTransactionsView);
+                        } else {
+                          context.push(EndPoints.signInView);
+                        }
+                      },
+                    ),
+
                   _buildDrawerItem(
                     icon: Icons.support_agent_rounded,
                     title: 'الدعم والمساعدة',

@@ -174,7 +174,7 @@ class _CalculatorViewBodyState extends State<CalculatorViewBody> {
                                     children: [
                                       const Icon(
                                         Icons.inventory_2,
-                                        color: AppColors.primaryColor,
+                                        color: AppColors.primary,
                                         size: 20,
                                       ),
                                       const SizedBox(width: 8),
@@ -205,7 +205,7 @@ class _CalculatorViewBodyState extends State<CalculatorViewBody> {
                                     children: [
                                       const Icon(
                                         Icons.scale,
-                                        color: AppColors.primaryColor,
+                                        color: AppColors.primary,
                                         size: 20,
                                       ),
                                       const SizedBox(width: 8),

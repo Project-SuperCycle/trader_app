@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const double kButtonBorderRadius = 20.0;
+const double kButtonBorderRadius = 16.0;
 const double kBorderRadius = 20.0;
 const String kBoxName = 'trader_app';
 const String kNotVerified = 'NOT_VERIFIED';

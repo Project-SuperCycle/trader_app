@@ -280,7 +280,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor.withAlpha(25),
+              color: AppColors.primary.withAlpha(25),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -294,12 +294,12 @@ class _EditableProductCardState extends State<EditableProductCard> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withAlpha(50),
+                        color: AppColors.primary.withAlpha(50),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
                         Icons.inventory_2_outlined,
-                        color: AppColors.primaryColor,
+                        color: AppColors.primary,
                         size: 20,
                       ),
                     ),
@@ -308,7 +308,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
                       "تفاصيل المنتج",
                       style: AppStyles.styleMedium14(context).copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primaryColor,
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
@@ -428,7 +428,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
                   style: AppStyles.styleMedium14(context).copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
+                    color: AppColors.primary,
                   ),
                   decoration: InputDecoration(
                     hintText: '0',
@@ -513,7 +513,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor.withAlpha(50),
+        color: AppColors.primary.withAlpha(50),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -537,7 +537,7 @@ class _EditableProductCardState extends State<EditableProductCard> {
                     style: AppStyles.styleMedium14(context).copyWith(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+                      color: AppColors.primary,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

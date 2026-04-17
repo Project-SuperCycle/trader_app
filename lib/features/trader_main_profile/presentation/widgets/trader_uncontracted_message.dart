@@ -148,7 +148,7 @@ class TraderUncontractedMessage extends StatelessWidget {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
+                          backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 20,
@@ -171,7 +171,7 @@ class TraderUncontractedMessage extends StatelessWidget {
                         icon: const Icon(
                           Icons.phone,
                           size: 20,
-                          color: AppColors.primaryColor,
+                          color: AppColors.primary,
                         ),
                         label: FittedBox(
                           fit: BoxFit.scaleDown,
@@ -179,7 +179,7 @@ class TraderUncontractedMessage extends StatelessWidget {
                             'اتصل بنا',
                             style: AppStyles.styleBold14(
                               context,
-                            ).copyWith(color: AppColors.primaryColor),
+                            ).copyWith(color: AppColors.primary),
                           ),
                         ),
                         style: ElevatedButton.styleFrom(

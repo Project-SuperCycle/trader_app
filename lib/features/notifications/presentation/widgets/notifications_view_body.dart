@@ -77,7 +77,7 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody>
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.primary,
       elevation: 0,
       leading: const SizedBox.shrink(),
       centerTitle: true,

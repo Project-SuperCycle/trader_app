@@ -43,9 +43,7 @@ class LanguageSelectionWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected
-                      ? AppColors.primaryColor
-                      : Colors.grey.shade400,
+                  color: isSelected ? AppColors.primary : Colors.grey.shade400,
                   width: 2,
                 ),
               ),
@@ -56,7 +54,7 @@ class LanguageSelectionWidget extends StatelessWidget {
                         height: 10,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primaryColor,
+                          color: AppColors.primary,
                         ),
                       ),
                     )

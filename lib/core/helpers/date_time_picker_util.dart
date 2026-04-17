@@ -27,11 +27,11 @@ class DateTimePickerHelper {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AppColors.primaryColor,
+              primary: AppColors.primary,
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
-              secondary: AppColors.primaryColor,
+              secondary: AppColors.primary,
               onSecondary: Colors.white,
             ),
             textTheme: TextTheme(
@@ -43,14 +43,14 @@ class DateTimePickerHelper {
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
                 textStyle: AppStyles.styleBold16(context),
               ),
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.primaryColor,
+                foregroundColor: AppColors.primary,
                 textStyle: AppStyles.styleSemiBold18(context),
               ),
             ),
@@ -73,11 +73,11 @@ class DateTimePickerHelper {
             return Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ColorScheme.light(
-                  primary: AppColors.primaryColor,
+                  primary: AppColors.primary,
                   onPrimary: Colors.white,
                   surface: Colors.white,
                   onSurface: Colors.black,
-                  secondary: AppColors.primaryColor,
+                  secondary: AppColors.primary,
                   onSecondary: Colors.white,
                 ),
                 textTheme: TextTheme(
@@ -88,14 +88,14 @@ class DateTimePickerHelper {
                 ),
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
+                    backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
                     textStyle: AppStyles.styleBold16(context),
                   ),
                 ),
                 textButtonTheme: TextButtonThemeData(
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.primaryColor,
+                    foregroundColor: AppColors.primary,
                     textStyle: AppStyles.styleBold16(context),
                   ),
                 ),

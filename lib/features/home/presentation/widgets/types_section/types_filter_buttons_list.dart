@@ -10,14 +10,14 @@ class TypesFilterButtonsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<TabModel> tabs = [
-      TabModel(title: S.of(context).all, color: AppColors.primaryColor),
+      TabModel(title: S.of(context).all, color: AppColors.primary),
       TabModel(
         title: S.of(context).carton,
-        color: AppColors.primaryColor.withAlpha(150),
+        color: AppColors.primary.withAlpha(150),
       ),
       TabModel(
         title: S.of(context).paper,
-        color: AppColors.primaryColor.withAlpha(75),
+        color: AppColors.primary.withAlpha(75),
       ),
     ];
 
@@ -45,5 +45,6 @@ class TypesFilterButtonsList extends StatelessWidget {
 class TabModel {
   final String title;
   final Color color;
+
   TabModel({required this.title, required this.color});
 }

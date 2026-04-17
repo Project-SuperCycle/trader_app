@@ -44,7 +44,7 @@ class UpdateNotificationsViewBody extends StatelessWidget {
                         'تعديل صلاحيات الإشعارات',
                         style: AppStyles.styleBold20(
                           context,
-                        ).copyWith(color: AppColors.primaryColor),
+                        ).copyWith(color: AppColors.primary),
                       ),
                       const SizedBox(height: 24),
                       UpdateNotificationsPermissions(

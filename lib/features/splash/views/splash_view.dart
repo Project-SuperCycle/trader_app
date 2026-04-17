@@ -101,7 +101,7 @@ class _SplashViewState extends State<SplashView>
               "أهلا بيك",
               style: AppStyles.styleBold24(
                 context,
-              ).copyWith(fontSize: 36, color: AppColors.primaryColor),
+              ).copyWith(fontSize: 36, color: AppColors.primary),
             ),
             AnimatedBuilder(
               animation: _animationController,
@@ -129,14 +129,14 @@ class _SplashViewState extends State<SplashView>
               "حوّل الكرتون المستهلك لفلوس",
               style: AppStyles.styleMedium18(
                 context,
-              ).copyWith(color: AppColors.primaryColor),
+              ).copyWith(color: AppColors.primary),
             ),
             const SizedBox(height: 8),
             Text(
               "بطريقة سهلة وآمنة",
               style: AppStyles.styleMedium18(
                 context,
-              ).copyWith(color: AppColors.primaryColor),
+              ).copyWith(color: AppColors.primary),
             ),
           ],
         ),

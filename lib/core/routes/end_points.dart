@@ -30,10 +30,11 @@ abstract class EndPoints {
   static const String environmentalDefaultView = '/environmentalDefaultView';
   static const String calculatorView = '/calculatorView';
 
-  static const String FinancialTransactionView = '/FinancialTransactionView';
-  static const String FinancialTransactiondetailsView = '/FinancialTransactionDetailsView';
-  static const String ContractedFianceDetailsView = '/ContractedFianceDetailsView';
-
+  static const String financialTransactionsView = '/financialTransactionView';
+  static const String financialTransactionDetailsView =
+      '/financialTransactionDetailsView';
+  static const String contractedFianceDetailsView =
+      '/contractedFianceDetailsView';
 
   // Notifications
   static const String notificationsView = '/notificationsView';

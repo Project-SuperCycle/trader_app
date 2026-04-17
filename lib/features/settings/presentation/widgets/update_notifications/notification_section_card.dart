@@ -160,7 +160,7 @@ class _ChannelRowTile extends StatelessWidget {
             value: value,
             onChanged: onChanged,
             activeThumbColor: Colors.white,
-            activeTrackColor: AppColors.primaryColor,
+            activeTrackColor: AppColors.primary,
             inactiveThumbColor: Colors.white,
             inactiveTrackColor: Colors.grey.shade300,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

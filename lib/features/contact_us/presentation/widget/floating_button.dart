@@ -16,7 +16,7 @@ class FloatingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: onPressed,
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.primary,
       tooltip: isArabic ? "إرسال" : "Submit",
       child: Padding(
         padding: const EdgeInsets.all(9.0),

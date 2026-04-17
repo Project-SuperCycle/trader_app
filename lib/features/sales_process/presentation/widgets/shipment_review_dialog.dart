@@ -307,17 +307,14 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primaryColor,
-            AppColors.primaryColor.withAlpha(400),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withAlpha(400)],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
         ),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryColor.withAlpha(150),
+            color: AppColors.primary.withAlpha(150),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -468,15 +465,12 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primaryColor.withAlpha(50),
-            AppColors.primaryColor.withAlpha(25),
+            AppColors.primary.withAlpha(50),
+            AppColors.primary.withAlpha(25),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.primaryColor.withAlpha(100),
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.primary.withAlpha(100), width: 1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -484,12 +478,12 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor.withAlpha(50),
+              color: AppColors.primary.withAlpha(50),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
               Icons.inventory_2_rounded,
-              color: AppColors.primaryColor,
+              color: AppColors.primary,
               size: 20,
             ),
           ),
@@ -498,13 +492,13 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
             'منتجات الشحنة',
             style: AppStyles.styleSemiBold16(
               context,
-            ).copyWith(color: AppColors.primaryColor),
+            ).copyWith(color: AppColors.primary),
           ),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor,
+              color: AppColors.primary,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
@@ -559,14 +553,14 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.primaryColor,
-                        AppColors.primaryColor.withAlpha(400),
+                        AppColors.primary,
+                        AppColors.primary.withAlpha(400),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primaryColor.withAlpha(150),
+                        color: AppColors.primary.withAlpha(150),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -654,12 +648,12 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColors.primaryColor.withAlpha(150),
+                          color: AppColors.primary.withAlpha(150),
                           width: 1.5,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primaryColor.withAlpha(50),
+                            color: AppColors.primary.withAlpha(50),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -671,7 +665,7 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
                         textAlign: TextAlign.center,
                         style: AppStyles.styleBold16(
                           context,
-                        ).copyWith(color: AppColors.primaryColor),
+                        ).copyWith(color: AppColors.primary),
                         decoration: InputDecoration(
                           isDense: true,
                           contentPadding: const EdgeInsets.symmetric(
@@ -1013,15 +1007,12 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
               height: 52,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    AppColors.primaryColor,
-                    AppColors.primaryColor.withAlpha(400),
-                  ],
+                  colors: [AppColors.primary, AppColors.primary.withAlpha(400)],
                 ),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primaryColor.withAlpha(150),
+                    color: AppColors.primary.withAlpha(150),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),

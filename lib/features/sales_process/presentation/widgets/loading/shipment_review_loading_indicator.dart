@@ -95,10 +95,7 @@ class ShipmentReviewLoadingIndicator extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primaryColor,
-            AppColors.primaryColor.withAlpha(400),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withAlpha(400)],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
         ),
@@ -184,15 +181,12 @@ class ShipmentReviewLoadingIndicator extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primaryColor.withAlpha(50),
-            AppColors.primaryColor.withAlpha(25),
+            AppColors.primary.withAlpha(50),
+            AppColors.primary.withAlpha(25),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.primaryColor.withAlpha(100),
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.primary.withAlpha(100), width: 1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

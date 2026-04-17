@@ -20,7 +20,7 @@ class ContactInfoChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: AppColors.primaryColor, size: 16),
+          Icon(icon, color: AppColors.primary, size: 16),
           const SizedBox(width: 8),
           Flexible(
             child: Text(

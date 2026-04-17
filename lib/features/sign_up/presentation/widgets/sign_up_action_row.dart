@@ -8,6 +8,7 @@ import 'package:trader_app/generated/l10n.dart';
 
 class SignUpActionRow extends StatelessWidget {
   final VoidCallback onSignUp;
+
   const SignUpActionRow({super.key, required this.onSignUp});
 
   @override
@@ -53,7 +54,7 @@ class SignUpActionRow extends StatelessWidget {
               S.of(context).already_have_an_account,
               style: AppStyles.styleMedium16(
                 context,
-              ).copyWith(color: AppColors.primaryColor),
+              ).copyWith(color: AppColors.primary),
             ),
           ),
         ),

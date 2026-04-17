@@ -95,7 +95,7 @@ class _ImagesPreviewDialogState extends State<ImagesPreviewDialog>
                                 '${_currentIndex + 1} من ${widget.images.length}',
                                 style: AppStyles.styleBold16(
                                   context,
-                                ).copyWith(color: AppColors.primaryColor),
+                                ).copyWith(color: AppColors.primary),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -195,8 +195,8 @@ class _ImagesPreviewDialogState extends State<ImagesPreviewDialog>
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               foregroundColor: _currentIndex > 0
-                                  ? AppColors.primaryColor
-                                  : AppColors.primaryColor.withAlpha(200),
+                                  ? AppColors.primary
+                                  : AppColors.primary.withAlpha(200),
                             ),
                           ),
 
@@ -212,7 +212,7 @@ class _ImagesPreviewDialogState extends State<ImagesPreviewDialog>
                               width: _currentIndex == index ? 24 : 8,
                               decoration: BoxDecoration(
                                 color: _currentIndex == index
-                                    ? AppColors.primaryColor
+                                    ? AppColors.primary
                                     : Colors.grey.withAlpha(100),
                                 borderRadius: BorderRadius.circular(4),
                               ),
@@ -238,8 +238,8 @@ class _ImagesPreviewDialogState extends State<ImagesPreviewDialog>
                               backgroundColor: Colors.transparent,
                               foregroundColor:
                                   _currentIndex < widget.images.length - 1
-                                  ? AppColors.primaryColor
-                                  : AppColors.primaryColor.withAlpha(200),
+                                  ? AppColors.primary
+                                  : AppColors.primary.withAlpha(200),
                             ),
                           ),
                         ],

@@ -73,10 +73,7 @@ class ImagesStep extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(
-                  Icons.photo_library_rounded,
-                  color: AppColors.primaryColor,
-                ),
+                Icon(Icons.photo_library_rounded, color: AppColors.primary),
                 const SizedBox(width: 10),
                 Text('صور الشحنة', style: AppStyles.styleSemiBold16(context)),
                 const Spacer(),

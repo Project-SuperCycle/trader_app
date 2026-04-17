@@ -46,7 +46,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                   '1. جمع البيانات',
                   style: AppStyles.styleSemiBold16(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -59,7 +59,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                   '2. استخدام البيانات',
                   style: AppStyles.styleSemiBold16(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -72,7 +72,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                   '3. حماية البيانات',
                   style: AppStyles.styleSemiBold16(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -85,7 +85,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                   '4. الكوكيز وتقنيات التتبع',
                   style: AppStyles.styleSemiBold16(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -98,7 +98,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                   '5. حقوقك',
                   style: AppStyles.styleSemiBold16(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -111,7 +111,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                   '6. التواصل',
                   style: AppStyles.styleSemiBold16(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -128,7 +128,7 @@ class _PrivacyPolicyCheckboxState extends State<PrivacyPolicyCheckbox> {
                 'موافق',
                 style: AppStyles.styleBold16(
                   context,
-                ).copyWith(color: AppColors.primaryColor),
+                ).copyWith(color: AppColors.primary),
               ),
             ),
           ],

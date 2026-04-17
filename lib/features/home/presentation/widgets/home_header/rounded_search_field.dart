@@ -108,7 +108,7 @@ class _RoundedSearchFieldState extends State<RoundedSearchField> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius!),
             borderSide: BorderSide(
-              color: AppColors.primaryColor.withAlpha(150),
+              color: AppColors.primary.withAlpha(150),
               width: 1.5,
             ),
           ),

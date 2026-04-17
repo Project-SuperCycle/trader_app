@@ -55,7 +55,7 @@ class _TraderBranchesSectionState extends State<TraderBranchesSection> {
     return IconButton(
       icon: Icon(
         icon,
-        color: isActive ? AppColors.primaryColor : Colors.grey,
+        color: isActive ? AppColors.primary : Colors.grey,
         size: 25,
       ),
       onPressed: () => setState(() => _isListView = isListButton),
@@ -81,14 +81,14 @@ class _TraderBranchesSectionState extends State<TraderBranchesSection> {
                 children: [
                   Icon(
                     Icons.store_outlined,
-                    color: AppColors.primaryColor,
+                    color: AppColors.primary,
                     size: 40,
                   ),
                   const SizedBox(width: 16),
                   Expanded(child: _buildBranchInfo(branch)),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: AppColors.primaryColor,
+                    color: AppColors.primary,
                     size: 20,
                   ),
                 ],
@@ -101,12 +101,9 @@ class _TraderBranchesSectionState extends State<TraderBranchesSection> {
   }
 
   BoxDecoration _decorBox() => BoxDecoration(
-    color: AppColors.primaryColor.withAlpha(25),
+    color: AppColors.primary.withAlpha(25),
     borderRadius: BorderRadius.circular(12),
-    border: Border.all(
-      color: AppColors.primaryColor.withAlpha(100),
-      width: 1.5,
-    ),
+    border: Border.all(color: AppColors.primary.withAlpha(100), width: 1.5),
   );
 
   Widget _buildBranchInfo(TraderBranchModel branch) {
@@ -117,7 +114,7 @@ class _TraderBranchesSectionState extends State<TraderBranchesSection> {
           branch.branchName,
           style: AppStyles.styleSemiBold16(
             context,
-          ).copyWith(color: AppColors.primaryColor),
+          ).copyWith(color: AppColors.primary),
         ),
         const SizedBox(height: 4),
         Text(
@@ -193,7 +190,7 @@ class _BranchDetailsSheet extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.category, color: AppColors.primaryColor, size: 24),
+                  Icon(Icons.category, color: AppColors.primary, size: 24),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -216,10 +213,10 @@ class _BranchDetailsSheet extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.primaryColor.withAlpha(25),
+                                color: AppColors.primary.withAlpha(25),
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: AppColors.primaryColor.withAlpha(100),
+                                  color: AppColors.primary.withAlpha(100),
                                   width: 1,
                                 ),
                               ),
@@ -227,7 +224,7 @@ class _BranchDetailsSheet extends StatelessWidget {
                                 type,
                                 style: AppStyles.styleSemiBold12(
                                   context,
-                                ).copyWith(color: AppColors.primaryColor),
+                                ).copyWith(color: AppColors.primary),
                               ),
                             );
                           }).toList(),
@@ -249,7 +246,7 @@ class _BranchDetailsSheet extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
+                  backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -303,7 +300,7 @@ class _DetailRow extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
-          Icon(icon, color: AppColors.primaryColor, size: 24),
+          Icon(icon, color: AppColors.primary, size: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

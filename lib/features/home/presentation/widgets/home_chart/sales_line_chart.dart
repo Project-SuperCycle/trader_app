@@ -182,7 +182,7 @@ class _LineChart extends StatelessWidget {
       show: true,
       border: Border(
         bottom: BorderSide(
-          color: AppColors.primaryColor.withValues(alpha: 0.2),
+          color: AppColors.primary.withValues(alpha: 0.2),
           width: 3,
         ),
         left: const BorderSide(color: Colors.transparent),
@@ -195,13 +195,13 @@ class _LineChart extends StatelessWidget {
   LineChartBarData _buildLineChartBarData() {
     return LineChartBarData(
       isCurved: true,
-      color: AppColors.primaryColor,
+      color: AppColors.primary,
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: const FlDotData(show: true),
       belowBarData: BarAreaData(
         show: true,
-        color: AppColors.primaryColor.withValues(alpha: 0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
       ),
       spots: priceData
           .asMap()
@@ -272,6 +272,8 @@ class SalesLineChartState extends State<SalesLineChart> {
   void initState() {
     super.initState();
 
+    _loadTypeHistory("69cd96f5b7bf08f567002755");
+
     // عرض الداتا المخزنة لو موجودة
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final cubit = context.read<HomeCubit>();
@@ -290,7 +292,7 @@ class SalesLineChartState extends State<SalesLineChart> {
   }
 
   void _loadTypeHistory([String? typeId]) {
-    final id = typeId ?? _selectedTypeId ?? '68a8567bf5a2951a1ee9e982';
+    final id = typeId ?? _selectedTypeId ?? '69cd96f5b7bf08f567002755';
     BlocProvider.of<HomeCubit>(context).fetchTypeHistory(typeId: id);
   }
 
@@ -562,9 +564,9 @@ class SalesLineChartState extends State<SalesLineChart> {
   Widget _buildInitialWidget() {
     return _buildStatusWidget(
       icon: Icons.show_chart,
-      iconColor: AppColors.primaryColor.withValues(alpha: 0.7),
+      iconColor: AppColors.primary.withValues(alpha: 0.7),
       title: 'Chart ready to load',
-      titleColor: AppColors.primaryColor.withValues(alpha: 0.8),
+      titleColor: AppColors.primary.withValues(alpha: 0.8),
       buttonText: 'Load Chart',
     );
   }
@@ -604,7 +606,7 @@ class SalesLineChartState extends State<SalesLineChart> {
           ElevatedButton(
             onPressed: _loadTypeHistory,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
+              backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
             ),
             child: Text(buttonText),

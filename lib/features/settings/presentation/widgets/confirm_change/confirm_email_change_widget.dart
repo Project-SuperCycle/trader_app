@@ -17,7 +17,7 @@ class _ConfirmEmailChangeWidgetState extends State<ConfirmEmailChangeWidget> {
   final _otpController = TextEditingController();
   final bool _isLoading = false;
 
-  static const Color _primaryGreen = AppColors.primaryColor;
+  static const Color _primaryGreen = AppColors.primary;
 
   @override
   void dispose() {
@@ -51,7 +51,7 @@ class _ConfirmEmailChangeWidgetState extends State<ConfirmEmailChangeWidget> {
           textAlign: TextAlign.center,
           style: AppStyles.styleBold24(
             context,
-          ).copyWith(color: AppColors.primaryColor),
+          ).copyWith(color: AppColors.primary),
         ),
 
         const SizedBox(height: 12),

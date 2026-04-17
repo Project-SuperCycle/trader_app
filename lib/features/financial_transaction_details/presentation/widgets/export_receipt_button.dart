@@ -3,7 +3,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:trader_app/core/constants.dart';
-import 'package:trader_app/features/Financial_transactions/data/models/transaction_model.dart';
+import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
 
 class ExportReceiptButton extends StatelessWidget {
   const ExportReceiptButton({super.key, required this.transaction});
@@ -78,13 +78,17 @@ class ExportReceiptButton extends StatelessWidget {
                       _pdfDivider(),
                       _pdfRow('التاريخ', transaction.date),
                       _pdfDivider(),
-                      _pdfRow('الحالة',
-                          transaction.isPending ? 'منتظر' : 'تم التحصيل'),
+                      _pdfRow(
+                        'الحالة',
+                        transaction.isPending ? 'منتظر' : 'تم التحصيل',
+                      ),
                       _pdfDivider(),
                       _pdfRow('طريقة التحصيل', transaction.paymentMethod),
                       _pdfDivider(),
                       _pdfRow(
-                          'الوزن الإجمالي', '${transaction.totalWeight} طن'),
+                        'الوزن الإجمالي',
+                        '${transaction.totalWeight} طن',
+                      ),
                     ],
                   ),
                 ),
@@ -171,10 +175,7 @@ class ExportReceiptButton extends StatelessWidget {
   }
 
   pw.Widget _pdfDivider() {
-    return pw.Divider(
-      color: PdfColor.fromHex('E5E7EB'),
-      thickness: 0.5,
-    );
+    return pw.Divider(color: PdfColor.fromHex('E5E7EB'), thickness: 0.5);
   }
 
   Future<void> _exportPdf(BuildContext context) async {

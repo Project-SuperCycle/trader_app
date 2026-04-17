@@ -101,7 +101,7 @@ class _NetworkImagesPreviewDialogState extends State<NetworkImagesPreviewDialog>
                                 '${_currentIndex + 1} من ${widget.images.length}',
                                 style: AppStyles.styleBold16(
                                   context,
-                                ).copyWith(color: AppColors.primaryColor),
+                                ).copyWith(color: AppColors.primary),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -175,7 +175,7 @@ class _NetworkImagesPreviewDialogState extends State<NetworkImagesPreviewDialog>
                                                 MainAxisAlignment.center,
                                             children: [
                                               CircularProgressIndicator(
-                                                color: AppColors.primaryColor,
+                                                color: AppColors.primary,
                                                 value:
                                                     loadingProgress
                                                             .expectedTotalBytes !=
@@ -193,8 +193,7 @@ class _NetworkImagesPreviewDialogState extends State<NetworkImagesPreviewDialog>
                                                     AppStyles.styleSemiBold14(
                                                       context,
                                                     ).copyWith(
-                                                      color: AppColors
-                                                          .primaryColor,
+                                                      color: AppColors.primary,
                                                     ),
                                               ),
                                               if (loadingProgress
@@ -335,8 +334,8 @@ class _NetworkImagesPreviewDialogState extends State<NetworkImagesPreviewDialog>
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               foregroundColor: _currentIndex > 0
-                                  ? AppColors.primaryColor
-                                  : AppColors.primaryColor.withAlpha(200),
+                                  ? AppColors.primary
+                                  : AppColors.primary.withAlpha(200),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -350,7 +349,7 @@ class _NetworkImagesPreviewDialogState extends State<NetworkImagesPreviewDialog>
                               width: _currentIndex == index ? 24 : 8,
                               decoration: BoxDecoration(
                                 color: _currentIndex == index
-                                    ? AppColors.primaryColor
+                                    ? AppColors.primary
                                     : Colors.grey.withAlpha(100),
                                 borderRadius: BorderRadius.circular(4),
                               ),
@@ -374,8 +373,8 @@ class _NetworkImagesPreviewDialogState extends State<NetworkImagesPreviewDialog>
                               backgroundColor: Colors.transparent,
                               foregroundColor:
                                   _currentIndex < widget.images.length - 1
-                                  ? AppColors.primaryColor
-                                  : AppColors.primaryColor.withAlpha(200),
+                                  ? AppColors.primary
+                                  : AppColors.primary.withAlpha(200),
                             ),
                           ),
                         ],

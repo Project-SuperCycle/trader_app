@@ -121,7 +121,7 @@ class _UpdatePasswordSectionState extends State<UpdatePasswordSection> {
               'تأمين حسابك',
               style: AppStyles.styleBold24(
                 context,
-              ).copyWith(color: AppColors.primaryColor),
+              ).copyWith(color: AppColors.primary),
             ),
             const SizedBox(height: 8),
 

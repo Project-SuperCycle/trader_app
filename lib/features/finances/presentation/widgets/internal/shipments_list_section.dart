@@ -14,8 +14,16 @@ class ShipmentsListSection extends StatefulWidget {
 }
 
 class _ShipmentsListSectionState extends State<ShipmentsListSection> {
+  static const int _pageSize = 5;
   int _currentPage = 1;
-  final int _totalPages = 1;
+
+  int get _totalPages => (widget.shipments.length / _pageSize).ceil();
+
+  List<FinanceShipmentModel> get _currentPageItems {
+    final start = (_currentPage - 1) * _pageSize;
+    final end = (start + _pageSize).clamp(0, widget.shipments.length);
+    return widget.shipments.sublist(start, end);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +58,21 @@ class _ShipmentsListSectionState extends State<ShipmentsListSection> {
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.shipments.length,
+          itemCount: _currentPageItems.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, index) => ShipmentItemCard(
-            shipment: widget.shipments[index],
-            onDetailsTap: () {},
-          ),
+          itemBuilder: (context, index) =>
+              ShipmentItemCard(shipment: _currentPageItems[index]),
         ),
 
         const SizedBox(height: 20),
 
         // ── Pagination ──
-        PaginationFooter(
-          currentPage: _currentPage,
-          totalPages: _totalPages,
-          onPageChanged: (page) => setState(() => _currentPage = page),
-        ),
+        if (_totalPages > 1)
+          PaginationFooter(
+            currentPage: _currentPage,
+            totalPages: _totalPages,
+            onPageChanged: (page) => setState(() => _currentPage = page),
+          ),
       ],
     );
   }

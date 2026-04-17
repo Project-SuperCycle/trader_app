@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/constants.dart';
-import 'package:trader_app/core/functions/get_formaated_date.dart';
+import 'package:trader_app/core/functions/get_formated_date.dart';
+import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/finances/data/models/internal/finance_shipment_model.dart';
+import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
 
 // ======== Shipment Card ========
 class ShipmentItemCard extends StatelessWidget {
-  const ShipmentItemCard({
-    super.key,
-    required this.shipment,
-    required this.onDetailsTap,
-  });
+  const ShipmentItemCard({super.key, required this.shipment});
 
   final FinanceShipmentModel shipment;
-  final VoidCallback onDetailsTap;
+
+  Future<void> _showShipmentDetails(BuildContext context) async {
+    final cubit = context.read<ShipmentsCalendarCubit>();
+    cubit.getShipmentById(shipmentId: shipment.shipmentId, type: 'type');
+    GoRouter.of(context).push(EndPoints.shipmentPreDetailsView);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +269,7 @@ class ShipmentItemCard extends StatelessWidget {
 
                   // Details Button
                   GestureDetector(
-                    onTap: onDetailsTap,
+                    onTap: () => _showShipmentDetails(context),
                     child: Row(
                       children: [
                         Text(

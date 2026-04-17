@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
-class CollectionToggle extends StatefulWidget {
-  const CollectionToggle({super.key, required this.onChanged});
+class TypeToggle extends StatefulWidget {
+  const TypeToggle({super.key, required this.onChanged});
 
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<String> onChanged;
 
   @override
-  State<CollectionToggle> createState() => _CollectionToggleState();
+  State<TypeToggle> createState() => _TypeToggleState();
 }
 
-class _CollectionToggleState extends State<CollectionToggle> {
-  bool isPending = true;
+class _TypeToggleState extends State<TypeToggle> {
+  String type = '';
+  bool isTapped = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +30,27 @@ class _CollectionToggleState extends State<CollectionToggle> {
       padding: const EdgeInsets.all(4),
       child: Row(
         children: [
-          // منتظر التحصيل
+          // داخل التعاقد
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() => isPending = true);
-                widget.onChanged(true);
+                setState(() => isTapped = true);
+                widget.onChanged('monthly');
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
-                  color: isPending
+                  color: isTapped
                       ? Colors.white.withValues(alpha: 0.9)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'منتظر التحصيل',
+                  'داخل التعاقد',
                   textDirection: TextDirection.rtl,
                   style: AppStyles.styleBold14(context).copyWith(
-                    color: isPending ? const Color(0xFF3BC577) : Colors.white,
+                    color: isTapped ? const Color(0xFF3BC577) : Colors.white,
                   ),
                 ),
               ),
@@ -60,23 +61,23 @@ class _CollectionToggleState extends State<CollectionToggle> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() => isPending = false);
-                widget.onChanged(false);
+                setState(() => isTapped = false);
+                widget.onChanged("external");
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
-                  color: isPending
+                  color: isTapped
                       ? Colors.transparent
                       : Colors.white.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'تم التحصيل',
+                  'خارج التعاقد',
                   textDirection: TextDirection.rtl,
                   style: AppStyles.styleBold14(context).copyWith(
-                    color: isPending ? Colors.white : const Color(0xFF3BC577),
+                    color: isTapped ? Colors.white : const Color(0xFF3BC577),
                   ),
                 ),
               ),

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/constants/storage_constants.dart';
+import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/cubits/get_finance_transactions/get_finance_transactions_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_finances_summary/get_finances_summary_cubit.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/collection_toggle.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/finance_summary_card.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/pagination_footer.dart';
 import 'package:trader_app/features/finances/presentation/widgets/history/transactions_list_section.dart';
+import 'package:trader_app/features/finances/presentation/widgets/history/type_toggle.dart';
 
 class FinancesHistoryViewBody extends StatefulWidget {
   const FinancesHistoryViewBody({super.key, required this.onDrawerPressed});
@@ -17,10 +24,41 @@ class FinancesHistoryViewBody extends StatefulWidget {
 }
 
 int _currentPage = 1;
-int _totalPages = 10;
+int _totalPages = 1;
 
 class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
-  bool status = true;
+  bool isPending = true;
+
+  String selectedType = 'خارج التعاقد';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFinanceSummary();
+    getFinanceTransactions();
+  }
+
+  void getFinanceSummary() {
+    String type = (selectedType == 'external') ? 'external' : 'monthly';
+    BlocProvider.of<GetFinancesSummaryCubit>(
+      context,
+    ).getFinancesSummary(type: type);
+  }
+
+  void getFinanceTransactions() async {
+    String status = isPending ? 'pending' : 'paid';
+    String type = (selectedType == 'external') ? 'external' : 'monthly';
+    BlocProvider.of<GetFinanceTransactionsCubit>(
+      context,
+    ).getFinancesTransactions(page: _currentPage, status: status, type: type);
+
+    int pages = await StorageServices.readData(StorageConstants.FINANCES_PAGES);
+    Logger().w('Total pages: $pages');
+    setState(() {
+      _totalPages = pages;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +80,7 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
@@ -74,13 +112,25 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    FinanceSummaryCard(status: status),
+                    FinanceSummaryCard(isPending: isPending),
                     const SizedBox(height: 20),
                     CollectionToggle(
                       onChanged: (value) {
-                        setState(() => status = value);
+                        setState(() => isPending = value);
+                        getFinanceSummary();
+                        getFinanceTransactions();
                       },
                     ),
+                    const SizedBox(height: 24),
+
+                    TypeToggle(
+                      onChanged: (value) {
+                        setState(() => selectedType = value);
+                        getFinanceSummary();
+                        getFinanceTransactions();
+                      },
+                    ),
+
                     const SizedBox(height: 24),
                     const TransactionsListSection(),
                     const SizedBox(height: 20),
@@ -89,7 +139,7 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
                       totalPages: _totalPages,
                       onPageChanged: (page) {
                         setState(() => _currentPage = page);
-                        // هنا تعمل fetch للداتا بتاعة الصفحة دي
+                        getFinanceTransactions();
                       },
                     ),
                   ],

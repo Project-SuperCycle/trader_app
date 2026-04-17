@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
-import 'package:trader_app/features/finances/presentation/widgets/finance_internal_details_view_body.dart';
+import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
 
 class FinanceTransactionCard extends StatelessWidget {
   const FinanceTransactionCard({super.key, required this.transaction});
 
-  final TransactionModel transaction;
+  final FinanceTransactionModel transaction;
 
   @override
   Widget build(BuildContext context) {
-    final isPending = transaction.isPending;
+    final bool isPending = (transaction.paymentStatus == 'pending')
+        ? true
+        : false;
 
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) =>
-              FinanceInternalDetailsViewBody(transaction: transaction),
-        ),
-      ),
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -65,14 +60,15 @@ class FinanceTransactionCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          transaction.id,
+                          getTransactionType(transaction.settlementType),
+
                           style: AppStyles.styleBold16(
                             context,
                           ).copyWith(color: Color(0xFF10B981)),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          transaction.date,
+                          transaction.getFormattedDateLabel(),
                           textDirection: TextDirection.rtl,
                           style: AppStyles.styleMedium12(
                             context,
@@ -132,12 +128,12 @@ class FinanceTransactionCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              transaction.paymentMethodIcon,
+                              getPaymentIcon(transaction.paymentMethod),
                               style: const TextStyle(fontSize: 14),
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              transaction.paymentMethod,
+                              getPaymentType(transaction.paymentMethod),
                               textDirection: TextDirection.rtl,
                               style: AppStyles.styleBold16(
                                 context,
@@ -164,14 +160,16 @@ class FinanceTransactionCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            getWeightValue(transaction.totalWeight).toString(),
+                            getWeightValue(
+                              transaction.totalWeightedKg,
+                            ).toString(),
                             style: AppStyles.styleBold18(
                               context,
                             ).copyWith(color: Color(0xFF10B981)),
                           ),
                           const SizedBox(width: 3),
                           Text(
-                            getWeightUnit(transaction.totalWeight),
+                            getWeightUnit(transaction.totalWeightedKg),
                             textDirection: TextDirection.rtl,
                             style: AppStyles.styleMedium12(
                               context,
@@ -207,7 +205,7 @@ class FinanceTransactionCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          transaction.totalAmount
+                          transaction.amount
                               .toStringAsFixed(0)
                               .replaceAllMapped(
                                 RegExp(r'\B(?=(\d{3})+(?!\d))'),
@@ -250,4 +248,34 @@ String getWeightUnit(num totalWeight) {
 
 num getWeightValue(num totalWeight) {
   return totalWeight < 1000 ? totalWeight : totalWeight / 1000;
+}
+
+String getPaymentIcon(String paymentMethod) {
+  switch (paymentMethod) {
+    case 'cash':
+      return '💵';
+    case 'bankTransfer':
+      return '🏦';
+    case 'wallet':
+      return '💳';
+    default:
+      return '💵';
+  }
+}
+
+String getPaymentType(String paymentMethod) {
+  switch (paymentMethod) {
+    case 'cash':
+      return 'نقدي';
+    case 'bankTransfer':
+      return 'بنكي';
+    case 'wallet':
+      return 'محفظة';
+    default:
+      return 'نقدي';
+  }
+}
+
+String getTransactionType(String settlementType) {
+  return (settlementType == 'external') ? 'خارج التعاقد' : 'داخل التعاقد';
 }

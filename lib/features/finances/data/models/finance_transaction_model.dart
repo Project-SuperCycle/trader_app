@@ -130,4 +130,38 @@ class FinanceTransactionModel {
         'weightedAt: $weightedAt, paidAt: $paidAt, periodFrom: $periodFrom, '
         'periodTo: $periodTo, totalWeightedKg: $totalWeightedKg)';
   }
+
+  String getFormattedDateLabel() {
+    final DateTime? date = weightedAt ?? paidAt;
+
+    if (date != null) {
+      return _formatArabicDate(date);
+    }
+
+    if (periodFrom != null && periodTo != null) {
+      return '${_formatArabicDate(periodFrom!)} - ${_formatArabicDate(periodTo!)}';
+    }
+
+    return '';
+  }
+
+  String _formatArabicDate(DateTime date) {
+    const List<String> arabicMonths = [
+      'يناير',
+      'فبراير',
+      'مارس',
+      'أبريل',
+      'مايو',
+      'يونيو',
+      'يوليو',
+      'أغسطس',
+      'سبتمبر',
+      'أكتوبر',
+      'نوفمبر',
+      'ديسمبر',
+    ];
+
+    final String month = arabicMonths[date.month - 1];
+    return '${date.day} $month ${date.year}';
+  }
 }

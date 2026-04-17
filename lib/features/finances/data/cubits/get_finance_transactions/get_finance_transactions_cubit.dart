@@ -12,12 +12,14 @@ class GetFinanceTransactionsCubit extends Cubit<GetFinanceTransactionsState> {
     : super(GetFinanceTransactionsInitial());
 
   Future<void> getFinancesTransactions({
+    required String type,
     required String status,
     required int page,
   }) async {
     emit(GetFinanceTransactionsLoading());
     try {
       var result = await repo.getFinanceTransactions(
+        type: type,
         status: status,
         page: page,
       );

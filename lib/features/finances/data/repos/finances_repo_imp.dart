@@ -51,21 +51,22 @@ class FinancesRepoImp implements FinancesRepo {
 
   @override
   Future<Either<Failure, List<FinanceTransactionModel>>>
-  getFinanceTransactions({required String status, required int page}) {
+  getFinanceTransactions({
+    required String status,
+    required int page,
+    required String type,
+  }) {
     // TODO: implement getExternalFinances
     return ErrorHandler.handleApiResponse<List<FinanceTransactionModel>>(
       apiCall: () => apiServices.get(
         endPoint: ApiEndpoints.getFinancesItems,
-        query: {"status": status, "page": page},
+        query: {"status": status, "page": page, "type": type},
       ),
       errorContext: 'get trader finance transactions',
       responseParser: (response) {
         final List data = response['data'];
         final int meta = response['meta']['totalPages'];
-        StorageServices.storeData(
-          StorageConstants.EXTERNAL_FINANCES_PAGES,
-          meta,
-        );
+        StorageServices.storeData(StorageConstants.FINANCES_PAGES, meta);
         return data.map((e) => FinanceTransactionModel.fromJson(e)).toList();
       },
     );

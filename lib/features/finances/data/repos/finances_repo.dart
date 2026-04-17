@@ -15,7 +15,11 @@ abstract class FinancesRepo {
   });
 
   Future<Either<Failure, List<FinanceTransactionModel>>>
-  getFinanceTransactions({required String status, required int page});
+  getFinanceTransactions({
+    required String status,
+    required int page,
+    required String type,
+  });
 
   // EXTERNAL METHODS
   Future<Either<Failure, SingleFinanceExternalModel>>

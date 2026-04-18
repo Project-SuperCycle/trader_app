@@ -31,30 +31,43 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
 
   String selectedType = 'خارج التعاقد';
 
+  String settlementType = 'external';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadUserData();
     getFinanceSummary();
     getFinanceTransactions();
   }
 
+  Future<void> _loadUserData() async {
+    final user = await StorageServices.getUserData();
+    Logger().i('user: ${user!.settlementType}');
+
+    setState(() {
+      settlementType = user.settlementType!;
+    });
+  }
+
   void getFinanceSummary() {
-    String type = (selectedType == 'external') ? 'external' : 'monthly';
+    String type = (selectedType == 'external') ? 'external' : settlementType;
     BlocProvider.of<GetFinancesSummaryCubit>(
       context,
     ).getFinancesSummary(type: type);
+    Logger().w('type: $settlementType');
   }
 
   void getFinanceTransactions() async {
     String status = isPending ? 'pending' : 'paid';
-    String type = (selectedType == 'external') ? 'external' : 'monthly';
+    String type = (selectedType == 'external') ? 'external' : settlementType;
     BlocProvider.of<GetFinanceTransactionsCubit>(
       context,
     ).getFinancesTransactions(page: _currentPage, status: status, type: type);
 
     int pages = await StorageServices.readData(StorageConstants.FINANCES_PAGES);
-    Logger().w('Total pages: $pages');
+    Logger().w('type: $settlementType');
     setState(() {
       _totalPages = pages;
     });
@@ -123,13 +136,14 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
                     ),
                     const SizedBox(height: 24),
 
-                    TypeToggle(
-                      onChanged: (value) {
-                        setState(() => selectedType = value);
-                        getFinanceSummary();
-                        getFinanceTransactions();
-                      },
-                    ),
+                    if (settlementType != 'external')
+                      TypeToggle(
+                        onChanged: (value) {
+                          setState(() => selectedType = value);
+                          getFinanceSummary();
+                          getFinanceTransactions();
+                        },
+                      ),
 
                     const SizedBox(height: 24),
                     const TransactionsListSection(),

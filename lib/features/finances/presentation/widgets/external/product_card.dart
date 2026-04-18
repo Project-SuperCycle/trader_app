@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_assets.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/models/external/external_Item_model.dart';
 
 // ======== Model ========
 class ProductItem {
@@ -39,7 +41,7 @@ final List<ProductItem> dummyProducts = [
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product});
 
-  final ProductItem product;
+  final ExternalItemModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +66,11 @@ class ProductCard extends StatelessWidget {
               topRight: Radius.circular(kBorderRadius),
               bottomRight: Radius.circular(kBorderRadius),
             ),
-            child: Image.network(
-              product.imageUrl,
+            child: Image.asset(
+              AppAssets.miniature,
               width: 90,
               height: 80,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               errorBuilder: (_, __, ___) => Container(
                 width: 90,
                 height: 80,
@@ -88,7 +90,7 @@ class ProductCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Text(
-                product.nameAr,
+                product.doshTypeName,
                 textAlign: TextAlign.right,
                 style: AppStyles.styleBold14(
                   context,
@@ -113,14 +115,14 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        getWeightValue(product.remainingWeight).toString(),
+                        getWeightValue(product.quantityKg).toString(),
                         style: AppStyles.styleBold22(
                           context,
                         ).copyWith(color: Color(0xFF10B981)),
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        getWeightUnit(product.remainingWeight),
+                        getWeightUnit(product.quantityKg),
                         style: AppStyles.styleMedium12(
                           context,
                         ).copyWith(color: Color(0xFF10B981)),

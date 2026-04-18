@@ -2,6 +2,8 @@ import 'external_Item_model.dart';
 
 class SingleFinanceExternalModel {
   final String shipmentNumber;
+
+  final String paymentId;
   final num amount;
   final String paymentStatus;
   final String paymentMethod;
@@ -13,6 +15,7 @@ class SingleFinanceExternalModel {
 
   SingleFinanceExternalModel({
     required this.shipmentNumber,
+    required this.paymentId,
     required this.amount,
     required this.paymentStatus,
     required this.paymentMethod,
@@ -40,6 +43,7 @@ class SingleFinanceExternalModel {
       amount: json['amount'] as num,
       paymentStatus: json['paymentStatus'] as String,
       paymentMethod: json['paymentMethod'] as String,
+      paymentId: json['paymentId'] as String,
       weightedAt: DateTime.parse(json['weightedAt'] as String),
       weight: json['weight'] as num,
       paymentProof: List<String>.from(json['paymentProof'] ?? []),
@@ -56,6 +60,7 @@ class SingleFinanceExternalModel {
       'amount': amount,
       'paymentStatus': paymentStatus,
       'paymentMethod': paymentMethod,
+      'paymentId': paymentId,
       'weightedAt': weightedAt.toIso8601String(),
       'weight': weight,
       'paymentProof': paymentProof,
@@ -69,6 +74,7 @@ class SingleFinanceExternalModel {
     num? amount,
     String? paymentStatus,
     String? paymentMethod,
+    String? paymentId,
     DateTime? weightedAt,
     num? weight,
     List<String>? paymentProof,
@@ -85,6 +91,7 @@ class SingleFinanceExternalModel {
       paymentProof: paymentProof ?? this.paymentProof,
       items: items ?? this.items,
       paidAt: paidAt ?? this.paidAt,
+      paymentId: paymentId ?? this.paymentId,
     );
   }
 

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/functions/get_formated_date.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
+import 'package:trader_app/features/finances/data/models/external/single_finance_external_model.dart';
 
 class ShipmentHeroCard extends StatelessWidget {
   const ShipmentHeroCard({super.key, required this.transaction});
 
-  final TransactionModel transaction;
+  final SingleFinanceExternalModel transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +27,19 @@ class ShipmentHeroCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── Row 1: Date + Shipment ID ──
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'رقم الشحنة',
-                      textDirection: TextDirection.rtl,
-                      style: AppStyles.styleMedium12(
-                        context,
-                      ).copyWith(color: Colors.grey.shade400),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      transaction.id,
-                      style: AppStyles.styleBold24(
-                        context,
-                      ).copyWith(color: Color(0xFF10B981)),
-                    ),
-                  ],
+                Text(
+                  'رقم الشحنة',
+                  textDirection: TextDirection.rtl,
+                  style: AppStyles.styleMedium12(
+                    context,
+                  ).copyWith(color: Colors.grey.shade400),
                 ),
 
                 Container(
@@ -70,7 +60,7 @@ class ShipmentHeroCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        transaction.date.split('•').first.trim(),
+                        getFormattedDateLabel(transaction.paidAt!),
                         textDirection: TextDirection.rtl,
                         style: AppStyles.styleSemiBold14(
                           context,
@@ -80,6 +70,17 @@ class ShipmentHeroCard extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+
+            const SizedBox(height: 2),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                transaction.shipmentNumber,
+                style: AppStyles.styleBold24(
+                  context,
+                ).copyWith(color: Color(0xFF10B981)),
+              ),
             ),
 
             const SizedBox(height: 16),
@@ -112,16 +113,14 @@ class ShipmentHeroCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              getWeightValue(
-                                transaction.totalWeight,
-                              ).toString(),
+                              getWeightValue(transaction.weight).toString(),
                               style: AppStyles.styleBold22(
                                 context,
                               ).copyWith(color: Color(0xFF10B981)),
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              getWeightUnit(transaction.totalWeight),
+                              getWeightUnit(transaction.weight),
                               style: AppStyles.styleMedium12(
                                 context,
                               ).copyWith(color: Colors.grey.shade400),
@@ -160,7 +159,7 @@ class ShipmentHeroCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              transaction.paymentMethod,
+                              getPaymentType(transaction.paymentMethod),
                               textDirection: TextDirection.rtl,
                               style: AppStyles.styleBold22(
                                 context,
@@ -193,4 +192,17 @@ String getWeightUnit(num totalWeight) {
 
 num getWeightValue(num totalWeight) {
   return totalWeight < 1000 ? totalWeight : totalWeight / 1000;
+}
+
+String getPaymentType(String paymentMethod) {
+  switch (paymentMethod) {
+    case 'cash':
+      return 'نقدي';
+    case 'bankTransfer':
+      return 'بنكي';
+    case 'wallet':
+      return 'محفظة';
+    default:
+      return 'نقدي';
+  }
 }

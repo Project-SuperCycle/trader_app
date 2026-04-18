@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/models/external/external_Item_model.dart';
 import 'package:trader_app/features/finances/presentation/widgets/external/product_card.dart';
 
 class ProductsListSection extends StatelessWidget {
   const ProductsListSection({super.key, required this.products});
 
-  final List<ProductItem> products;
+  final List<ExternalItemModel> products;
 
   @override
   Widget build(BuildContext context) {

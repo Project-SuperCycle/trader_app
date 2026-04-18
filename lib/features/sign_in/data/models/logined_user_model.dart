@@ -10,6 +10,8 @@ class LoginedUserModel {
   final String? displayName;
   final bool? isEcoParticipant;
 
+  final String? settlementType;
+
   LoginedUserModel({
     this.bussinessName,
     this.rawBusinessType,
@@ -21,6 +23,7 @@ class LoginedUserModel {
     this.phone,
     this.displayName,
     this.isEcoParticipant,
+    this.settlementType,
   });
 
   // fromJson constructor
@@ -46,6 +49,7 @@ class LoginedUserModel {
       phone: json['phone'],
       displayName: json['displayName'],
       isEcoParticipant: json['isEcoParticipant'],
+      settlementType: json['settlementType'],
     );
   }
 
@@ -62,13 +66,14 @@ class LoginedUserModel {
       'phone': phone,
       'displayName': displayName,
       'isEcoParticipant': isEcoParticipant,
+      'settlementType': settlementType,
     };
   }
 
   // Optional: toString method for debugging
   @override
   String toString() {
-    return 'LoginedUserModel(bussinessName: $bussinessName, rawBusinessType: $rawBusinessType, bussinessAdress: $bussinessAdress, doshMangerName: $doshMangerName, doshMangerPhone: $doshMangerPhone, email: $email, role: $role, phone: $phone, displayName: $displayName)';
+    return 'LoginedUserModel(bussinessName: $bussinessName, rawBusinessType: $rawBusinessType, bussinessAdress: $bussinessAdress, doshMangerName: $doshMangerName, doshMangerPhone: $doshMangerPhone, email: $email, role: $role, phone: $phone, displayName: $displayName, isEcoParticipant: $isEcoParticipant, settlementType: $settlementType)';
   }
 
   // Optional: copyWith method for creating modified copies
@@ -83,6 +88,7 @@ class LoginedUserModel {
     String? phone,
     String? displayName,
     bool? isEcoParticipant,
+    String? settlementType,
   }) {
     return LoginedUserModel(
       bussinessName: bussinessName ?? this.bussinessName,
@@ -95,6 +101,7 @@ class LoginedUserModel {
       phone: phone ?? this.phone,
       displayName: displayName ?? this.displayName,
       isEcoParticipant: isEcoParticipant ?? this.isEcoParticipant,
+      settlementType: settlementType ?? this.settlementType,
     );
   }
 }

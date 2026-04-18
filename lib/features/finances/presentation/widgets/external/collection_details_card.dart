@@ -1,12 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/functions/show_full_screen_image.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/finances/data/entities/transaction_model.dart';
+import 'package:trader_app/features/finances/data/models/external/single_finance_external_model.dart';
 
 class CollectionDetailsCard extends StatelessWidget {
   const CollectionDetailsCard({super.key, required this.transaction});
 
-  final TransactionModel transaction;
+  final SingleFinanceExternalModel transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -56,42 +58,41 @@ class CollectionDetailsCard extends StatelessWidget {
                         context,
                       ).copyWith(color: Color(0xFF10B981)),
                     ),
-                    const SizedBox(width: 110),
-                    // Status Badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: transaction.isPending
-                            ? Colors.orange.withValues(alpha: 0.12)
-                            : const Color(0xFF3BC577).withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.check_circle_rounded,
-                            color: transaction.isPending
-                                ? Colors.orange.shade700
-                                : const Color(0xFF3BC577),
-                            size: 14,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            transaction.isPending ? 'منتظر' : 'تم التحصيل',
-                            textDirection: TextDirection.rtl,
-                            style: AppStyles.styleBold12(context).copyWith(
-                              color: transaction.isPending
-                                  ? Colors.orange.shade700
-                                  : const Color(0xFF10B981),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
+                ),
+                // Status Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: transaction.isPending
+                        ? Colors.orange.withValues(alpha: 0.12)
+                        : const Color(0xFF3BC577).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.check_circle_rounded,
+                        color: transaction.isPending
+                            ? Colors.orange.shade700
+                            : const Color(0xFF3BC577),
+                        size: 14,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        transaction.isPending ? 'منتظر' : 'تم التحصيل',
+                        textDirection: TextDirection.rtl,
+                        style: AppStyles.styleBold12(context).copyWith(
+                          color: transaction.isPending
+                              ? Colors.orange.shade700
+                              : const Color(0xFF10B981),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -127,7 +128,7 @@ class CollectionDetailsCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        transaction.totalAmount
+                        transaction.amount
                             .toStringAsFixed(0)
                             .replaceAllMapped(
                               RegExp(r'\B(?=(\d{3})+(?!\d))'),
@@ -160,7 +161,7 @@ class CollectionDetailsCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        transaction.paymentMethod,
+                        getPaymentType(transaction.paymentMethod),
                         textDirection: TextDirection.rtl,
                         style: AppStyles.styleBold16(
                           context,
@@ -174,43 +175,60 @@ class CollectionDetailsCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // ── Images Row ──
-            Row(
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 100,
-                      color: const Color(0xFF3BC577).withValues(alpha: 0.07),
-                      child: Icon(
-                        Icons.image_outlined,
-                        color: const Color(0xFF3BC577).withValues(alpha: 0.4),
-                        size: 32,
+            // ── Images Section ──
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'صور إثبات التحصيل',
+                textDirection: TextDirection.rtl,
+                style: AppStyles.styleMedium12(
+                  context,
+                ).copyWith(color: Colors.grey.shade400),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Wrap(
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 8,
+                runSpacing: 8,
+                children: transaction.paymentProof!.map((imageUrl) {
+                  return GestureDetector(
+                    onTap: () => showFullScreenImage(context, imageUrl),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        color: Colors.grey.shade100,
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 100,
-                      color: const Color(0xFF3BC577).withValues(alpha: 0.07),
-                      child: Icon(
-                        Icons.image_outlined,
-                        color: const Color(0xFF3BC577).withValues(alpha: 0.4),
-                        size: 32,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+String getPaymentType(String paymentMethod) {
+  switch (paymentMethod) {
+    case 'cash':
+      return 'نقدي';
+    case 'bankTransfer':
+      return 'بنكي';
+    case 'wallet':
+      return 'محفظة';
+    default:
+      return 'نقدي';
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
@@ -123,6 +124,7 @@ abstract class StorageServices {
       displayName: data['displayName'],
       phone: data['phone'],
       isEcoParticipant: data['isEcoParticipant'],
+      settlementType: data['settlementType'],
     );
     return user;
   }
@@ -149,7 +151,7 @@ abstract class StorageServices {
       return branchsMap
           .map(
             (json) => TraderBranchModel.fromJson(json as Map<String, dynamic>),
-      )
+          )
           .toList();
     } catch (e) {
       throw Exception('Failed to retrieve user branchs: ${e.toString()}');
@@ -185,12 +187,13 @@ abstract class StorageServices {
   /// GET PAYMENT INFO
   static Future<PaymentInfoModel?> getUserPaymentInfo() async {
     try {
-      final data =
-      await StorageServices.readData<Map<String, dynamic>>('user_payment_info');
+      final data = await StorageServices.readData<Map<String, dynamic>>(
+        'user_payment_info',
+      );
       if (data == null) return null;
 
       final methodType = PaymentMethodType.values.firstWhere(
-            (e) => e.name == data['methodType'],
+        (e) => e.name == data['methodType'],
         orElse: () => PaymentMethodType.cash,
       );
 
@@ -213,7 +216,9 @@ abstract class StorageServices {
   /// GET USER PROFILE
   static Future<UserProfileModel?> getUserProfile() async {
     try {
-      final data = await StorageServices.readData<Map<String, dynamic>>('user_profile');
+      final data = await StorageServices.readData<Map<String, dynamic>>(
+        'user_profile',
+      );
       if (data == null) return null;
       return UserProfileModel.fromMap(data);
     } catch (e) {

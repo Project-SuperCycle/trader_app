@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/cubits/get_external_finance_details/get_external_finance_details_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
 import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
 
@@ -17,6 +18,10 @@ class FinanceTransactionCard extends StatelessWidget {
     String status = transaction.paymentStatus;
     if (status == "pending") return;
     if (type == 'external') {
+      BlocProvider.of<GetExternalFinanceDetailsCubit>(
+        context,
+      ).getExternalFinanceDetails(shipmentId: transaction.shipmentId!);
+      GoRouter.of(context).push(EndPoints.financialExternalDetailsView);
     } else if (type == 'monthly') {
       BlocProvider.of<GetInternalFinanceDetailsCubit>(
         context,
@@ -25,7 +30,7 @@ class FinanceTransactionCard extends StatelessWidget {
     } else {
       BlocProvider.of<GetInternalFinanceDetailsCubit>(
         context,
-      ).getMonthlyFinanceDetails(paymentId: transaction.paymentId!);
+      ).getMealFinanceDetails(paymentId: transaction.paymentId!);
       GoRouter.of(context).push(EndPoints.financialInternalDetailsView);
     }
   }

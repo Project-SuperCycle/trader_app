@@ -22,6 +22,7 @@ import 'package:trader_app/features/environment/data/cubits/requests_cubit/reque
 import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
 import 'package:trader_app/features/finances/data/cubits/get_external_finance_details/get_external_finance_details_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_finance_methods/get_finance_methods_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_finance_pdf/get_finance_pdf_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_finance_transactions/get_finance_transactions_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_finances_summary/get_finances_summary_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
@@ -171,6 +172,11 @@ void main() async {
           create: (context) => GetInternalFinanceDetailsCubit(
             repo: getIt.get<FinancesRepoImp>(),
           ),
+        ),
+
+        BlocProvider(
+          create: (context) =>
+              GetFinancePdfCubit(repo: getIt.get<FinancesRepoImp>()),
         ),
 
         // SETTINGS CUBITS

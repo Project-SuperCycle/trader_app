@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
@@ -73,6 +74,7 @@ class FinanceExternalDetailsViewBody extends StatelessWidget {
                       },
                       builder: (context, state) {
                         if (state is GetExternalFinanceDetailsLoading) {
+                          Logger().i('GetExternalFinanceDetailsLoading');
                           return const FinanceExternalDetailsLoading();
                         }
 

@@ -69,7 +69,6 @@ class ProductCard extends StatelessWidget {
             child: Image.asset(
               AppAssets.miniature,
               width: 90,
-              height: 80,
               fit: BoxFit.fill,
               errorBuilder: (_, __, ___) => Container(
                 width: 90,

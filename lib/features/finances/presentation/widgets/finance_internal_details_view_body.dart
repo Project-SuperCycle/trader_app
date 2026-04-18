@@ -5,6 +5,7 @@ import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
 import 'package:trader_app/features/finances/presentation/loading/finance_internal_details_loading.dart';
+import 'package:trader_app/features/finances/presentation/widgets/external/export_receipt_button.dart';
 import 'package:trader_app/features/finances/presentation/widgets/internal/financial_collection_card.dart';
 import 'package:trader_app/features/finances/presentation/widgets/internal/shipments_list_section.dart';
 
@@ -82,6 +83,10 @@ class FinanceInternalDetailsViewBody extends StatelessWidget {
                               const SizedBox(height: 16),
                               ShipmentsListSection(
                                 shipments: state.finance.shipments,
+                              ),
+                              const SizedBox(height: 16),
+                              ExportReceiptButton(
+                                paymentId: state.finance.paymentId!,
                               ),
                               const SizedBox(height: 16),
                             ],

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 
 class ApiServices {
@@ -109,5 +112,33 @@ class ApiServices {
   Future<Map<String, dynamic>> delete({required String endPoint}) async {
     Response<dynamic> response = await _dio.delete<dynamic>(endPoint);
     return response.data;
+  }
+
+  // DOWNLOAD PDF METHOD
+  Future<String> downloadPdf({
+    required String endPoint,
+    required String paymentId,
+  }) async {
+    try {
+      final response = await _dio.get(
+        endPoint,
+        options: Options(responseType: ResponseType.bytes),
+      );
+
+      if (response.statusCode == 200) {
+        // حفظ الـ PDF في مجلد التنزيلات المحلي
+        final dir = await getApplicationDocumentsDirectory();
+        final filePath = '${dir.path}/invoice_$paymentId.pdf';
+
+        final file = File(filePath);
+        await file.writeAsBytes(response.data);
+
+        return filePath;
+      } else {
+        throw Exception('Failed to download invoice: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Network error: ${e.message}');
+    }
   }
 }

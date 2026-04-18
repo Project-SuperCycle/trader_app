@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/helpers/custom_fading_widget.dart';
-import 'package:trader_app/core/utils/app_styles.dart';
 
 class FinanceExternalDetailsLoading extends StatelessWidget {
   const FinanceExternalDetailsLoading({super.key});
@@ -10,56 +9,13 @@ class FinanceExternalDetailsLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // ── Header ──
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'تفاصيل المعاملة',
-                textDirection: TextDirection.rtl,
-                style: AppStyles.styleBold20(
-                  context,
-                ).copyWith(color: Colors.white),
-              ),
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        // ── Content ──
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _ShipmentHeroLoadingCard(),
-                const SizedBox(height: 16),
-                _ProductsListLoadingSection(),
-                const SizedBox(height: 16),
-                _CollectionDetailsLoadingCard(),
-                const SizedBox(height: 20),
-                _ExportReceiptLoadingButton(),
-              ],
-            ),
-          ),
-        ),
+        _ShipmentHeroLoadingCard(),
+        const SizedBox(height: 16),
+        _ProductsListLoadingSection(),
+        const SizedBox(height: 16),
+        _CollectionDetailsLoadingCard(),
+        const SizedBox(height: 20),
+        _ExportReceiptLoadingButton(),
       ],
     );
   }

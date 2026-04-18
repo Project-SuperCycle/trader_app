@@ -14,6 +14,8 @@ abstract class FinancesRepo {
     required String type,
   });
 
+  Future<Either<Failure, void>> getFinancePdf({required String paymentId});
+
   Future<Either<Failure, List<FinanceTransactionModel>>>
   getFinanceTransactions({
     required String status,

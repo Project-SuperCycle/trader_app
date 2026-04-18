@@ -136,4 +136,18 @@ class FinancesRepoImp implements FinancesRepo {
       },
     );
   }
+
+  @override
+  Future<Either<Failure, String>> getFinancePdf({required String paymentId}) {
+    return ErrorHandler.simpleApiCall<String>(
+      errorContext: 'getFinancePdf',
+      apiCall: () => apiServices.downloadPdf(
+        endPoint: ApiEndpoints.getFinancePaymentPdf.replaceAll(
+          '{paymentId}',
+          paymentId,
+        ),
+        paymentId: paymentId,
+      ),
+    );
+  }
 }

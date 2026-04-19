@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
@@ -66,11 +67,12 @@ class SignUpRepoImp implements SignUpRepo {
   @override
   Future<Either<Failure, String>> completeSignup({
     required BusinessInformationModel businessInfo,
+    required FinancesMethodsModel methods,
   }) async {
     return await ErrorHandler.handleApiResponse<String>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.completeSignup,
-        data: businessInfo.toJson(),
+        data: {...businessInfo.toJson(), 'receivingMethods': methods.toJson()},
       ),
       errorContext: 'completing signup',
       responseParser: (response) => response['message'] as String,

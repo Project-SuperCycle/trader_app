@@ -43,6 +43,8 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
   String? _selectedBranchId;
   String? _selectedBranchName;
 
+  String? _selectedFinanceMethod;
+
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
 
@@ -185,7 +187,9 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
       userNotes: _notesController.text,
       selectedBranchId: _selectedBranchId,
       selectedBranchName: _selectedBranchName,
+      finance: _selectedFinanceMethod ?? 'cash',
     );
+    CustomSnackBar.showInfo(context, shipment.finance);
 
     try {
       if (!mounted) return;
@@ -212,6 +216,7 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
       _notesController.text = updated.userNotes;
       _selectedBranchId = updated.selectedBranchId;
       _selectedBranchName = updated.selectedBranchName;
+      _selectedFinanceMethod = updated.finance;
     });
     _showSuccess('تم حفظ التعديلات بنجاح');
   }
@@ -310,6 +315,9 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
         return DateTimeStep(
           initialDateTime: _selectedDateTime,
           onDateTimeChanged: _onDateTimeChanged,
+          selectedFinanceMethod: _selectedFinanceMethod,
+          onFinanceChanged: (method) =>
+              setState(() => _selectedFinanceMethod = method),
         );
       case 3:
         return ImagesStep(

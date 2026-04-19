@@ -171,7 +171,9 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
       userNotes: notesController.text.trim(),
       selectedBranchId: selectedBranchId,
       // تمرير الفرع
-      selectedBranchName: selectedBranchName, // تمرير الفرع
+      selectedBranchName: selectedBranchName,
+      // تمرير الفرع
+      finance: widget.shipment.finance,
     );
 
     widget.onUpdate?.call(updated);
@@ -371,7 +373,11 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
           return _buildProductCard(index, item, isSmall, isMedium);
         }),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
+
+        _buildFinanceSection(),
+
+        const SizedBox(height: 12),
 
         // عنوان الاستلام
         if (!isContacted) _buildAddressSection(),
@@ -883,6 +889,84 @@ class _ShipmentReviewDialogState extends State<ShipmentReviewDialog> {
               addressController.text.isEmpty
                   ? 'لم يتم تحديد العنوان'
                   : addressController.text,
+              style: AppStyles.styleMedium14(context).copyWith(
+                color: addressController.text.isEmpty
+                    ? Colors.grey.shade500
+                    : Colors.grey.shade800,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFinanceSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade50, Colors.blue.shade100],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.blue.shade300, width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.withAlpha(50),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withAlpha(100),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.account_balance_wallet_rounded,
+                  color: Colors.blue.shade700,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'طريقة التحصيل',
+                style: AppStyles.styleSemiBold16(
+                  context,
+                ).copyWith(color: Colors.blue.shade800),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.blue.shade200, width: 1),
+            ),
+            child: Text(
+              (widget.shipment.finance == 'wallet')
+                  ? 'محفظة إلكترونية'
+                  : (widget.shipment.finance == 'cash')
+                  ? 'تحصيل نقدي'
+                  : 'تحويل بنكي',
               style: AppStyles.styleMedium14(context).copyWith(
                 color: addressController.text.isEmpty
                     ? Colors.grey.shade500

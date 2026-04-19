@@ -133,7 +133,9 @@ class _SignInViewBodyState extends State<SignInViewBody> {
           CustomSnackBar.showError(context, state.message);
 
           if (state.statusCode == 200) {
-            GoRouter.of(context).pushReplacement(EndPoints.signUpDetailsView);
+            GoRouter.of(
+              context,
+            ).pushReplacement(EndPoints.signUpDetailsStep1View);
           } else if (state.statusCode == 403) {
             GoRouter.of(context).pushReplacement(
               EndPoints.signUpVerifyView,

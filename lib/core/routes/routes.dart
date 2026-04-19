@@ -33,7 +33,9 @@ import 'package:trader_app/features/settings/presentation/views/update_profile_v
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/sign_in/presentation/views/sign_in_view.dart';
-import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_view.dart';
+import 'package:trader_app/features/sign_up/data/models/business_information_model.dart';
+import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_step1_view.dart';
+import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_step2_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_verify_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_view.dart';
 import 'package:trader_app/features/splash/views/splash_view.dart';
@@ -153,11 +155,22 @@ class AppRouter {
       ),
 
       GoRoute(
-        path: EndPoints.signUpDetailsView,
-        name: 'SignUpDetails',
+        path: EndPoints.signUpDetailsStep1View,
+        name: 'SignUpDetails Step1',
         pageBuilder: (context, state) => AppTransitions.smoothFadeWithScale(
           state.pageKey,
-          const SignUpDetailsView(),
+          const SignUpDetailsStep1View(),
+        ),
+      ),
+
+      GoRoute(
+        path: EndPoints.signUpDetailsStep2View,
+        name: 'SignUpDetails Step2',
+        pageBuilder: (context, state) => AppTransitions.smoothFadeWithScale(
+          state.pageKey,
+          SignUpDetailsStep2View(
+            businessInfo: state.extra as BusinessInformationModel,
+          ),
         ),
       ),
 

@@ -4,7 +4,10 @@ abstract class EndPoints {
   static const String signInView = '/signInView';
   static const String signUpView = '/signUpView';
   static const String signUpVerifyView = '/signUpVerifyView';
-  static const String signUpDetailsView = '/signUpDetailsView';
+  static const String signUpDetailsStep1View = '/signUpDetailsStep1View';
+
+  static const String signUpDetailsStep2View = '/signUpDetailsStep2View';
+
   static const String firstOnboardingView = '/firstOnboardingView';
   static const String secondOnboardingView = '/secondOnboardingView';
   static const String thirdOnboardingView = '/thirdOnboardingView';

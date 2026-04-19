@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:trader_app/core/constants/storage_constants.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/features/finances/data/models/external/single_finance_external_model.dart';
 import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
 import 'package:trader_app/features/finances/data/models/internal/single_finance_internal_model.dart';
-import 'package:trader_app/features/finances/data/models/methods/finance_method_model.dart';
 import 'package:trader_app/features/finances/data/models/summary/finance_summary_model.dart';
 import 'package:trader_app/features/finances/data/repos/finances_repo.dart';
 
@@ -19,14 +19,14 @@ class FinancesRepoImp implements FinancesRepo {
 
   // COMMON METHODS
   @override
-  Future<Either<Failure, FinanceMethodModel>> getFinanceMethods() {
+  Future<Either<Failure, FinancesMethodsModel>> getFinanceMethods() {
     // TODO: implement getFinanceMethods
-    return ErrorHandler.handleApiResponse<FinanceMethodModel>(
+    return ErrorHandler.handleApiResponse<FinancesMethodsModel>(
       apiCall: () => apiServices.get(endPoint: ApiEndpoints.getFinancesMethods),
       errorContext: 'get finances methods',
       responseParser: (response) {
-        final data = response['data'];
-        return FinanceMethodModel.fromJson(data);
+        final data = response['data']['receivingMethods'];
+        return FinancesMethodsModel.fromJson(data);
       },
     );
   }

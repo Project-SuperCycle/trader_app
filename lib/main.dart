@@ -21,7 +21,6 @@ import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.
 import 'package:trader_app/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
 import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
 import 'package:trader_app/features/finances/data/cubits/get_external_finance_details/get_external_finance_details_cubit.dart';
-import 'package:trader_app/features/finances/data/cubits/get_finance_methods/get_finance_methods_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_finance_pdf/get_finance_pdf_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_finance_transactions/get_finance_transactions_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_finances_summary/get_finances_summary_cubit.dart';
@@ -150,11 +149,8 @@ void main() async {
           create: (context) =>
               DeleteNotificationCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
+
         // FINANCES CUBITS
-        BlocProvider(
-          create: (context) =>
-              GetFinanceMethodsCubit(repo: getIt.get<FinancesRepoImp>()),
-        ),
         BlocProvider(
           create: (context) =>
               GetFinancesSummaryCubit(repo: getIt.get<FinancesRepoImp>()),

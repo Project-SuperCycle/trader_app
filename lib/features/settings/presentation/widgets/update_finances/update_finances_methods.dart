@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/helpers/custom_dropdown.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
+import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/settings/data/classes/finances_methods_data.dart';
+import 'package:trader_app/features/finances/data/models/methods/bank_transfer_method_model.dart';
+import 'package:trader_app/features/finances/data/models/methods/wallet_method_model.dart';
+import 'package:trader_app/features/settings/data/cubits/update_finances/update_finances_cubit.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_finances/app_text_field.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_finances/field_label.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_finances/section_card.dart';
 
-// ─────────────────────────────────────────────
-//  Widget
-// ─────────────────────────────────────────────
-
 class UpdateFinancesMethods extends StatefulWidget {
-  final FinancesMethodsData? initialData;
-
-  const UpdateFinancesMethods({super.key, this.initialData});
+  const UpdateFinancesMethods({super.key});
 
   @override
   State<UpdateFinancesMethods> createState() => _UpdateFinancesMethodsState();
@@ -34,13 +36,62 @@ class _UpdateFinancesMethodsState extends State<UpdateFinancesMethods> {
   late final TextEditingController _ibanCtrl;
   late final TextEditingController _walletCtrl;
 
+  void _loadFinancesMethods() async {
+    FinancesMethodsModel? methods = await StorageServices.getFinancesMethods();
+    if (methods == null) {
+      return;
+    }
+
+    setState(() {
+      _cashEnabled = methods.cash;
+      _bankEnabled = methods.bankTransfer.enabled;
+      _walletEnabled = methods.wallet.enabled;
+      _selectedBank = methods.bankTransfer.bankName;
+
+      _bankNameCtrl = TextEditingController(
+        text: methods.bankTransfer.bankName ?? '',
+      );
+      _accountCtrl = TextEditingController(
+        text: methods.bankTransfer.accountNumber ?? '',
+      );
+      _ibanCtrl = TextEditingController(text: methods.bankTransfer.iban ?? '');
+      _walletCtrl = TextEditingController(
+        text: methods.wallet.walletNumber ?? '',
+      );
+    });
+  }
+
   static const List<String> _bankOptions = [
-    'البنك الأهلي',
-    'بنك مصر',
-    'بنك CIB',
-    'بنك QNB',
-    'بنك البركة',
-    'بنك اسكندرية',
+    "البنك الأهلي المصري",
+    "بنك مصر",
+    "بنك القاهرة",
+    "بنك الإسكندرية",
+    "البنك الزراعي المصري",
+    "بنك التعمير والإسكان",
+    "البنك التجاري الدولي (CIB)",
+    "بنك قناة السويس",
+    "البنك المصري لتنمية الصادرات",
+    "البنك المصري الخليجي",
+    "المصرف المتحد",
+    "بنك التنمية الصناعية",
+    "QNB الأهلي",
+    "بنك الإمارات دبي الوطني",
+    "بنك أبوظبي الإسلامي",
+    "بنك أبوظبي التجاري",
+    "بنك الكويت الوطني",
+    "البنك الأهلي الكويتي - مصر",
+    "بنك فيصل الإسلامي",
+    "بنك البركة",
+    "البنك العربي الإفريقي الدولي",
+    "البنك العربي",
+    "بنك الاستثمار العربي",
+    "بنك المؤسسة العربية المصرفية",
+    "كريدي أجريكول مصر",
+    "سيتي بنك",
+    "بنك المشرق",
+    "HSBC مصر",
+    "بنك ناصر الاجتماعي",
+    "بنك الاستثمار القومي",
   ];
 
   String? _selectedBank;
@@ -48,16 +99,7 @@ class _UpdateFinancesMethodsState extends State<UpdateFinancesMethods> {
   @override
   void initState() {
     super.initState();
-    final d = widget.initialData ?? FinancesMethodsData();
-    _cashEnabled = d.cashEnabled;
-    _bankEnabled = d.bankEnabled;
-    _walletEnabled = d.walletEnabled;
-    _selectedBank = d.bankName;
-
-    _bankNameCtrl = TextEditingController(text: d.bankName ?? '');
-    _accountCtrl = TextEditingController(text: d.accountNumber ?? '');
-    _ibanCtrl = TextEditingController(text: d.iban ?? '');
-    _walletCtrl = TextEditingController(text: d.walletNumber ?? '');
+    _loadFinancesMethods();
   }
 
   @override
@@ -74,20 +116,27 @@ class _UpdateFinancesMethodsState extends State<UpdateFinancesMethods> {
   // ─────────────────────────────────────────
 
   void _save() {
-    // widget.onSave?.call(
-    //   FinancesMethodsData(
-    //     cashEnabled: _cashEnabled,
-    //     bankEnabled: _bankEnabled,
-    //     bankName: _bankEnabled ? _selectedBank : null,
-    //     accountNumber: _bankEnabled ? _accountCtrl.text : null,
-    //     iban: _bankEnabled ? _ibanCtrl.text : null,
-    //     walletEnabled: _walletEnabled,
-    //     walletNumber: _walletEnabled ? _walletCtrl.text : null,
-    //   ),
-    // );
+    FinancesMethodsModel model = FinancesMethodsModel(
+      cash: _cashEnabled,
+      bankTransfer: BankTransferMethodModel(
+        enabled: _bankEnabled,
+        bankName: _bankEnabled ? _selectedBank : null,
+        accountNumber: _bankEnabled ? _accountCtrl.text : null,
+        iban: _bankEnabled ? _ibanCtrl.text : null,
+      ),
+      wallet: WalletMethodModel(
+        enabled: _walletEnabled,
+        walletNumber: _walletEnabled ? _walletCtrl.text : null,
+      ),
+    );
+    BlocProvider.of<UpdateFinancesCubit>(
+      context,
+    ).updateFinancesMethods(methods: model);
   }
 
-  void _cancel() {}
+  void _cancel() {
+    GoRouter.of(context).pop();
+  }
 
   // ─────────────────────────────────────────
   //  Build
@@ -118,6 +167,7 @@ class _UpdateFinancesMethodsState extends State<UpdateFinancesMethods> {
           children: [
             FieldLabel(label: 'اسم البنك'),
             CustomDropdown(
+              isSearchable: true,
               initialValue: _selectedBank,
               hintText: 'اختر',
               options: _bankOptions,
@@ -165,7 +215,29 @@ class _UpdateFinancesMethodsState extends State<UpdateFinancesMethods> {
         const SizedBox(height: 24),
 
         // ── Actions ───────────────────────
-        SaveButton(onSave: _save),
+        BlocConsumer<UpdateFinancesCubit, UpdateFinancesState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is UpdateFinancesSuccess) {
+              GoRouter.of(context).pop();
+            }
+            if (state is UpdateFinancesFailure) {
+              CustomSnackBar.showError(context, state.errMessage);
+            }
+          },
+          builder: (context, state) {
+            if (state is UpdateFinancesLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CustomLoadingIndicator(color: AppColors.primary),
+                ),
+              );
+            }
+            return SaveButton(onSave: _save);
+          },
+        ),
         const SizedBox(height: 10),
         CancelButton(onCancel: _cancel),
       ],

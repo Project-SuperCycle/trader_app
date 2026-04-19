@@ -1,19 +1,19 @@
 import 'package:trader_app/features/finances/data/models/methods/bank_transfer_method_model.dart';
 import 'package:trader_app/features/finances/data/models/methods/wallet_method_model.dart';
 
-class UpdateFinanceMethodsModel {
+class FinancesMethodsModel {
   final bool cash;
   final BankTransferMethodModel bankTransfer;
   final WalletMethodModel wallet;
 
-  UpdateFinanceMethodsModel({
+  FinancesMethodsModel({
     required this.cash,
     required this.bankTransfer,
     required this.wallet,
   });
 
-  factory UpdateFinanceMethodsModel.fromJson(Map<String, dynamic> json) {
-    return UpdateFinanceMethodsModel(
+  factory FinancesMethodsModel.fromJson(Map<String, dynamic> json) {
+    return FinancesMethodsModel(
       cash: json['cash'] as bool,
       bankTransfer: BankTransferMethodModel.fromJson(
         json['bankTransfer'] as Map<String, dynamic>,
@@ -38,12 +38,12 @@ class UpdateFinanceMethodsModel {
         'bankTransfer: $bankTransfer, wallet: $wallet)';
   }
 
-  UpdateFinanceMethodsModel copyWith({
+  FinancesMethodsModel copyWith({
     bool? cash,
     BankTransferMethodModel? bankTransfer,
     WalletMethodModel? wallet,
   }) {
-    return UpdateFinanceMethodsModel(
+    return FinancesMethodsModel(
       cash: cash ?? this.cash,
       bankTransfer: bankTransfer ?? this.bankTransfer,
       wallet: wallet ?? this.wallet,

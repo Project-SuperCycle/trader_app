@@ -4,12 +4,12 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/services/user_profile_services.dart';
 import 'package:trader_app/features/settings/data/models/request_email_change_model.dart';
-import 'package:trader_app/features/settings/data/models/update_finance_methods_model.dart';
 import 'package:trader_app/features/settings/data/models/update_notifications_model.dart';
 import 'package:trader_app/features/settings/data/models/update_password_model.dart';
 import 'package:trader_app/features/settings/data/models/update_profile_model.dart';
@@ -66,14 +66,14 @@ class SettingsRepoImp implements SettingsRepo {
 
   @override
   Future<Either<Failure, String>> updateFinancesMethods({
-    required UpdateFinanceMethodsModel methods,
+    required FinancesMethodsModel methods,
   }) {
     // TODO: implement updateFinancesMethods
     return ErrorHandler.handleApiCall<String>(
       apiCall: () async {
         final response = await apiServices.patch(
           endPoint: ApiEndpoints.updateFinanceMethods,
-          data: methods.toJson(),
+          data: {"receivingMethods": methods.toJson()},
         );
 
         if (response['message'] == null) {

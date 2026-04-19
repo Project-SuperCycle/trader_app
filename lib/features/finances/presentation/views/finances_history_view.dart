@@ -20,6 +20,11 @@ class _FinancesHistoryViewState extends State<FinancesHistoryView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,

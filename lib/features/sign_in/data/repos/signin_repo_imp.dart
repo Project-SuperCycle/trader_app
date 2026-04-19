@@ -3,15 +3,18 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/constants/storage_constants.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
 import 'package:trader_app/core/services/notifications/push_notifications_service.dart';
+import 'package:trader_app/core/services/services_locator.dart';
 import 'package:trader_app/core/services/social_auth_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/services/user_profile_services.dart';
+import 'package:trader_app/features/finances/data/repos/finances_repo_imp.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 import 'package:trader_app/features/sign_in/data/models/signin_credentials_model.dart';
 import 'package:trader_app/features/sign_in/data/repos/signin_repo.dart';
@@ -107,6 +110,21 @@ class SignInRepoImp implements SignInRepo {
 
     await UserProfileService.fetchAndStoreUserProfile();
     await _authManager.onLoginSuccess();
+
+    // GET FINANCE METHODS
+    var repo = getIt.get<FinancesRepoImp>();
+    var result = await repo.getFinanceMethods();
+    result.fold(
+      (failure) {
+        Logger().e(failure.errMessage);
+      },
+      (data) async {
+        await StorageServices.storeData(
+          StorageConstants.FINANCES_METHODS,
+          data.toJson(),
+        );
+      },
+    );
   }
 
   /// تسجيل الجهاز (آمن 100%)

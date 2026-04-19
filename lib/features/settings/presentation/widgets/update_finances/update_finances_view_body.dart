@@ -3,7 +3,6 @@ import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
-import 'package:trader_app/features/settings/data/classes/finances_methods_data.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_finances/update_finances_methods.dart';
 
 class UpdateFinancesViewBody extends StatelessWidget {
@@ -47,17 +46,7 @@ class UpdateFinancesViewBody extends StatelessWidget {
                       ),
                       const SizedBox(height: 24),
 
-                      UpdateFinancesMethods(
-                        initialData: FinancesMethodsData(
-                          cashEnabled: true,
-                          bankEnabled: true,
-                          bankName: 'البنك الأهلي',
-                          accountNumber: '1234567890',
-                          iban: 'SA 00 0000 0000 0000 0000 0000',
-                          walletEnabled: true,
-                          walletNumber: '05XXXXXXXX',
-                        ),
-                      ),
+                      UpdateFinancesMethods(),
                     ],
                   ),
                 ),

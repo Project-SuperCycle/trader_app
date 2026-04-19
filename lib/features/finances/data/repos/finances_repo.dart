@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/features/finances/data/models/external/single_finance_external_model.dart';
 import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
 import 'package:trader_app/features/finances/data/models/internal/single_finance_internal_model.dart';
-import 'package:trader_app/features/finances/data/models/methods/finance_method_model.dart';
 import 'package:trader_app/features/finances/data/models/summary/finance_summary_model.dart';
 
 abstract class FinancesRepo {
   // COMMON METHODS
-  Future<Either<Failure, FinanceMethodModel>> getFinanceMethods();
+  Future<Either<Failure, FinancesMethodsModel>> getFinanceMethods();
 
   Future<Either<Failure, FinanceSummaryModel>> getFinancesSummary({
     required String type,

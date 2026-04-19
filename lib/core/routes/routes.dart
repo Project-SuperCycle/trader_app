@@ -22,6 +22,14 @@ import 'package:trader_app/features/onboarding/presentation/views/fourth_onboard
 import 'package:trader_app/features/onboarding/presentation/views/second_onboarding_view.dart';
 import 'package:trader_app/features/onboarding/presentation/views/third_onboarding_view.dart';
 import 'package:trader_app/features/sales_process/presentation/views/sales_process_view.dart';
+import 'package:trader_app/features/settings/presentation/views/confirm_email_change_view.dart';
+import 'package:trader_app/features/settings/presentation/views/request_email_change_view.dart';
+import 'package:trader_app/features/settings/presentation/views/settings_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_finances_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_logo_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_notifications_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_password_view.dart';
+import 'package:trader_app/features/settings/presentation/views/update_profile_view.dart';
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/sign_in/presentation/views/sign_in_view.dart';
@@ -331,6 +339,100 @@ class AppRouter {
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
           const FinanceInternalDetailsView(),
+        ),
+      ),
+
+      // ============================================================
+      // Settings View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.settingsView,
+        name: 'Settings View',
+        pageBuilder: (context, state) =>
+            AppTransitions.fadeForDetails(state.pageKey, const SettingsView()),
+      ),
+
+      // ============================================================
+      // Update Profile View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateProfileView,
+        name: 'Update Profile View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateProfileView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Logo View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateLogoView,
+        name: 'Update Logo View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateLogoView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Password View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updatePasswordView,
+        name: 'Update Password View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdatePasswordView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Notifications View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateNotificationsView,
+        name: 'Update Notifications View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateNotificationsView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Finances View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateFinancesView,
+        name: 'Update Finances View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateFinancesView(),
+        ),
+      ),
+
+      // ============================================================
+      // Request Email Change View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.requestEmailChangeView,
+        name: 'Request Email Change View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const RequestEmailChangeView(),
+        ),
+      ),
+
+      // ============================================================
+      // Confirm Email Change View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.confirmEmailChangeView,
+        name: 'Confirm Email Change View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const ConfirmEmailChangeView(),
         ),
       ),
     ],

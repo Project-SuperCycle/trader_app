@@ -63,11 +63,12 @@ class ErrorHandler {
     try {
       final result = await apiCall();
       return right(result);
-    } on DioException catch (dioError) {
+    } on DioException catch (dioError, stackTrace) {
       _logger.e(
         '❌ DioException during $errorContext: ${dioError.message}',
         error: dioError,
       );
+      _logger.w('Stack trace: ${stackTrace.toString()}');
 
       // استخدام ServerFailure.fromDioError الموجود في الـ Failure class
       return left(ServerFailure.fromDioError(dioError));

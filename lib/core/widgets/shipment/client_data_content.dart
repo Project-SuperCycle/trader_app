@@ -7,6 +7,7 @@ import 'package:trader_app/generated/l10n.dart';
 
 class ClientDataContent extends StatefulWidget {
   final ShipmentTraderModel? trader;
+
   const ClientDataContent({super.key, this.trader});
 
   @override
@@ -29,7 +30,7 @@ class _ClientDataContentState extends State<ClientDataContent> {
       });
       return;
     }
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     setState(() {
       entity = ShipmentTraderModel(
         bussinessName: user!.bussinessName!,

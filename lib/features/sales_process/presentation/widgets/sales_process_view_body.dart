@@ -73,7 +73,7 @@ class _SalesProcessViewBodyState extends State<SalesProcessViewBody> {
   }
 
   Future<void> _loadUserBranches() async {
-    final stored = await StorageServices.getUserBranchs();
+    final stored = await StorageServices.getUserBranches();
     if (!mounted) return;
     setState(() => _branches = stored);
   }

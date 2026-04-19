@@ -1,7 +1,9 @@
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
+
 class UpdateNotificationsModel {
-  final NotificationChannelsModel shipments;
-  final NotificationChannelsModel finance;
-  final NotificationChannelsModel system;
+  final NotificationChannelModel shipments;
+  final NotificationChannelModel finance;
+  final NotificationChannelModel system;
 
   UpdateNotificationsModel({
     required this.shipments,
@@ -11,13 +13,13 @@ class UpdateNotificationsModel {
 
   factory UpdateNotificationsModel.fromJson(Map<String, dynamic> json) {
     return UpdateNotificationsModel(
-      shipments: NotificationChannelsModel.fromJson(
+      shipments: NotificationChannelModel.fromJson(
         json['shipments'] as Map<String, dynamic>,
       ),
-      finance: NotificationChannelsModel.fromJson(
+      finance: NotificationChannelModel.fromJson(
         json['finance'] as Map<String, dynamic>,
       ),
-      system: NotificationChannelsModel.fromJson(
+      system: NotificationChannelModel.fromJson(
         json['system'] as Map<String, dynamic>,
       ),
     );
@@ -38,9 +40,9 @@ class UpdateNotificationsModel {
   }
 
   UpdateNotificationsModel copyWith({
-    NotificationChannelsModel? shipments,
-    NotificationChannelsModel? finance,
-    NotificationChannelsModel? system,
+    NotificationChannelModel? shipments,
+    NotificationChannelModel? finance,
+    NotificationChannelModel? system,
   }) {
     return UpdateNotificationsModel(
       shipments: shipments ?? this.shipments,
@@ -48,50 +50,4 @@ class UpdateNotificationsModel {
       system: system ?? this.system,
     );
   }
-}
-
-// --------------------------------------------------
-
-class NotificationChannelsModel {
-  final bool inApp;
-  final bool push;
-  final bool email;
-
-  NotificationChannelsModel({
-    required this.inApp,
-    required this.push,
-    required this.email,
-  });
-
-  factory NotificationChannelsModel.fromJson(Map<String, dynamic> json) {
-    return NotificationChannelsModel(
-      inApp: json['inApp'] as bool,
-      push: json['push'] as bool,
-      email: json['email'] as bool,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'inApp': inApp, 'push': push, 'email': email};
-  }
-
-  @override
-  String toString() {
-    return 'NotificationChannelsModel(inApp: $inApp, push: $push, email: $email)';
-  }
-
-  NotificationChannelsModel copyWith({bool? inApp, bool? push, bool? email}) {
-    return NotificationChannelsModel(
-      inApp: inApp ?? this.inApp,
-      push: push ?? this.push,
-      email: email ?? this.email,
-    );
-  }
-
-  // Helper getters
-  bool get hasAnyEnabled => inApp || push || email;
-
-  bool get allEnabled => inApp && push && email;
-
-  bool get allDisabled => !inApp && !push && !email;
 }

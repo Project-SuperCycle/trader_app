@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:trader_app/features/settings/data/classes/notification_channel_data.dart';
-import 'package:trader_app/features/settings/data/classes/notifications_settings_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
+import 'package:trader_app/features/settings/data/cubits/update_notifications/update_notifications_cubit.dart';
+import 'package:trader_app/features/settings/data/models/update_notifications_model.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_notifications/channel_row.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_notifications/section_config.dart';
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
 
 import 'notification_section_card.dart';
 
@@ -13,9 +21,7 @@ import 'notification_section_card.dart';
 // ─────────────────────────────────────────────
 
 class UpdateNotificationsPermissions extends StatefulWidget {
-  final NotificationsSettingsData? initialData;
-
-  const UpdateNotificationsPermissions({super.key, this.initialData});
+  const UpdateNotificationsPermissions({super.key});
 
   @override
   State<UpdateNotificationsPermissions> createState() =>
@@ -24,11 +30,11 @@ class UpdateNotificationsPermissions extends StatefulWidget {
 
 class _UpdateNotificationsPermissionsState
     extends State<UpdateNotificationsPermissions> {
-  late NotificationsSettingsData _data;
+  NotificationPreferencesModel _data = NotificationPreferencesModel();
 
   static const Color _primaryGreen = Color(0xFF1B7A4A);
 
-  static final List<SectionConfig> _sections = [
+  final List<SectionConfig> _sections = [
     SectionConfig(
       title: 'إشعارات الشحنات',
       icon: Icons.local_shipping_outlined,
@@ -46,11 +52,26 @@ class _UpdateNotificationsPermissionsState
           subtitle: 'تقارير أسبوعية وملخصات الشحن',
         ),
       ],
-      getter: (d) => d.shipments,
-      setter: (d, v) => NotificationsSettingsData(
+      getter: (d) =>
+          d.shipments ??
+          NotificationChannelModel(inApp: true, push: true, email: true),
+      // ✅ null-safe
+      setter: (d, v) => NotificationPreferencesModel(
         shipments: v,
-        finances: d.finances,
-        system: d.system,
+        finance:
+            d.finance ??
+            NotificationChannelModel(
+              inApp: true,
+              push: true,
+              email: true,
+            ), // ✅ null-safe
+        system:
+            d.system ??
+            NotificationChannelModel(
+              inApp: true,
+              push: true,
+              email: true,
+            ), // ✅ null-safe
       ),
     ),
     SectionConfig(
@@ -67,14 +88,29 @@ class _UpdateNotificationsPermissionsState
         ),
         ChannelRow(
           title: 'عبر البريد الإلكتروني',
-          subtitle: 'الفواتير الضريبية بنسيخة PDF',
+          subtitle: 'الفواتير الضريبية بنسخة PDF',
         ),
       ],
-      getter: (d) => d.finances,
-      setter: (d, v) => NotificationsSettingsData(
-        shipments: d.shipments,
-        finances: v,
-        system: d.system,
+      getter: (d) =>
+          d.finance ??
+          NotificationChannelModel(inApp: true, push: true, email: true),
+      // ✅ null-safe
+      setter: (d, v) => NotificationPreferencesModel(
+        shipments:
+            d.shipments ??
+            NotificationChannelModel(
+              inApp: true,
+              push: true,
+              email: true,
+            ), // ✅ null-safe
+        finance: v,
+        system:
+            d.system ??
+            NotificationChannelModel(
+              inApp: true,
+              push: true,
+              email: true,
+            ), // ✅ null-safe
       ),
     ),
     SectionConfig(
@@ -91,10 +127,25 @@ class _UpdateNotificationsPermissionsState
           subtitle: 'تنبيهات أمان الحساب وتغيير المرور',
         ),
       ],
-      getter: (d) => d.system,
-      setter: (d, v) => NotificationsSettingsData(
-        shipments: d.shipments,
-        finances: d.finances,
+      getter: (d) =>
+          d.system ??
+          NotificationChannelModel(inApp: true, push: true, email: true),
+      // ✅ null-safe
+      setter: (d, v) => NotificationPreferencesModel(
+        shipments:
+            d.shipments ??
+            NotificationChannelModel(
+              inApp: true,
+              push: true,
+              email: true,
+            ), // ✅ null-safe
+        finance:
+            d.finance ??
+            NotificationChannelModel(
+              inApp: true,
+              push: true,
+              email: true,
+            ), // ✅ null-safe
         system: v,
       ),
     ),
@@ -103,41 +154,44 @@ class _UpdateNotificationsPermissionsState
   @override
   void initState() {
     super.initState();
-    _data =
-        widget.initialData ??
-        NotificationsSettingsData(
-          shipments: NotificationChannelData(
-            inApp: true,
-            local: true,
-            email: false,
-          ),
-          finances: NotificationChannelData(
-            inApp: true,
-            local: true,
-            email: false,
-          ),
-          system: NotificationChannelData(
-            inApp: true,
-            local: false,
-            email: false,
-          ),
-        );
+    _loadUserData();
   }
 
-  NotificationChannelData _setField(
-    NotificationChannelData channel,
+  Future<void> _loadUserData() async {
+    final userData = await StorageServices.getUserData();
+    if (userData != null) {
+      final notificationPreferences = userData.notificationPreferences;
+      setState(() {
+        _data = notificationPreferences;
+      });
+    }
+  }
+
+  NotificationChannelModel _setField(
+    NotificationChannelModel channel,
     int index,
     bool value,
   ) {
     return switch (index) {
       0 => channel.copyWith(inApp: value),
-      1 => channel.copyWith(local: value),
+      1 => channel.copyWith(push: value),
       2 => channel.copyWith(email: value),
       _ => channel,
     };
   }
 
-  void _save() {}
+  void _save() {
+    NotificationPreferencesModel updatedData = _data;
+    UpdateNotificationsModel model = UpdateNotificationsModel(
+      shipments: updatedData.shipments!,
+      finance: updatedData.finance!,
+      system: updatedData.system!,
+    );
+    Logger().i('Saving notification permissions: $model');
+    BlocProvider.of<UpdateNotificationsCubit>(
+      context,
+    ).updateNotificationsPermissions(permissions: model);
+  }
 
   void _cancel() {}
 
@@ -167,7 +221,29 @@ class _UpdateNotificationsPermissionsState
         const SizedBox(height: 8),
 
         // ── Save Button ──
-        SaveButton(onSave: _save),
+        BlocConsumer<UpdateNotificationsCubit, UpdateNotificationsState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is UpdateNotificationsSuccess) {
+              GoRouter.of(context).pop();
+            }
+            if (state is UpdateNotificationsFailure) {
+              CustomSnackBar.showError(context, state.errMessage);
+            }
+          },
+          builder: (context, state) {
+            if (state is UpdateNotificationsLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CustomLoadingIndicator(color: AppColors.primary),
+                ),
+              );
+            }
+            return SaveButton(onSave: _save);
+          },
+        ),
 
         const SizedBox(height: 10),
 

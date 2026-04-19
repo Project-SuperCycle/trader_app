@@ -30,7 +30,7 @@ class _ShipmentsCalendarCardState extends State<ShipmentsCalendarCard> {
   }
 
   void loadUserData() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     if (user != null && mounted) {
       setState(() {
         userRole = user.role ?? "";

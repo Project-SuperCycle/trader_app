@@ -25,17 +25,17 @@ class SignInRepoImp implements SignInRepo {
 
   /// تسجيل الدخول بالبريد الإلكتروني
   @override
-  Future<Either<Failure, LoginedUserModel>> userSignIn({
+  Future<Either<Failure, LoginUserModel>> userSignIn({
     required SigninCredentialsModel credentials,
   }) async {
-    return ErrorHandler.handleApiResponse<LoginedUserModel>(
+    return ErrorHandler.handleApiResponse<LoginUserModel>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.login,
         data: credentials.toJson(),
       ),
       errorContext: 'email login',
       responseParser: (response) {
-        return LoginedUserModel.fromJson(response['data']);
+        return LoginUserModel.fromJson(response['data']);
       },
       customErrorChecks: (response) {
         final token = response['token'];
@@ -59,7 +59,7 @@ class SignInRepoImp implements SignInRepo {
 
   /// تسجيل الدخول عبر Google
   @override
-  Future<Either<Failure, LoginedUserModel>> signInWithGoogle() async {
+  Future<Either<Failure, LoginUserModel>> signInWithGoogle() async {
     final tokenResult = await ErrorHandler.simpleApiCall<String>(
       apiCall: SocialAuthService.signInWithGoogle,
       errorContext: 'Google authentication',
@@ -77,14 +77,14 @@ class SignInRepoImp implements SignInRepo {
 
     final accessToken = tokenResult.getOrElse(() => '');
 
-    return ErrorHandler.handleApiResponse<LoginedUserModel>(
+    return ErrorHandler.handleApiResponse<LoginUserModel>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.socialLogin,
         data: {'accessToken': accessToken},
       ),
       errorContext: 'Google login',
       responseParser: (response) {
-        return LoginedUserModel.fromJson(response['data']);
+        return LoginUserModel.fromJson(response['data']);
       },
       customErrorChecks: (response) {
         return ErrorHandler.validateResponseData(response, ['data', 'token']);
@@ -97,7 +97,7 @@ class SignInRepoImp implements SignInRepo {
   }
 
   /// حفظ بيانات المستخدم
-  Future<void> _saveUserData(LoginedUserModel user, String token) async {
+  Future<void> _saveUserData(LoginUserModel user, String token) async {
     // ✅ Fix #2: always save token regardless of role
     await StorageServices.storeData('token', token);
 

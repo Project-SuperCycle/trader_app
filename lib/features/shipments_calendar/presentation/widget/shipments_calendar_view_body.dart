@@ -39,7 +39,7 @@ class ShipmentsCalendarViewBodyState extends State<ShipmentsCalendarViewBody> {
   }
 
   void loadUserCalender() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     if (user != null) {
       setState(() {
         userRole = user.role;

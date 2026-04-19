@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
 
 abstract class StorageServices {
@@ -107,13 +108,13 @@ abstract class StorageServices {
   }
 
   /// GET USER DATA
-  static Future<LoginedUserModel?> getUserData() async {
+  static Future<LoginUserModel?> getUserData() async {
     var data = await StorageServices.readData<Map<String, dynamic>>('user');
     if (data == null) {
       return null;
     }
 
-    LoginedUserModel user = LoginedUserModel(
+    LoginUserModel user = LoginUserModel(
       bussinessName: data['bussinessName'],
       rawBusinessType: data['rawBusinessType'],
       bussinessAdress: data['bussinessAdress'],
@@ -125,12 +126,16 @@ abstract class StorageServices {
       phone: data['phone'],
       isEcoParticipant: data['isEcoParticipant'],
       settlementType: data['settlementType'],
+      logoUrl: data['logoUrl'],
+      notificationPreferences: NotificationPreferencesModel.fromJson(
+        data['notificationPreferences'],
+      ),
     );
     return user;
   }
 
   /// GET USER BRANCHS
-  static Future<List<TraderBranchModel>> getUserBranchs() async {
+  static Future<List<TraderBranchModel>> getUserBranches() async {
     try {
       // readData هترجع الـ data مباشرة (List أو Map)
       final data = await StorageServices.readData("user_branchs");

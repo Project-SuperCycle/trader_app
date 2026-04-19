@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/services/auth_manager_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/settings/data/cubits/confirm_email_Change/confirm_email_change_cubit.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 import 'package:trader_app/features/sign_up/presentation/widgets/filled_rounded_pin_put.dart';
@@ -17,6 +24,8 @@ class _ConfirmEmailChangeWidgetState extends State<ConfirmEmailChangeWidget> {
   final _otpController = TextEditingController();
   final bool _isLoading = false;
 
+  final AuthManager _authManager = AuthManager();
+
   static const Color _primaryGreen = AppColors.primary;
 
   @override
@@ -28,9 +37,37 @@ class _ConfirmEmailChangeWidgetState extends State<ConfirmEmailChangeWidget> {
   Future<void> _submit() async {
     final otp = _otpController.text;
     if (otp.length != 6 || _isLoading) return;
+    BlocProvider.of<ConfirmEmailChangeCubit>(
+      context,
+    ).confirmEmailChange(otp: otp);
   }
 
-  void _cancel() {}
+  void _cancel() {
+    GoRouter.of(context).pop();
+  }
+
+  Future<void> _performLogout(BuildContext context) async {
+    // إغلاق الـ dialog
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+
+    // إغلاق الـ drawer
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+
+    // تنفيذ عملية تسجيل الخروج
+    final success = await _authManager.logout();
+
+    if (success && context.mounted) {
+      // التنقل إلى الصفحة الرئيسية وإعادة بناء كل شيء
+      context.go(EndPoints.homeView);
+
+      // إظهار رسالة نجاح
+      CustomSnackBar.showSuccess(context, 'تم تسجيل الخروج بنجاح');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +110,29 @@ class _ConfirmEmailChangeWidgetState extends State<ConfirmEmailChangeWidget> {
         const SizedBox(height: 32),
 
         // ── Confirm Button ──
-        SaveButton(onSave: _submit, title: 'تأكيد'),
+        BlocConsumer<ConfirmEmailChangeCubit, ConfirmEmailChangeState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is ConfirmEmailChangeFailure) {
+              CustomSnackBar.showError(context, state.errMessage);
+            }
+            if (state is ConfirmEmailChangeSuccess) {
+              _performLogout(context);
+            }
+          },
+          builder: (context, state) {
+            if (state is ConfirmEmailChangeLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CustomLoadingIndicator(color: AppColors.primary),
+                ),
+              );
+            }
+            return SaveButton(onSave: _submit, title: 'تأكيد');
+          },
+        ),
 
         const SizedBox(height: 10),
 

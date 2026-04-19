@@ -23,7 +23,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   bool isUserLoggedIn = false;
-  LoginedUserModel? user;
+  LoginUserModel? user;
   final AuthManager _authManager = AuthManager();
 
   @override

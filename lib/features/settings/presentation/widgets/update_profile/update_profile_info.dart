@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/settings/data/cubits/update_profile/update_profile_cubit.dart';
+import 'package:trader_app/features/settings/data/models/update_profile_model.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 
@@ -23,9 +28,10 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
 
   // ✅ initialized مباشرةً — مش late
   final TextEditingController _activityNameCtrl = TextEditingController();
+  final TextEditingController _activityTypeCtrl = TextEditingController();
+  final TextEditingController _activityAddressCtrl = TextEditingController();
   final TextEditingController _responsibleNameCtrl = TextEditingController();
   final TextEditingController _phoneCtrl = TextEditingController();
-  final TextEditingController _activityTypeCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -39,6 +45,7 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
     // ✅ بدل setState نستخدم .text = مباشرةً — أخف وأسلم
     if (!mounted) return;
     _activityNameCtrl.text = user?.bussinessName ?? 'سوبر سايكل للتدوير';
+    _activityAddressCtrl.text = user?.bussinessAdress ?? 'القاهرة - مصر';
     _responsibleNameCtrl.text = user?.doshMangerName ?? 'أحمد المحمد';
     _phoneCtrl.text = user?.doshMangerPhone ?? '+966 50 123 4567';
     _activityTypeCtrl.text = user?.rawBusinessType ?? 'مدرسة';
@@ -47,9 +54,10 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
   @override
   void dispose() {
     _activityNameCtrl.dispose();
+    _activityAddressCtrl.dispose();
     _responsibleNameCtrl.dispose();
     _phoneCtrl.dispose();
-    _activityTypeCtrl.dispose(); // ✅ كان ناقص في الكود الأصلي
+    _activityTypeCtrl.dispose();
     super.dispose();
   }
 
@@ -101,12 +109,21 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      Logger().d('submit');
+      UpdateProfileModel profile = UpdateProfileModel(
+        businessName: _activityNameCtrl.text.trim(),
+        rawBusinessType: _activityTypeCtrl.text.trim(),
+        doshManagerName: _responsibleNameCtrl.text.trim(),
+        doshManagerPhone: _phoneCtrl.text.trim(),
+        businessAddress: _activityAddressCtrl.text.trim(),
+      );
+      BlocProvider.of<UpdateProfileCubit>(
+        context,
+      ).updateProfile(profile: profile);
     }
   }
 
   void _cancel() {
-    Logger().d('cancel');
+    GoRouter.of(context).pop();
   }
 
   // ── Build ──────────────────────────────────────────────────────────────────
@@ -145,6 +162,24 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
                 label: 'نوع النشاط',
                 child: TextFormField(
                   controller: _activityTypeCtrl,
+                  textAlign: TextAlign.right,
+                  style: AppStyles.styleRegular16(
+                    context,
+                  ).copyWith(color: Color(0xFF222222)),
+                  decoration: _fieldDecoration(),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'هذا الحقل مطلوب'
+                      : null,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // ── Activity Address ─────────────────────────────────────
+              _buildFieldBlock(
+                label: 'عنوان النشاط',
+                child: TextFormField(
+                  controller: _activityAddressCtrl,
                   textAlign: TextAlign.right,
                   style: AppStyles.styleRegular16(
                     context,
@@ -198,7 +233,29 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
               const SizedBox(height: 32),
 
               // ── Save Button ───────────────────────────────────────
-              SaveButton(onSave: _submit),
+              BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                  if (state is UpdateProfileSuccess) {
+                    GoRouter.of(context).pop();
+                  }
+                  if (state is UpdateProfileFailure) {
+                    CustomSnackBar.showError(context, state.errMessage);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is UpdateProfileLoading) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CustomLoadingIndicator(color: AppColors.primary),
+                      ),
+                    );
+                  }
+                  return SaveButton(onSave: _submit);
+                },
+              ),
 
               const SizedBox(height: 12),
 

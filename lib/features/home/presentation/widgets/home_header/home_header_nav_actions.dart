@@ -31,7 +31,7 @@ class _HomeHeaderNavActionsState extends State<HomeHeaderNavActions> {
   }
 
   void _checkUserLogin() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     if (mounted) {
       setState(() {
         isUserLoggedIn = (user != null);

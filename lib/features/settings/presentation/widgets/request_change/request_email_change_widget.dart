@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/settings/data/cubits/request_email_change/request_email_change_cubit.dart';
+import 'package:trader_app/features/settings/data/models/request_email_change_model.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/request_change/email_field.dart';
 import 'package:trader_app/features/settings/presentation/widgets/request_change/password_field.dart';
@@ -33,18 +38,14 @@ class _RequestEmailChangeWidgetState extends State<RequestEmailChangeWidget> {
   }
 
   Future<void> _submit() async {
-    GoRouter.of(context).push(EndPoints.confirmEmailChangeView);
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    // setState(() => _isLoading = true);
-    // // Simulate async call
-    // await Future.delayed(const Duration(milliseconds: 300));
-    // setState(() => _isLoading = false);
-    // widget.onSave?.call(
-    //   EmailChangeRequest(
-    //     newEmail: _emailCtrl.text.trim(),
-    //     currentPassword: _passwordCtrl.text,
-    //   ),
-    // );
+    RequestEmailChangeModel model = RequestEmailChangeModel(
+      newEmail: _emailCtrl.text.trim(),
+      currentPassword: _passwordCtrl.text.trim(),
+    );
+    BlocProvider.of<RequestEmailChangeCubit>(
+      context,
+    ).requestEmailChange(email: model);
   }
 
   void _onCancel() {
@@ -92,7 +93,7 @@ class _RequestEmailChangeWidgetState extends State<RequestEmailChangeWidget> {
             ),
             padding: const EdgeInsets.all(20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ── Email Field ──
                 _FieldLabel(label: 'البريد الإلكتروني الجديد'),
@@ -118,7 +119,29 @@ class _RequestEmailChangeWidgetState extends State<RequestEmailChangeWidget> {
           const SizedBox(height: 24),
 
           // ── Save Button ──
-          SaveButton(onSave: _submit, title: "تأكيد"),
+          BlocConsumer<RequestEmailChangeCubit, RequestEmailChangeState>(
+            listener: (context, state) {
+              // TODO: implement listener
+              if (state is RequestEmailChangeFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+              if (state is RequestEmailChangeSuccess) {
+                GoRouter.of(context).push(EndPoints.confirmEmailChangeView);
+              }
+            },
+            builder: (context, state) {
+              if (state is RequestEmailChangeLoading) {
+                return Center(
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CustomLoadingIndicator(color: AppColors.primary),
+                  ),
+                );
+              }
+              return SaveButton(onSave: _submit, title: "تأكيد");
+            },
+          ),
 
           const SizedBox(height: 10),
 

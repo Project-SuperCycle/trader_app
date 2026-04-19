@@ -28,7 +28,7 @@ class _UserInfoListTileState extends State<UserInfoListTile> {
   }
 
   void getUserData() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     setState(() {
       if (user != null) {
         if (user.role == "representative") {

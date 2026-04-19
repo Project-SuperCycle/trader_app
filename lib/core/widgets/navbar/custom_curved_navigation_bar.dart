@@ -98,7 +98,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
   }
 
   Future<void> _loadUserData() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     if (mounted) {
       setState(() {
         isUserLoggedIn = (user != null);

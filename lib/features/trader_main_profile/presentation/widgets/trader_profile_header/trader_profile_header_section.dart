@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/constants.dart';
@@ -9,6 +10,7 @@ import 'package:trader_app/core/utils/app_styles.dart';
 
 class TraderProfileHeaderSection extends StatelessWidget {
   final UserProfileModel userProfile;
+
   const TraderProfileHeaderSection({super.key, required this.userProfile});
 
   @override
@@ -101,8 +103,8 @@ class TraderProfileHeaderSection extends StatelessWidget {
 
                   // Profile Image
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 150,
+                    height: 150,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
@@ -118,18 +120,28 @@ class TraderProfileHeaderSection extends StatelessWidget {
                     child: ClipOval(
                       child: Container(
                         color: Colors.white,
-                        padding: const EdgeInsets.all(8),
-                        child: Image.asset(
-                          AppAssets.defaultAvatar,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
-                              Icons.store,
-                              size: 70,
-                              color: Color(0xFF10B981),
-                            );
-                          },
-                        ),
+                        padding: const EdgeInsets.all(1),
+                        child: userProfile.logoUrl == null
+                            ? Image.asset(
+                                AppAssets.defaultAvatar,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.store,
+                                    size: 70,
+                                    color: Color(0xFF10B981),
+                                  );
+                                },
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: userProfile.logoUrl!,
+                                fit: BoxFit.fill,
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.store,
+                                  size: 70,
+                                  color: Color(0xFF10B981),
+                                ),
+                              ),
                       ),
                     ),
                   ),

@@ -71,7 +71,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
 
   /// ✅ تحميل بيانات المستخدم
   Future<void> _loadUserData() async {
-    LoginedUserModel? loginedUser = await StorageServices.getUserData();
+    LoginUserModel? loginedUser = await StorageServices.getUserData();
     if (mounted) {
       setState(() {
         isUserLoggedIn = (loginedUser != null);

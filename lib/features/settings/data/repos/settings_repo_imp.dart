@@ -6,41 +6,21 @@ import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
+import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/core/services/user_profile_services.dart';
 import 'package:trader_app/features/settings/data/models/request_email_change_model.dart';
 import 'package:trader_app/features/settings/data/models/update_finance_methods_model.dart';
 import 'package:trader_app/features/settings/data/models/update_notifications_model.dart';
 import 'package:trader_app/features/settings/data/models/update_password_model.dart';
 import 'package:trader_app/features/settings/data/models/update_profile_model.dart';
 import 'package:trader_app/features/settings/data/repos/settings_repo.dart';
+import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
 
 class SettingsRepoImp implements SettingsRepo {
   final ApiServices apiServices;
 
   SettingsRepoImp({required this.apiServices});
-
-  @override
-  Future<Either<Failure, String>> createTraderEcoRequest({
-    required int quantity,
-  }) {
-    return ErrorHandler.handleApiCall<String>(
-      apiCall: () async {
-        final response = await apiServices.post(
-          endPoint: ApiEndpoints.createTraderEcoRequest,
-          data: {
-            "rewardItemId": "68f39e4ab208ebb112d58b89",
-            "quantity": quantity,
-          },
-        );
-
-        if (response['message'] == null) {
-          throw ServerFailure('Invalid response: Missing message', 422);
-        }
-
-        return response['message'];
-      },
-      errorContext: 'create trader eco request',
-    );
-  }
 
   @override
   Future<Either<Failure, String>> confirmEmailChange({required String otp}) {
@@ -112,15 +92,21 @@ class SettingsRepoImp implements SettingsRepo {
     return ErrorHandler.handleApiCall<String>(
       apiCall: () async {
         final response = await apiServices.patchFormData(
-          endPoint: ApiEndpoints.updateFinanceMethods,
+          endPoint: ApiEndpoints.updateLogo,
           data: buildLogoFormData(logo: logo),
         );
+        String? logoUrl = response['data']['logoUrl'];
 
-        if (response['message'] == null) {
-          throw ServerFailure('Invalid response: Missing message', 422);
+        if (logoUrl == null) {
+          throw ServerFailure('Invalid response: Missing Logo', 422);
         }
 
-        return response['message'];
+        LoginUserModel? userModel = await StorageServices.getUserData();
+        LoginUserModel newUserModel = userModel!.copyWith(logoUrl: logoUrl);
+        await StorageServices.storeData('user', newUserModel.toJson());
+
+        await UserProfileService.fetchAndStoreUserProfile();
+        return logoUrl;
       },
       errorContext: 'update profile logo',
     );
@@ -141,6 +127,18 @@ class SettingsRepoImp implements SettingsRepo {
         if (response['message'] == null) {
           throw ServerFailure('Invalid response: Missing message', 422);
         }
+
+        LoginUserModel? userModel = await StorageServices.getUserData();
+        NotificationPreferencesModel newPermissions =
+            NotificationPreferencesModel(
+              shipments: permissions.shipments,
+              finance: permissions.finance,
+              system: permissions.system,
+            );
+        LoginUserModel newUserModel = userModel!.copyWith(
+          notificationPreferences: newPermissions,
+        );
+        await StorageServices.storeData('user', newUserModel.toJson());
 
         return response['message'];
       },
@@ -186,6 +184,26 @@ class SettingsRepoImp implements SettingsRepo {
           throw ServerFailure('Invalid response: Missing message', 422);
         }
 
+        LoginUserModel? userModel = await StorageServices.getUserData();
+        LoginUserModel newUserModel = userModel!.copyWith(
+          bussinessName: (profile.businessName.isEmpty)
+              ? userModel.bussinessName
+              : profile.businessName,
+          bussinessAdress: (profile.businessAddress.isEmpty)
+              ? userModel.bussinessAdress
+              : profile.businessAddress,
+          doshMangerName: (profile.doshManagerName.isEmpty)
+              ? userModel.doshMangerName
+              : profile.doshManagerName,
+          doshMangerPhone: (profile.doshManagerPhone.isEmpty)
+              ? userModel.doshMangerPhone
+              : profile.doshManagerPhone,
+          rawBusinessType: (profile.rawBusinessType.isEmpty)
+              ? userModel.rawBusinessType
+              : profile.rawBusinessType,
+        );
+        await StorageServices.storeData('user', newUserModel.toJson());
+        await UserProfileService.fetchAndStoreUserProfile();
         return response['message'];
       },
       errorContext: 'update profile data',

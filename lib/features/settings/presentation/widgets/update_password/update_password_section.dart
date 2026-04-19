@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/services/auth_manager_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/settings/data/cubits/update_password/update_password_cubit.dart';
+import 'package:trader_app/features/settings/data/models/update_password_model.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 
@@ -21,7 +29,8 @@ class _UpdatePasswordSectionState extends State<UpdatePasswordSection> {
   bool _showCurrent = false;
   bool _showNew = false;
   bool _showConfirm = false;
-  bool _isSaving = false;
+
+  final AuthManager _authManager = AuthManager();
 
   // ── Password strength ──────────────────────────────────────────────────────
 
@@ -51,10 +60,39 @@ class _UpdatePasswordSectionState extends State<UpdatePasswordSection> {
     return 'قوية';
   }
 
-  void _onSave({
-    required String currentPassword,
-    required String newPassword,
-  }) {}
+  void _onSave({required String currentPassword, required String newPassword}) {
+    UpdatePasswordModel model = UpdatePasswordModel(
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      confirmNewPassword: newPassword,
+    );
+    BlocProvider.of<UpdatePasswordCubit>(
+      context,
+    ).updatePassword(password: model);
+  }
+
+  Future<void> _performLogout(BuildContext context) async {
+    // إغلاق الـ dialog
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+
+    // إغلاق الـ drawer
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+
+    // تنفيذ عملية تسجيل الخروج
+    final success = await _authManager.logout();
+
+    if (success && context.mounted) {
+      // التنقل إلى الصفحة الرئيسية وإعادة بناء كل شيء
+      context.go(EndPoints.homeView);
+
+      // إظهار رسالة نجاح
+      CustomSnackBar.showSuccess(context, 'تم تسجيل الخروج بنجاح');
+    }
+  }
 
   void _onCancel() {}
 
@@ -62,17 +100,7 @@ class _UpdatePasswordSectionState extends State<UpdatePasswordSection> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _isSaving = true);
-    try {
-      _onSave(currentPassword: _currentCtrl.text, newPassword: _newCtrl.text);
-      if (!mounted) return;
-      _reset();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('تم تغيير كلمة المرور بنجاح')),
-      );
-    } finally {
-      if (mounted) setState(() => _isSaving = false);
-    }
+    _onSave(currentPassword: _currentCtrl.text, newPassword: _newCtrl.text);
   }
 
   void _reset() {
@@ -197,9 +225,32 @@ class _UpdatePasswordSectionState extends State<UpdatePasswordSection> {
             const SizedBox(height: 32),
 
             // Save button
-            SizedBox(
-              width: double.infinity,
-              child: SaveButton(onSave: _submit),
+            BlocConsumer<UpdatePasswordCubit, UpdatePasswordState>(
+              listener: (context, state) {
+                // TODO: implement listener
+                if (state is UpdatePasswordFailure) {
+                  CustomSnackBar.showError(context, state.errMessage);
+                }
+                if (state is UpdatePasswordSuccess) {
+                  _reset();
+                  _performLogout(context);
+                }
+              },
+              builder: (context, state) {
+                if (state is UpdatePasswordLoading) {
+                  return Center(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CustomLoadingIndicator(color: AppColors.primary),
+                    ),
+                  );
+                }
+                return SizedBox(
+                  width: double.infinity,
+                  child: SaveButton(onSave: _submit),
+                );
+              },
             ),
             const SizedBox(height: 10),
 

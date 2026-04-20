@@ -258,6 +258,7 @@ class _MyAppState extends State<MyApp> {
     String entityType = data['entity'] ?? '';
     String entityId = data['entityId'] ?? '';
     String type = data['type'] ?? '';
+    String settlementType = data['settlementType'] ?? '';
 
     // Get the router from AppRouter
     final router = AppRouter.router;
@@ -301,10 +302,63 @@ class _MyAppState extends State<MyApp> {
         break;
 
       // Add more cases for other entity types
-      case "order":
+      case "payment":
         {
-          Logger().i("📦 Handling order routing...");
-          // Handle order routing here
+          // Get context from the navigator key
+          final BuildContext? ctx =
+              router.routerDelegate.navigatorKey.currentContext;
+
+          if (ctx == null) {
+            Logger().e("❌ Context is null, cannot navigate");
+            return;
+          }
+
+          // Get the cubit and fetch shipment data
+          if (settlementType == 'external') {
+            final cubit = BlocProvider.of<GetExternalFinanceDetailsCubit>(ctx);
+
+            // Listen to the cubit state changes
+            final subscription = cubit.stream.listen((state) {
+              if (state is GetExternalFinanceDetailsSuccess &&
+                  state.finance.paymentId == entityId) {
+                // Navigate to shipment details
+                GoRouter.of(ctx).push(EndPoints.financialExternalDetailsView);
+              } else if (state is GetExternalFinanceDetailsFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+            });
+
+            // Fetch the shipment
+            cubit.getExternalFinanceDetails(shipmentId: entityId);
+
+            // Cancel subscription after 10 seconds to prevent memory leaks
+            Future.delayed(const Duration(seconds: 10), () {
+              subscription.cancel();
+            });
+          } else {
+            final cubit = BlocProvider.of<GetInternalFinanceDetailsCubit>(ctx);
+
+            // Listen to the cubit state changes
+            final subscription = cubit.stream.listen((state) {
+              if (state is GetInternalFinanceDetailsSuccess &&
+                  state.finance.paymentId == entityId) {
+                // Navigate to shipment details
+                GoRouter.of(ctx).push(EndPoints.financialInternalDetailsView);
+              } else if (state is GetInternalFinanceDetailsFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+            });
+
+            // Fetch the shipment
+            (settlementType == 'monthly')
+                ? cubit.getMonthlyFinanceDetails(paymentId: entityId)
+                : cubit.getMealFinanceDetails(paymentId: entityId);
+
+            // Cancel subscription after 10 seconds to prevent memory leaks
+            Future.delayed(const Duration(seconds: 10), () {
+              subscription.cancel();
+            });
+          }
         }
         break;
 

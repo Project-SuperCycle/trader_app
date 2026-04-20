@@ -58,7 +58,7 @@ class LoginUserModel {
       displayName: json['displayName'],
       isEcoParticipant: json['isEcoParticipant'],
       settlementType: json['settlementType'],
-      logoUrl: json['logoUrl'],
+      logoUrl: (json['profile'] == null) ? null : json['profile']['logoUrl'],
       notificationPreferences: NotificationPreferencesModel.fromJson(
         json['notificationPreferences'],
       ),

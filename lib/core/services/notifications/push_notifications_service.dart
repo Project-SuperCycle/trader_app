@@ -54,15 +54,15 @@ class PushNotificationsService {
     await StorageServices.storeData("fcm_platform", platform);
     await StorageServices.storeData("fcm_auth_status", isAuthorized);
 
-    _logger.i('''
-╔════════════════════════════════════════
-║ FCM Data Saved
-╠════════════════════════════════════════
-║ Token: ${token.substring(0, token.length.clamp(0, 20))}...
-║ Platform: $platform
-║ Authorized: $isAuthorized
-╚════════════════════════════════════════
-''');
+    //     _logger.i('''
+    // ╔════════════════════════════════════════
+    // ║ FCM Data Saved
+    // ╠════════════════════════════════════════
+    // ║ Token: ${token.substring(0, token.length.clamp(0, 20))}...
+    // ║ Platform: $platform
+    // ║ Authorized: $isAuthorized
+    // ╚════════════════════════════════════════
+    // ''');
   }
 
   static String _getPlatform() {

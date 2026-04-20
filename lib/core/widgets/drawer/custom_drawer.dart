@@ -106,7 +106,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: SizedBox(height: MediaQuery.of(context).padding.top + 10),
             ),
 
-            const SliverToBoxAdapter(child: UserInfoListTile()),
+            SliverToBoxAdapter(child: UserInfoListTile()),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
             SliverToBoxAdapter(

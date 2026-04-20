@@ -20,6 +20,9 @@ class _UserInfoListTileState extends State<UserInfoListTile> {
   String userName = '';
   String businessType = '';
   bool isLoading = true;
+  String logoUrl = '';
+
+  bool isUserLoggedIn = false;
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _UserInfoListTileState extends State<UserInfoListTile> {
     LoginUserModel? user = await StorageServices.getUserData();
     setState(() {
       if (user != null) {
+        isUserLoggedIn = true;
         if (user.role == "representative") {
           userName = user.displayName ?? '';
           businessType = "مندوب";
@@ -38,9 +42,19 @@ class _UserInfoListTileState extends State<UserInfoListTile> {
           userName = user.doshMangerName ?? '';
           businessType = user.rawBusinessType ?? '';
         }
+        logoUrl = user.logoUrl ?? '';
       }
       isLoading = false;
     });
+  }
+
+  void _handleProfileTap() async {
+    if (isUserLoggedIn) {
+      GoRouter.of(context).push(EndPoints.traderPreProfileView);
+      BlocProvider.of<ProfileCubit>(context).fetchUserProfile(context: context);
+    } else {
+      context.push(EndPoints.signInView);
+    }
   }
 
   @override
@@ -58,56 +72,52 @@ class _UserInfoListTileState extends State<UserInfoListTile> {
       );
     }
 
-    return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-        return Card(
-          color: const Color(0xFFFAFAFA),
-          elevation: 0,
-          child: Center(
-            child: ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: (state is ProfileLoading)
-                    ? SizedBox(
-                        width: 35,
-                        height: 35,
-                        child: CustomLoadingIndicator(),
-                      )
-                    : GestureDetector(
-                        onTap: () => (userName.isEmpty)
-                            ? GoRouter.of(context).push(EndPoints.signInView)
-                            : BlocProvider.of<ProfileCubit>(
-                                context,
-                              ).fetchUserProfile(context: context),
+    return Card(
+      color: const Color(0xFFFAFAFA),
+      elevation: 0,
+      child: Center(
+        child: ListTile(
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(50),
+                    blurRadius: 15,
+                    spreadRadius: 3,
+                  ),
+                ],
+              ),
+              child: GestureDetector(
+                onTap: _handleProfileTap,
+                child: (logoUrl.isEmpty)
+                    ? ClipOval(
                         child: Image.asset(
                           AppAssets.defaultAvatar,
-                          fit: BoxFit.contain,
+                          fit: BoxFit.fill,
                         ),
-                      ),
-              ),
-              title: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: AlignmentDirectional.centerStart,
-                child: Text(
-                  userName,
-                  style: AppStyles.styleSemiBold16(context),
-                ),
-              ),
-              subtitle: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: AlignmentDirectional.centerStart,
-                child: Text(
-                  businessType,
-                  style: AppStyles.styleRegular12(context),
-                ),
+                      )
+                    : ClipOval(child: Image.network(logoUrl, fit: BoxFit.fill)),
               ),
             ),
           ),
-        );
-      },
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(userName, style: AppStyles.styleSemiBold16(context)),
+          ),
+          subtitle: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(businessType, style: AppStyles.styleRegular12(context)),
+          ),
+        ),
+      ),
     );
   }
 }

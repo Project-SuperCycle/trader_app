@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
@@ -60,9 +59,6 @@ class _UserProfileWelcomeCardState extends State<UserProfileWelcomeCard> {
         userName = userData.doshMangerName ?? userData.displayName ?? '';
         userRole = userData.role ?? '';
         logoUrl = userData.logoUrl ?? '';
-        Logger().i(
-          'User data loaded: $userName, Role: $userRole, Logo URL: $userData.logoUrl',
-        );
       } else {
         userName = '';
         userRole = '';

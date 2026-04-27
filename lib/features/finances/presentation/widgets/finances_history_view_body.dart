@@ -56,7 +56,6 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
     BlocProvider.of<GetFinancesSummaryCubit>(
       context,
     ).getFinancesSummary(type: type);
-    Logger().w('type: $settlementType');
   }
 
   void getFinanceTransactions() async {
@@ -67,7 +66,6 @@ class _FinancesHistoryViewBodyState extends State<FinancesHistoryViewBody> {
     ).getFinancesTransactions(page: _currentPage, status: status, type: type);
 
     int pages = await StorageServices.readData(StorageConstants.FINANCES_PAGES);
-    Logger().w('type: $settlementType');
     setState(() {
       _totalPages = pages;
     });

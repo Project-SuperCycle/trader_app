@@ -272,7 +272,7 @@ class SalesLineChartState extends State<SalesLineChart> {
   void initState() {
     super.initState();
 
-    _loadTypeHistory("69cd96f5b7bf08f567002755");
+    _loadTypeHistory("69ea9f4ec1445d056340b2cc");
 
     // عرض الداتا المخزنة لو موجودة
     WidgetsBinding.instance.addPostFrameCallback((_) {

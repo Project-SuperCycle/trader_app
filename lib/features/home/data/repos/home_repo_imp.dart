@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:logger/logger.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
@@ -77,7 +76,6 @@ class HomeRepoImp implements HomeRepo {
         // Filter out rejected and cancelled shipments
         return todayShipments.where((shipment) {
           final status = shipment.status.toLowerCase();
-          Logger().i("status $status");
           return status != 'rejected' &&
               status != 'cancelled' &&
               status != 'delivered' &&

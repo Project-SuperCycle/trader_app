@@ -13,7 +13,16 @@ class TypeToggle extends StatefulWidget {
 
 class _TypeToggleState extends State<TypeToggle> {
   String type = '';
-  bool isTapped = true;
+  bool isTapped = false; // ✅ خارج التعاقد هو الـ default
+
+  @override
+  void initState() {
+    super.initState();
+    // ✅ إخبار الـ parent بالقيمة الابتدائية
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.onChanged('external');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +66,7 @@ class _TypeToggleState extends State<TypeToggle> {
             ),
           ),
 
-          // تم التحصيل
+          // خارج التعاقد
           Expanded(
             child: GestureDetector(
               onTap: () {

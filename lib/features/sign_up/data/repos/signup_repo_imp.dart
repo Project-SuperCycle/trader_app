@@ -72,10 +72,27 @@ class SignUpRepoImp implements SignUpRepo {
     return await ErrorHandler.handleApiResponse<String>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.completeSignup,
-        data: {...businessInfo.toJson(), 'receivingMethods': methods.toJson()},
+        data: {
+          ...businessInfo.toJson(),
+          'receivingMethods': _handleReceivingMethods(methods),
+        },
       ),
       errorContext: 'completing signup',
       responseParser: (response) => response['message'] as String,
     );
   }
+}
+
+Map<String, dynamic> _handleReceivingMethods(FinancesMethodsModel methods) {
+  final Map<String, dynamic> json = {'cash': methods.cash};
+
+  if (methods.bankTransfer.enabled) {
+    json['bankTransfer'] = methods.bankTransfer.toJson();
+  }
+
+  if (methods.wallet.enabled) {
+    json['wallet'] = methods.wallet.toJson();
+  }
+
+  return json;
 }

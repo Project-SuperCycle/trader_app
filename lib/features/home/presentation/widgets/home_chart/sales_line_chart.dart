@@ -292,7 +292,7 @@ class SalesLineChartState extends State<SalesLineChart> {
   }
 
   void _loadTypeHistory([String? typeId]) {
-    final id = typeId ?? _selectedTypeId ?? '69cd96f5b7bf08f567002755';
+    final id = typeId ?? _selectedTypeId ?? '69ea9f4ec1445d056340b2cc';
     BlocProvider.of<HomeCubit>(context).fetchTypeHistory(typeId: id);
   }
 

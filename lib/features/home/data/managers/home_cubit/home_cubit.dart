@@ -43,7 +43,7 @@ class HomeCubit extends Cubit<HomeState> {
     await Future.wait([
       fetchDoshTypes(),
       fetchTypesData(),
-      fetchTypeHistory(typeId: "69cd96f5b7bf08f567002756"),
+      fetchTypeHistory(typeId: "69ea9f4ec1445d056340b2cc"),
     ]);
   }
 

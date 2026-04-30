@@ -108,7 +108,11 @@ class _LineChart extends StatelessWidget {
               priceFormatter?.call(spot.y) ?? '\$${spot.y.toStringAsFixed(1)}';
           return LineTooltipItem(
             '${priceData[index].month}\n$price',
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Beiruti',
+            ),
           );
         }).toList(),
       ),
@@ -136,14 +140,17 @@ class _LineChart extends StatelessWidget {
         const style = TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
-          fontFamily: 'Cairo',
+          fontFamily: 'Beiruti',
           color: Colors.grey,
         );
         final price =
-            priceFormatter?.call(value) ?? '\$${value.toStringAsFixed(1)}';
+            priceFormatter?.call(value) ?? '${value.toStringAsFixed(1)} ج.م ';
         return SideTitleWidget(
           meta: meta,
-          child: Text(price, style: style, textAlign: TextAlign.center),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(price, style: style, textAlign: TextAlign.center),
+          ),
         );
       },
     );
@@ -158,7 +165,7 @@ class _LineChart extends StatelessWidget {
         const style = TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
-          fontFamily: 'Cairo',
+          fontFamily: 'Beiruti',
           color: Colors.grey,
         );
         final index = value.toInt();
@@ -592,6 +599,7 @@ class SalesLineChartState extends State<SalesLineChart> {
               color: titleColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Beiruti',
             ),
           ),
           if (message != null) ...[
@@ -599,7 +607,11 @@ class SalesLineChartState extends State<SalesLineChart> {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(color: messageColor, fontSize: 12),
+              style: TextStyle(
+                color: messageColor,
+                fontSize: 12,
+                fontFamily: 'Beiruti',
+              ),
             ),
           ],
           const SizedBox(height: 16),

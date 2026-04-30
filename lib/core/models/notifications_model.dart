@@ -7,6 +7,8 @@ class NotificationModel {
   final bool seen;
   final DateTime createdAt;
 
+  final String settlementType;
+
   NotificationModel({
     required this.id,
     required this.title,
@@ -15,6 +17,7 @@ class NotificationModel {
     required this.relatedEntityId,
     required this.seen,
     required this.createdAt,
+    required this.settlementType,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +27,7 @@ class NotificationModel {
       body: json['body'] ?? '',
       relatedEntity: json['relatedEntity'] ?? '',
       relatedEntityId: json['relatedEntityId'] ?? '',
+      settlementType: json['settlementType'] ?? '',
       seen: json['seen'] ?? false,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
@@ -36,6 +40,7 @@ class NotificationModel {
       'body': body,
       'relatedEntity': relatedEntity,
       'relatedEntityId': relatedEntityId,
+      'settlementType': settlementType,
       'seen': seen,
       'createdAt': createdAt.toIso8601String(),
     };
@@ -52,6 +57,7 @@ class NotificationModel {
     String? body,
     String? relatedEntity,
     String? relatedEntityId,
+    String? settlementType,
     bool? seen,
     DateTime? createdAt,
   }) {
@@ -61,6 +67,7 @@ class NotificationModel {
       body: body ?? this.body,
       relatedEntity: relatedEntity ?? this.relatedEntity,
       relatedEntityId: relatedEntityId ?? this.relatedEntityId,
+      settlementType: settlementType ?? this.settlementType,
       seen: seen ?? this.seen,
       createdAt: createdAt ?? this.createdAt,
     );

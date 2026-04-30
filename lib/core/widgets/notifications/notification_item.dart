@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/models/notifications_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/finances/data/cubits/get_external_finance_details/get_external_finance_details_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
 import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
 
@@ -234,6 +237,7 @@ class _NotificationItemState extends State<NotificationItem> {
     ).readNotification(id: notification.id);
     String entityType = notification.relatedEntity;
     String entityId = notification.relatedEntityId;
+    String settlementType = notification.settlementType;
 
     switch (entityType) {
       case "shipment":
@@ -241,6 +245,65 @@ class _NotificationItemState extends State<NotificationItem> {
           final cubit = context.read<ShipmentsCalendarCubit>();
           cubit.getShipmentById(shipmentId: entityId, type: 'shipment');
           GoRouter.of(context).push(EndPoints.shipmentPreDetailsView);
+        }
+        break;
+
+      case "payment":
+        {
+          // Get the cubit and fetch shipment data
+          if (settlementType == 'external') {
+            final cubit = BlocProvider.of<GetExternalFinanceDetailsCubit>(
+              context,
+            );
+
+            // Listen to the cubit state changes
+            final subscription = cubit.stream.listen((state) {
+              if (state is GetExternalFinanceDetailsSuccess &&
+                  state.finance.paymentId == entityId) {
+                // Navigate to shipment details
+                GoRouter.of(
+                  context,
+                ).push(EndPoints.financialExternalDetailsView);
+              } else if (state is GetExternalFinanceDetailsFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+            });
+
+            // Fetch the shipment
+            cubit.getExternalFinanceDetails(shipmentId: entityId);
+
+            // Cancel subscription after 10 seconds to prevent memory leaks
+            Future.delayed(const Duration(seconds: 10), () {
+              subscription.cancel();
+            });
+          } else {
+            final cubit = BlocProvider.of<GetInternalFinanceDetailsCubit>(
+              context,
+            );
+
+            // Listen to the cubit state changes
+            final subscription = cubit.stream.listen((state) {
+              if (state is GetInternalFinanceDetailsSuccess &&
+                  state.finance.paymentId == entityId) {
+                // Navigate to shipment details
+                GoRouter.of(
+                  context,
+                ).push(EndPoints.financialInternalDetailsView);
+              } else if (state is GetInternalFinanceDetailsFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+            });
+
+            // Fetch the shipment
+            (settlementType == 'monthly')
+                ? cubit.getMonthlyFinanceDetails(paymentId: entityId)
+                : cubit.getMealFinanceDetails(paymentId: entityId);
+
+            // Cancel subscription after 10 seconds to prevent memory leaks
+            Future.delayed(const Duration(seconds: 10), () {
+              subscription.cancel();
+            });
+          }
         }
         break;
     }

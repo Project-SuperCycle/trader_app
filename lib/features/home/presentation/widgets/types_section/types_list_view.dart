@@ -5,6 +5,7 @@ import 'package:trader_app/core/services/dosh_types_manager.dart';
 import 'package:trader_app/core/services/services_locator.dart';
 import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dart';
 import 'package:trader_app/features/home/presentation/widgets/types_section/type_card_item.dart';
+import 'package:trader_app/features/home/presentation/widgets/types_section/types_empty.dart';
 import 'package:trader_app/features/home/presentation/widgets/types_section/types_list_loading_indicator.dart';
 
 class TypesListView extends StatefulWidget {
@@ -49,7 +50,7 @@ class _TypesListViewState extends State<TypesListView> {
 
         if (state is FetchDoshTypesSuccess) {
           if (state.doshTypes.isEmpty) {
-            return const Center(child: Text('No Dosh Types'));
+            return TypesEmpty();
           }
           final items = state.doshTypes;
           return SingleChildScrollView(
@@ -72,7 +73,7 @@ class _TypesListViewState extends State<TypesListView> {
           );
         }
 
-        return Container();
+        return TypesEmpty();
       },
       buildWhen: (previous, current) =>
           current is FetchDoshTypesSuccess ||

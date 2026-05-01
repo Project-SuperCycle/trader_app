@@ -3,13 +3,19 @@ import 'package:trader_app/core/utils/app_assets.dart' show AppAssets;
 
 class ShipmentLogo extends StatelessWidget {
   const ShipmentLogo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset(AppAssets.logoName, fit: BoxFit.contain, scale: 6.0),
+        Image.asset(
+          AppAssets.logoName,
+          fit: BoxFit.contain,
+          scale: 6.0,
+          color: Colors.white,
+        ),
         SizedBox(width: 5),
         Image.asset(AppAssets.logoIcon, fit: BoxFit.contain, scale: 7.5),
       ],

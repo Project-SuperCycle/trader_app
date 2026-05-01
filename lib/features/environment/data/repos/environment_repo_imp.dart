@@ -4,9 +4,9 @@ import 'package:trader_app/core/helpers/error_handler.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
+import 'package:trader_app/features/environment/data/models/environmental_redeem_model.dart';
 import 'package:trader_app/features/environment/data/models/trader_eco_info_model.dart';
 import 'package:trader_app/features/environment/data/repos/environment_repo.dart';
-import 'package:trader_app/features/environment/data/models/environmental_redeem_model.dart';
 
 class EnvironmentRepoImp implements EnvironmentRepo {
   final ApiServices apiServices;
@@ -34,7 +34,7 @@ class EnvironmentRepoImp implements EnvironmentRepo {
         final response = await apiServices.post(
           endPoint: ApiEndpoints.createTraderEcoRequest,
           data: {
-            "rewardItemId": "68f39e4ab208ebb112d58b89",
+            "rewardItemId": "67134c5d99f3b4312f3b26d1",
             "quantity": quantity,
           },
         );

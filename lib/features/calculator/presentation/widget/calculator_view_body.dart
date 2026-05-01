@@ -3,9 +3,9 @@ import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/helpers/custom_dropdown.dart';
 import 'package:trader_app/core/services/dosh_types_manager.dart';
 import 'package:trader_app/core/services/services_locator.dart';
-import 'package:trader_app/core/utils/app_assets.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
 
 class CalculatorViewBody extends StatefulWidget {
   const CalculatorViewBody({super.key});
@@ -76,25 +76,7 @@ class _CalculatorViewBodyState extends State<CalculatorViewBody> {
                   horizontal: 20,
                   vertical: 15,
                 ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        AppAssets.logoName,
-                        fit: BoxFit.contain,
-                        scale: 6.0,
-                      ),
-                      const SizedBox(width: 5),
-                      Image.asset(
-                        AppAssets.logoIcon,
-                        fit: BoxFit.contain,
-                        scale: 7.5,
-                      ),
-                    ],
-                  ),
-                ),
+                child: ShipmentLogo(),
               ),
 
               Expanded(

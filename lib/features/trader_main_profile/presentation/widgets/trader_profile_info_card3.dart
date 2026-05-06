@@ -186,12 +186,12 @@ class TraderProfileInfoCard3 extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: const Color(0xFF10B981).withAlpha(25),
+                color: AppColors.primary.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 Icons.integration_instructions_outlined,
-                color: const Color(0xFF10B981),
+                color: AppColors.primary.withValues(alpha: 0.9),
                 size: 20,
               ),
             ),
@@ -252,10 +252,14 @@ class TraderProfileInfoCard3 extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: const Color(0xFF10B981).withAlpha(25),
+                color: AppColors.primary.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: const Color(0xFF10B981), size: 20),
+              child: Icon(
+                icon,
+                color: AppColors.primary.withValues(alpha: 0.9),
+                size: 20,
+              ),
             ),
             const SizedBox(width: 10),
             Text(title, style: AppStyles.styleBold16(context)),

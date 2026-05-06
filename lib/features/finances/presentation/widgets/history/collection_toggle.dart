@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
 class CollectionToggle extends StatefulWidget {
@@ -49,7 +50,7 @@ class _CollectionToggleState extends State<CollectionToggle> {
                   'منتظر التحصيل',
                   textDirection: TextDirection.rtl,
                   style: AppStyles.styleBold14(context).copyWith(
-                    color: isPending ? const Color(0xFF3BC577) : Colors.white,
+                    color: isPending ? AppColors.primary : Colors.white,
                   ),
                 ),
               ),
@@ -76,7 +77,7 @@ class _CollectionToggleState extends State<CollectionToggle> {
                   'تم التحصيل',
                   textDirection: TextDirection.rtl,
                   style: AppStyles.styleBold14(context).copyWith(
-                    color: isPending ? Colors.white : const Color(0xFF3BC577),
+                    color: isPending ? Colors.white : AppColors.primary,
                   ),
                 ),
               ),

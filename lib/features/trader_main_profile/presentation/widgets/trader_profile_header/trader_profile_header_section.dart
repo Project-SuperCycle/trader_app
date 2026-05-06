@@ -7,6 +7,7 @@ import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/utils/app_assets.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/core/widgets/shipment/shipment_logo.dart';
 
 class TraderProfileHeaderSection extends StatelessWidget {
   final UserProfileModel userProfile;
@@ -57,27 +58,7 @@ class TraderProfileHeaderSection extends StatelessWidget {
                       ),
 
                       // Logo Section
-                      Expanded(
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                AppAssets.logoName,
-                                fit: BoxFit.contain,
-                                scale: 6.0,
-                              ),
-                              const SizedBox(width: 5),
-                              Image.asset(
-                                AppAssets.logoIcon,
-                                fit: BoxFit.contain,
-                                scale: 7.5,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      Expanded(child: Center(child: ShipmentLogo())),
 
                       // Back Button (Home)
                       Container(

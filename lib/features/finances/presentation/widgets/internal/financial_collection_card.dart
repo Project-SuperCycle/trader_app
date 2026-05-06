@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/functions/get_formated_date.dart';
 import 'package:trader_app/core/functions/show_full_screen_image.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/finances/data/models/internal/single_finance_internal_model.dart';
 
@@ -260,9 +261,9 @@ class FinancialCollectionCard extends StatelessWidget {
                             const SizedBox(height: 6),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.circle_rounded,
-                                  color: Color(0xFF3BC577),
+                                  color: AppColors.primary,
                                   size: 8,
                                 ),
                                 const SizedBox(width: 4),
@@ -272,7 +273,7 @@ class FinancialCollectionCard extends StatelessWidget {
                                   textDirection: TextDirection.rtl,
                                   style: AppStyles.styleBold12(
                                     context,
-                                  ).copyWith(color: Color(0xFF10B981)),
+                                  ).copyWith(color: AppColors.primary),
                                 ),
                               ],
                             ),
@@ -294,7 +295,7 @@ class FinancialCollectionCard extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.account_balance_outlined,
-                                  color: const Color(0xFF3BC577),
+                                  color: AppColors.primary,
                                   size: 16,
                                 ),
                                 const SizedBox(width: 4),
@@ -303,7 +304,7 @@ class FinancialCollectionCard extends StatelessWidget {
                                   textDirection: TextDirection.rtl,
                                   style: AppStyles.styleBold14(
                                     context,
-                                  ).copyWith(color: Color(0xFF10B981)),
+                                  ).copyWith(color: AppColors.primary),
                                 ),
                               ],
                             ),

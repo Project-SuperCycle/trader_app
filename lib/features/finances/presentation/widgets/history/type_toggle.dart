@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
 class TypeToggle extends StatefulWidget {
@@ -13,12 +14,11 @@ class TypeToggle extends StatefulWidget {
 
 class _TypeToggleState extends State<TypeToggle> {
   String type = '';
-  bool isTapped = false; // ✅ خارج التعاقد هو الـ default
+  bool isTapped = false;
 
   @override
   void initState() {
     super.initState();
-    // ✅ إخبار الـ parent بالقيمة الابتدائية
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onChanged('external');
     });
@@ -59,7 +59,7 @@ class _TypeToggleState extends State<TypeToggle> {
                   'داخل التعاقد',
                   textDirection: TextDirection.rtl,
                   style: AppStyles.styleBold14(context).copyWith(
-                    color: isTapped ? const Color(0xFF3BC577) : Colors.white,
+                    color: isTapped ? AppColors.primary : Colors.white,
                   ),
                 ),
               ),
@@ -86,7 +86,7 @@ class _TypeToggleState extends State<TypeToggle> {
                   'خارج التعاقد',
                   textDirection: TextDirection.rtl,
                   style: AppStyles.styleBold14(context).copyWith(
-                    color: isTapped ? Colors.white : const Color(0xFF3BC577),
+                    color: isTapped ? Colors.white : AppColors.primary,
                   ),
                 ),
               ),

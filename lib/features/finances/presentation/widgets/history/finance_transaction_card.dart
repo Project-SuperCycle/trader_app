@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trader_app/core/constants.dart';
 import 'package:trader_app/core/routes/end_points.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/finances/data/cubits/get_external_finance_details/get_external_finance_details_cubit.dart';
 import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
@@ -91,7 +92,7 @@ class FinanceTransactionCard extends StatelessWidget {
 
                           style: AppStyles.styleBold16(
                             context,
-                          ).copyWith(color: Color(0xFF10B981)),
+                          ).copyWith(color: AppColors.primary),
                         ),
                         const SizedBox(height: 2),
                         Text(
@@ -164,7 +165,7 @@ class FinanceTransactionCard extends StatelessWidget {
                               textDirection: TextDirection.rtl,
                               style: AppStyles.styleBold16(
                                 context,
-                              ).copyWith(color: Color(0xFF10B981)),
+                              ).copyWith(color: AppColors.primary),
                             ),
                           ],
                         ),
@@ -192,7 +193,7 @@ class FinanceTransactionCard extends StatelessWidget {
                             ).toString(),
                             style: AppStyles.styleBold18(
                               context,
-                            ).copyWith(color: Color(0xFF10B981)),
+                            ).copyWith(color: AppColors.primary),
                           ),
                           const SizedBox(width: 3),
                           Text(
@@ -240,7 +241,7 @@ class FinanceTransactionCard extends StatelessWidget {
                               ),
                           style: AppStyles.styleBold20(
                             context,
-                          ).copyWith(color: Color(0xFF10B981)),
+                          ).copyWith(color: AppColors.primary),
                         ),
                         const SizedBox(width: 4),
                         Text(

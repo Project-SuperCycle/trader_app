@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
 class FinancesTransactionsEmpty extends StatelessWidget {
@@ -16,13 +17,13 @@ class FinancesTransactionsEmpty extends StatelessWidget {
               width: 90,
               height: 90,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: const Icon(
                 Icons.receipt_long_outlined,
                 size: 50,
-                color: Color(0xFF3BC577),
+                color: AppColors.primary,
               ),
             ),
 
@@ -42,9 +43,9 @@ class FinancesTransactionsEmpty extends StatelessWidget {
               'لم يتم تسجيل أي معاملات مالية حتى الآن',
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.center,
-              style: AppStyles.styleMedium16(
-                context,
-              ).copyWith(color: Colors.grey.withValues(alpha: 0.8)),
+              style: AppStyles.styleMedium16(context).copyWith(
+                color: AppColors.mainTextColor.withValues(alpha: 0.75),
+              ),
             ),
           ],
         ),

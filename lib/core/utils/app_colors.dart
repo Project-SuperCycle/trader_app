@@ -13,7 +13,7 @@ abstract class AppColors {
   static const Color mainTextColor = Color(0xff1f1f1f);
   static const Color subTextColor = Color(0xff969696);
 
-  static const Color successColor = Color(0xff3BC577);
+  static Color successColor = primary.withValues(alpha: 0.9);
   static const Color warningColor = Color(0xffFF9F04);
   static const Color failureColor = Color(0xffC70B0B);
 }

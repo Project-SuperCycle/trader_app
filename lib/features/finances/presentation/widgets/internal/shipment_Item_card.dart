@@ -29,7 +29,7 @@ class ShipmentItemCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(kBorderRadius),
         border: Border(
           right: BorderSide(
-            color: Color(0xFF3BC577).withValues(alpha: 0.75),
+            color: AppColors.primary.withValues(alpha: 0.8),
             width: 5,
           ),
         ),
@@ -251,7 +251,7 @@ class ShipmentItemCard extends StatelessWidget {
                     ),
 
                     Text(
-                      shipment.paymentMethod,
+                      getPaymentType(shipment.paymentMethod),
                       textDirection: TextDirection.rtl,
                       style: AppStyles.styleSemiBold12(context),
                     ),
@@ -292,4 +292,17 @@ String getWeightUnit(num totalWeight) {
 
 num getWeightValue(num totalWeight) {
   return totalWeight < 1000 ? totalWeight : totalWeight / 1000;
+}
+
+String getPaymentType(String paymentMethod) {
+  switch (paymentMethod) {
+    case 'cash':
+      return 'نقدي';
+    case 'bankTransfer':
+      return 'بنكي';
+    case 'wallet':
+      return 'محفظة';
+    default:
+      return 'نقدي';
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/utils/contact_strings.dart';
 
@@ -23,7 +24,10 @@ class SubmitButton extends StatelessWidget {
         gradient: LinearGradient(
           colors: isLoading
               ? [Colors.grey.shade400, Colors.grey.shade500]
-              : [const Color(0xFF06C167), const Color(0xFF06C167)],
+              : [
+                  AppColors.primary.withValues(alpha: 0.95),
+                  AppColors.primary.withValues(alpha: 0.9),
+                ],
         ),
       ),
       child: ElevatedButton(

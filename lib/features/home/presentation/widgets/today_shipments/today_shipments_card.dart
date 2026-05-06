@@ -60,14 +60,17 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Colors.orange.shade400, Colors.deepOrange.shade500],
+          colors: [
+            Color(0xffD04A1D).withValues(alpha: 0.9),
+            Color(0xffD04A1D).withValues(alpha: 0.8),
+          ],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.orange.withAlpha(150),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
+            color: Color(0xffD04A1D).withValues(alpha: 0.5),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -92,15 +95,12 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
           if (state is TodayShipmentsFailure) {
             return _buildErrorContent(state.message);
           }
-
-          // ✅ الحالة الافتراضية (Initial)
           return TodayShipmentsInitialCard();
         },
       ),
     );
   }
 
-  /// ✅ عرض محتوى الشحنات
   Widget _buildShipmentsContent(List<ShipmentModel> shipments) {
     return Stack(
       children: [
@@ -219,7 +219,6 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
     );
   }
 
-  /// ✅ عرض رسالة الخطأ
   Widget _buildErrorContent(String message) {
     return Padding(
       padding: const EdgeInsets.all(20),

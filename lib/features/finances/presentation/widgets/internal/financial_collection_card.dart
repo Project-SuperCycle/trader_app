@@ -17,6 +17,7 @@ class FinancialCollectionCard extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadius),
         ),
@@ -28,7 +29,14 @@ class FinancialCollectionCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: kGradientButton,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.primary.withValues(alpha: 0.95),
+                    AppColors.primary.withValues(alpha: 0.85),
+                  ],
+                ),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(kBorderRadius),
                   topRight: Radius.circular(kBorderRadius),
@@ -126,91 +134,137 @@ class FinancialCollectionCard extends StatelessWidget {
             // ── Bottom Section (White) ──
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  // ── Date Part ──
-                  (transaction.periodFrom != null &&
-                          transaction.periodTo != null)
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Date Range
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'من تاريخ',
-                                    textDirection: TextDirection.rtl,
-                                    style: AppStyles.styleMedium12(
-                                      context,
-                                    ).copyWith(color: Colors.grey.shade400),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_today_outlined,
-                                        color: Colors.grey.shade400,
-                                        size: 14,
-                                      ),
-                                      const SizedBox(width: 4),
-
-                                      Text(
-                                        getFormattedDateLabel(
-                                          transaction.periodFrom!,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // ── Date Part ──
+                    (transaction.periodFrom != null &&
+                            transaction.periodTo != null)
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Date Range
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'من تاريخ',
+                                      textDirection: TextDirection.rtl,
+                                      style: AppStyles.styleMedium12(
+                                        context,
+                                      ).copyWith(color: Colors.grey.shade400),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.calendar_today_outlined,
+                                          color: Colors.grey.shade400,
+                                          size: 14,
                                         ),
-                                        textDirection: TextDirection.rtl,
-                                        style: AppStyles.styleBold14(context),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                        const SizedBox(width: 4),
 
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'إلى تاريخ',
-                                    textDirection: TextDirection.rtl,
-                                    style: AppStyles.styleMedium12(
-                                      context,
-                                    ).copyWith(color: Colors.grey.shade400),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_today_outlined,
-                                        color: Colors.grey.shade400,
-                                        size: 14,
-                                      ),
-                                      const SizedBox(width: 4),
-
-                                      Text(
-                                        getFormattedDateLabel(
-                                          transaction.periodTo!,
+                                        Text(
+                                          getFormattedDateLabel(
+                                            transaction.periodFrom!,
+                                          ),
+                                          textDirection: TextDirection.rtl,
+                                          style: AppStyles.styleBold14(context),
                                         ),
-                                        textDirection: TextDirection.rtl,
-                                        style: AppStyles.styleBold14(context),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'إلى تاريخ',
+                                      textDirection: TextDirection.rtl,
+                                      style: AppStyles.styleMedium12(
+                                        context,
+                                      ).copyWith(color: Colors.grey.shade400),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.calendar_today_outlined,
+                                          color: Colors.grey.shade400,
+                                          size: 14,
+                                        ),
+                                        const SizedBox(width: 4),
+
+                                        Text(
+                                          getFormattedDateLabel(
+                                            transaction.periodTo!,
+                                          ),
+                                          textDirection: TextDirection.rtl,
+                                          style: AppStyles.styleBold14(context),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'تاريخ التحصيل',
+                                  textDirection: TextDirection.rtl,
+                                  style: AppStyles.styleMedium12(
+                                    context,
+                                  ).copyWith(color: Colors.grey.shade400),
+                                ),
+                                const SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_today_outlined,
+                                      color: Colors.grey.shade400,
+                                      size: 14,
+                                    ),
+                                    const SizedBox(width: 4),
+
+                                    Text(
+                                      getFormattedDateLabel(
+                                        transaction.paidAt!,
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                      textDirection: TextDirection.rtl,
+                                      style: AppStyles.styleBold14(context),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
+
+                    const SizedBox(height: 12),
+
+                    Divider(color: Colors.grey.shade300, thickness: 0.75),
+
+                    // ── Payment Method ──
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Date Range
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'تاريخ التحصيل',
+                                'حالة التحصيل',
                                 textDirection: TextDirection.rtl,
                                 style: AppStyles.styleMedium12(
                                   context,
@@ -220,141 +274,100 @@ class FinancialCollectionCard extends StatelessWidget {
                               Row(
                                 children: [
                                   Icon(
-                                    Icons.calendar_today_outlined,
-                                    color: Colors.grey.shade400,
-                                    size: 14,
+                                    Icons.circle_rounded,
+                                    color: AppColors.primary,
+                                    size: 8,
                                   ),
                                   const SizedBox(width: 4),
 
                                   Text(
-                                    getFormattedDateLabel(transaction.paidAt!),
+                                    'تم التحصيل',
                                     textDirection: TextDirection.rtl,
-                                    style: AppStyles.styleBold14(context),
+                                    style: AppStyles.styleBold12(
+                                      context,
+                                    ).copyWith(color: AppColors.primary),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ),
-
-                  const SizedBox(height: 12),
-
-                  Divider(color: Colors.grey.shade300, thickness: 0.75),
-
-                  // ── Payment Method ──
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Date Range
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'حالة التحصيل',
-                              textDirection: TextDirection.rtl,
-                              style: AppStyles.styleMedium12(
-                                context,
-                              ).copyWith(color: Colors.grey.shade400),
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.circle_rounded,
-                                  color: AppColors.primary,
-                                  size: 8,
-                                ),
-                                const SizedBox(width: 4),
-
-                                Text(
-                                  'تم التحصيل',
-                                  textDirection: TextDirection.rtl,
-                                  style: AppStyles.styleBold12(
-                                    context,
-                                  ).copyWith(color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        // Payment Method
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'طريقة التحصيل',
-                              textDirection: TextDirection.rtl,
-                              style: AppStyles.styleMedium12(
-                                context,
-                              ).copyWith(color: Colors.grey.shade400),
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.account_balance_outlined,
-                                  color: AppColors.primary,
-                                  size: 16,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  getPaymentType(transaction.paymentMethod),
-                                  textDirection: TextDirection.rtl,
-                                  style: AppStyles.styleBold14(
-                                    context,
-                                  ).copyWith(color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                          // Payment Method
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'طريقة التحصيل',
+                                textDirection: TextDirection.rtl,
+                                style: AppStyles.styleMedium12(
+                                  context,
+                                ).copyWith(color: Colors.grey.shade400),
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.account_balance_outlined,
+                                    color: AppColors.primary,
+                                    size: 16,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    getPaymentType(transaction.paymentMethod),
+                                    textDirection: TextDirection.rtl,
+                                    style: AppStyles.styleBold14(
+                                      context,
+                                    ).copyWith(color: AppColors.primary),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
-                  // ── Images Section ──
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'صور إثبات التحصيل',
-                      textDirection: TextDirection.rtl,
-                      style: AppStyles.styleMedium12(
-                        context,
-                      ).copyWith(color: Colors.grey.shade400),
+                    // ── Images Section ──
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'صور إثبات التحصيل',
+                        textDirection: TextDirection.rtl,
+                        style: AppStyles.styleMedium12(
+                          context,
+                        ).copyWith(color: Colors.grey.shade400),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: transaction.paymentProof!.map((imageUrl) {
-                        return GestureDetector(
-                          onTap: () => showFullScreenImage(context, imageUrl),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              color: Colors.grey.shade100,
-                              child: CachedNetworkImage(
-                                imageUrl: imageUrl,
-                                fit: BoxFit.cover,
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Wrap(
+                        alignment: WrapAlignment.start,
+                        crossAxisAlignment: WrapCrossAlignment.start,
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: transaction.paymentProof!.map((imageUrl) {
+                          return GestureDetector(
+                            onTap: () => showFullScreenImage(context, imageUrl),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                width: 80,
+                                height: 80,
+                                color: Colors.grey.shade100,
+                                child: CachedNetworkImage(
+                                  imageUrl: imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

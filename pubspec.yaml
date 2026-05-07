@@ -109,5 +109,5 @@ flutter_intl:
 flutter_launcher_icons:
   android: true
   ios: true
-  adaptive_icon_background: "#3BC577"  # لون الخلفية
+  adaptive_icon_background: "#194C3B"  # لون الخلفية
   image_path: "assets/icons/trader_launcher.png"

@@ -26,6 +26,7 @@ class SignUpVerifyViewBody extends StatefulWidget {
 
 class _SignUpVerifyViewBodyState extends State<SignUpVerifyViewBody> {
   final controller = TextEditingController();
+
   void handleOtpVerify() {
     final verifyModel = OtpVerificationModel(
       email: widget.credential,
@@ -45,7 +46,9 @@ class _SignUpVerifyViewBodyState extends State<SignUpVerifyViewBody> {
     return BlocConsumer<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state is VerifyOtpSuccess) {
-          GoRouter.of(context).pushReplacement(EndPoints.signUpDetailsView);
+          GoRouter.of(
+            context,
+          ).pushReplacement(EndPoints.signUpDetailsStep1View);
         }
         if (state is VerifyOtpFailure) {
           CustomSnackBar.showError(context, state.message);

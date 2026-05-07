@@ -3,15 +3,18 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
 import 'package:trader_app/core/constants.dart';
+import 'package:trader_app/core/constants/storage_constants.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
 import 'package:trader_app/core/services/notifications/push_notifications_service.dart';
+import 'package:trader_app/core/services/services_locator.dart';
 import 'package:trader_app/core/services/social_auth_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/services/user_profile_services.dart';
+import 'package:trader_app/features/finances/data/repos/finances_repo_imp.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
 import 'package:trader_app/features/sign_in/data/models/signin_credentials_model.dart';
 import 'package:trader_app/features/sign_in/data/repos/signin_repo.dart';
@@ -25,17 +28,17 @@ class SignInRepoImp implements SignInRepo {
 
   /// تسجيل الدخول بالبريد الإلكتروني
   @override
-  Future<Either<Failure, LoginedUserModel>> userSignIn({
+  Future<Either<Failure, LoginUserModel>> userSignIn({
     required SigninCredentialsModel credentials,
   }) async {
-    return ErrorHandler.handleApiResponse<LoginedUserModel>(
+    return ErrorHandler.handleApiResponse<LoginUserModel>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.login,
         data: credentials.toJson(),
       ),
       errorContext: 'email login',
       responseParser: (response) {
-        return LoginedUserModel.fromJson(response['data']);
+        return LoginUserModel.fromJson(response['data']);
       },
       customErrorChecks: (response) {
         final token = response['token'];
@@ -59,7 +62,7 @@ class SignInRepoImp implements SignInRepo {
 
   /// تسجيل الدخول عبر Google
   @override
-  Future<Either<Failure, LoginedUserModel>> signInWithGoogle() async {
+  Future<Either<Failure, LoginUserModel>> signInWithGoogle() async {
     final tokenResult = await ErrorHandler.simpleApiCall<String>(
       apiCall: SocialAuthService.signInWithGoogle,
       errorContext: 'Google authentication',
@@ -77,14 +80,14 @@ class SignInRepoImp implements SignInRepo {
 
     final accessToken = tokenResult.getOrElse(() => '');
 
-    return ErrorHandler.handleApiResponse<LoginedUserModel>(
+    return ErrorHandler.handleApiResponse<LoginUserModel>(
       apiCall: () => apiServices.post(
         endPoint: ApiEndpoints.socialLogin,
         data: {'accessToken': accessToken},
       ),
       errorContext: 'Google login',
       responseParser: (response) {
-        return LoginedUserModel.fromJson(response['data']);
+        return LoginUserModel.fromJson(response['data']);
       },
       customErrorChecks: (response) {
         return ErrorHandler.validateResponseData(response, ['data', 'token']);
@@ -97,7 +100,7 @@ class SignInRepoImp implements SignInRepo {
   }
 
   /// حفظ بيانات المستخدم
-  Future<void> _saveUserData(LoginedUserModel user, String token) async {
+  Future<void> _saveUserData(LoginUserModel user, String token) async {
     // ✅ Fix #2: always save token regardless of role
     await StorageServices.storeData('token', token);
 
@@ -107,6 +110,21 @@ class SignInRepoImp implements SignInRepo {
 
     await UserProfileService.fetchAndStoreUserProfile();
     await _authManager.onLoginSuccess();
+
+    // GET FINANCE METHODS
+    var repo = getIt.get<FinancesRepoImp>();
+    var result = await repo.getFinanceMethods();
+    result.fold(
+      (failure) {
+        Logger().e(failure.errMessage);
+      },
+      (data) async {
+        await StorageServices.storeData(
+          StorageConstants.FINANCES_METHODS,
+          data.toJson(),
+        );
+      },
+    );
   }
 
   /// تسجيل الجهاز (آمن 100%)

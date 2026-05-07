@@ -5,13 +5,14 @@ import 'package:trader_app/core/cubits/add_notes_cubit/add_notes_cubit.dart';
 import 'package:trader_app/core/cubits/add_notes_cubit/add_notes_state.dart';
 import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
+import 'package:trader_app/core/models/create_notes_model.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/core/models/create_notes_model.dart';
 
 class ShipmentAddNoteSheet extends StatefulWidget {
   final String shipmentId;
   final TextEditingController noteController;
+
   const ShipmentAddNoteSheet({
     super.key,
     required this.shipmentId,
@@ -93,10 +94,7 @@ class _ShipmentAddNoteSheetState extends State<ShipmentAddNoteSheet> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -187,7 +185,7 @@ class _ShipmentAddNoteSheetState extends State<ShipmentAddNoteSheet> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primaryColor,
+                                  backgroundColor: AppColors.primary,
                                   foregroundColor: Colors.white,
                                   padding: EdgeInsets.symmetric(vertical: 14),
                                   shape: RoundedRectangleBorder(

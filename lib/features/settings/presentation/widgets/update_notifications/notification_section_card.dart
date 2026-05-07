@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
-import 'package:trader_app/features/settings/data/classes/notification_channel_data.dart';
 import 'package:trader_app/features/settings/presentation/widgets/update_notifications/section_config.dart';
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
 
 class NotificationSectionCard extends StatelessWidget {
   final SectionConfig config;
-  final NotificationChannelData channel;
+  final NotificationChannelModel channel;
   final Color primaryGreen;
   final void Function(int rowIndex, bool value) onRowChanged;
 
@@ -21,7 +21,7 @@ class NotificationSectionCard extends StatelessWidget {
 
   bool _getValue(int index) => switch (index) {
     0 => channel.inApp,
-    1 => channel.local,
+    1 => channel.push,
     2 => channel.email,
     _ => false,
   };
@@ -126,8 +126,6 @@ class _ChannelRowTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
@@ -160,7 +158,7 @@ class _ChannelRowTile extends StatelessWidget {
             value: value,
             onChanged: onChanged,
             activeThumbColor: Colors.white,
-            activeTrackColor: AppColors.primaryColor,
+            activeTrackColor: AppColors.primary,
             inactiveThumbColor: Colors.white,
             inactiveTrackColor: Colors.grey.shade300,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

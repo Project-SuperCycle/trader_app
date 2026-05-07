@@ -4,7 +4,7 @@ class SocialAuthResponseModel {
   final int status;
   final String? token;
   final String? message;
-  final LoginedUserModel? user;
+  final LoginUserModel? user;
 
   const SocialAuthResponseModel({
     required this.status,
@@ -18,9 +18,7 @@ class SocialAuthResponseModel {
       status: json['status'] as int,
       token: json['token'] ?? '',
       message: json['message'] ?? '',
-      user: json['user'] != null
-          ? LoginedUserModel.fromJson(json['user'])
-          : null,
+      user: json['user'] != null ? LoginUserModel.fromJson(json['user']) : null,
     );
   }
 
@@ -32,7 +30,7 @@ class SocialAuthResponseModel {
     int? status,
     String? token,
     String? message,
-    LoginedUserModel? user,
+    LoginUserModel? user,
   }) {
     return SocialAuthResponseModel(
       status: status ?? this.status,

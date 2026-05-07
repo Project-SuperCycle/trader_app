@@ -1,51 +1,39 @@
 import 'package:dartz/dartz.dart';
 import 'package:trader_app/core/errors/failures.dart';
-import 'package:trader_app/features/finances/data/models/external/finance_external_model.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/features/finances/data/models/external/single_finance_external_model.dart';
-import 'package:trader_app/features/finances/data/models/finance_summary_model.dart';
-import 'package:trader_app/features/finances/data/models/meal/finance_meal_model.dart';
-import 'package:trader_app/features/finances/data/models/meal/single_finance_meal_model.dart';
-import 'package:trader_app/features/finances/data/models/methods/finance_method_model.dart';
-import 'package:trader_app/features/finances/data/models/monthly/finance_monthly_model.dart';
-import 'package:trader_app/features/finances/data/models/monthly/single_finance_monthly_model.dart';
+import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
+import 'package:trader_app/features/finances/data/models/internal/single_finance_internal_model.dart';
+import 'package:trader_app/features/finances/data/models/summary/finance_summary_model.dart';
 
 abstract class FinancesRepo {
   // COMMON METHODS
-  Future<Either<Failure, FinanceMethodModel>> getFinanceMethods();
+  Future<Either<Failure, FinancesMethodsModel>> getFinanceMethods();
 
   Future<Either<Failure, FinanceSummaryModel>> getFinancesSummary({
     required String type,
   });
 
-  // EXTERNAL METHODS
-  Future<Either<Failure, List<FinanceExternalModel>>> getExternalFinances({
-    required String type,
+  Future<Either<Failure, void>> getFinancePdf({required String paymentId});
+
+  Future<Either<Failure, List<FinanceTransactionModel>>>
+  getFinanceTransactions({
     required String status,
     required int page,
+    required String type,
   });
 
+  // EXTERNAL METHODS
   Future<Either<Failure, SingleFinanceExternalModel>>
   getExternalFinanceDetails({required String shipmentId});
 
   // MONTHLY METHODS
-  Future<Either<Failure, List<FinanceMonthlyModel>>> getMonthlyFinances({
-    required String type,
-    required String status,
-    required int page,
-  });
-
-  Future<Either<Failure, SingleFinanceMonthlyModel>> getMonthlyFinanceDetails({
+  Future<Either<Failure, SingleFinanceInternalModel>> getMonthlyFinanceDetails({
     required String paymentId,
   });
 
   // MEAL METHODS
-  Future<Either<Failure, List<FinanceMealModel>>> getMealFinances({
-    required String type,
-    required String status,
-    required int page,
-  });
-
-  Future<Either<Failure, SingleFinanceMealModel>> getMealFinanceDetails({
+  Future<Either<Failure, SingleFinanceInternalModel>> getMealFinanceDetails({
     required String paymentId,
   });
 }

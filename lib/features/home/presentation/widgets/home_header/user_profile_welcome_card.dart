@@ -20,7 +20,10 @@ class UserProfileWelcomeCard extends StatefulWidget {
 class _UserProfileWelcomeCardState extends State<UserProfileWelcomeCard> {
   String userName = '';
   String userRole = '';
-  LoginedUserModel? user;
+
+  String logoUrl = '';
+
+  LoginUserModel? user;
   final AuthManager _authManager = AuthManager();
 
   @override
@@ -49,19 +52,18 @@ class _UserProfileWelcomeCardState extends State<UserProfileWelcomeCard> {
   Future<void> _loadUserData() async {
     final userData = await StorageServices.getUserData();
 
-    if (mounted) {
-      setState(() {
-        user = userData;
+    setState(() {
+      user = userData;
 
-        if (userData != null) {
-          userName = userData.doshMangerName ?? userData.displayName ?? '';
-          userRole = userData.role ?? '';
-        } else {
-          userName = '';
-          userRole = '';
-        }
-      });
-    }
+      if (userData != null) {
+        userName = userData.doshMangerName ?? userData.displayName ?? '';
+        userRole = userData.role ?? '';
+        logoUrl = userData.logoUrl ?? '';
+      } else {
+        userName = '';
+        userRole = '';
+      }
+    });
   }
 
   void _handleProfileTap() async {
@@ -77,12 +79,14 @@ class _UserProfileWelcomeCardState extends State<UserProfileWelcomeCard> {
     return GestureDetector(
       onTap: _handleProfileTap,
       child: ClipOval(
-        child: Image.asset(
-          AppAssets.defaultAvatar,
-          height: 64,
-          width: 64,
-          fit: BoxFit.cover,
-        ),
+        child: (logoUrl.isEmpty)
+            ? Image.asset(
+                AppAssets.defaultAvatar,
+                height: 64,
+                width: 64,
+                fit: BoxFit.cover,
+              )
+            : Image.network(logoUrl, height: 64, width: 64, fit: BoxFit.cover),
       ),
     );
   }

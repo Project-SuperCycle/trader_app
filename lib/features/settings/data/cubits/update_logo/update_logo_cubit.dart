@@ -20,7 +20,7 @@ class UpdateLogoCubit extends Cubit<UpdateLogoState> {
           emit(UpdateLogoFailure(errMessage: failure.errMessage));
         },
         (data) {
-          emit(UpdateLogoSuccess(message: data));
+          emit(UpdateLogoSuccess(imageUrl: data));
         },
       );
     } catch (error) {

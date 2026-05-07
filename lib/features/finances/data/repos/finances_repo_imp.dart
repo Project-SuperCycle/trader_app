@@ -2,17 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:trader_app/core/constants/storage_constants.dart';
 import 'package:trader_app/core/errors/failures.dart';
 import 'package:trader_app/core/helpers/error_handler.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/core/services/api_endpoints.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
-import 'package:trader_app/features/finances/data/models/external/finance_external_model.dart';
 import 'package:trader_app/features/finances/data/models/external/single_finance_external_model.dart';
-import 'package:trader_app/features/finances/data/models/finance_summary_model.dart';
-import 'package:trader_app/features/finances/data/models/meal/finance_meal_model.dart';
-import 'package:trader_app/features/finances/data/models/meal/single_finance_meal_model.dart';
-import 'package:trader_app/features/finances/data/models/methods/finance_method_model.dart';
-import 'package:trader_app/features/finances/data/models/monthly/finance_monthly_model.dart';
-import 'package:trader_app/features/finances/data/models/monthly/single_finance_monthly_model.dart';
+import 'package:trader_app/features/finances/data/models/finance_transaction_model.dart';
+import 'package:trader_app/features/finances/data/models/internal/single_finance_internal_model.dart';
+import 'package:trader_app/features/finances/data/models/summary/finance_summary_model.dart';
 import 'package:trader_app/features/finances/data/repos/finances_repo.dart';
 
 class FinancesRepoImp implements FinancesRepo {
@@ -22,14 +19,14 @@ class FinancesRepoImp implements FinancesRepo {
 
   // COMMON METHODS
   @override
-  Future<Either<Failure, FinanceMethodModel>> getFinanceMethods() {
+  Future<Either<Failure, FinancesMethodsModel>> getFinanceMethods() {
     // TODO: implement getFinanceMethods
-    return ErrorHandler.handleApiResponse<FinanceMethodModel>(
+    return ErrorHandler.handleApiResponse<FinancesMethodsModel>(
       apiCall: () => apiServices.get(endPoint: ApiEndpoints.getFinancesMethods),
       errorContext: 'get finances methods',
       responseParser: (response) {
-        final data = response['data'];
-        return FinanceMethodModel.fromJson(data);
+        final data = response['data']['receivingMethods'];
+        return FinancesMethodsModel.fromJson(data);
       },
     );
   }
@@ -48,6 +45,29 @@ class FinancesRepoImp implements FinancesRepo {
       responseParser: (response) {
         final data = response['data'];
         return FinanceSummaryModel.fromJson(data);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<FinanceTransactionModel>>>
+  getFinanceTransactions({
+    required String status,
+    required int page,
+    required String type,
+  }) {
+    // TODO: implement getExternalFinances
+    return ErrorHandler.handleApiResponse<List<FinanceTransactionModel>>(
+      apiCall: () => apiServices.get(
+        endPoint: ApiEndpoints.getFinancesItems,
+        query: {"status": status, "page": page, "type": type},
+      ),
+      errorContext: 'get trader finance transactions',
+      responseParser: (response) {
+        final List data = response['data'];
+        final int meta = response['meta']['totalPages'];
+        StorageServices.storeData(StorageConstants.FINANCES_PAGES, meta);
+        return data.map((e) => FinanceTransactionModel.fromJson(e)).toList();
       },
     );
   }
@@ -73,38 +93,13 @@ class FinancesRepoImp implements FinancesRepo {
     );
   }
 
-  @override
-  Future<Either<Failure, List<FinanceExternalModel>>> getExternalFinances({
-    required String type,
-    required String status,
-    required int page,
-  }) {
-    // TODO: implement getExternalFinances
-    return ErrorHandler.handleApiResponse<List<FinanceExternalModel>>(
-      apiCall: () => apiServices.get(
-        endPoint: ApiEndpoints.getFinancesItems,
-        query: {"type": type, "status": status, "page": page},
-      ),
-      errorContext: 'get trader external finances',
-      responseParser: (response) {
-        final List data = response['data'];
-        final int meta = response['meta']['totalPages'];
-        StorageServices.storeData(
-          StorageConstants.EXTERNAL_FINANCES_PAGES,
-          meta,
-        );
-        return data.map((e) => FinanceExternalModel.fromJson(e)).toList();
-      },
-    );
-  }
-
   // MEAL METHODS
   @override
-  Future<Either<Failure, SingleFinanceMealModel>> getMealFinanceDetails({
+  Future<Either<Failure, SingleFinanceInternalModel>> getMealFinanceDetails({
     required String paymentId,
   }) {
     // TODO: implement getMealFinanceDetails
-    return ErrorHandler.handleApiResponse<SingleFinanceMealModel>(
+    return ErrorHandler.handleApiResponse<SingleFinanceInternalModel>(
       apiCall: () => apiServices.get(
         endPoint: ApiEndpoints.getMealFinanceDetails.replaceAll(
           '{paymentId}',
@@ -115,40 +110,18 @@ class FinancesRepoImp implements FinancesRepo {
       errorContext: 'get meal finance details',
       responseParser: (response) {
         final data = response['data'];
-        return SingleFinanceMealModel.fromJson(data);
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, List<FinanceMealModel>>> getMealFinances({
-    required String type,
-    required String status,
-    required int page,
-  }) {
-    // TODO: implement getMealFinances
-    return ErrorHandler.handleApiResponse<List<FinanceMealModel>>(
-      apiCall: () => apiServices.get(
-        endPoint: ApiEndpoints.getFinancesItems,
-        query: {"type": type, "status": status, "page": page},
-      ),
-      errorContext: 'get trader meal finances',
-      responseParser: (response) {
-        final List data = response['data'];
-        final int meta = response['meta']['totalPages'];
-        StorageServices.storeData(StorageConstants.MEAL_FINANCES_PAGES, meta);
-        return data.map((e) => FinanceMealModel.fromJson(e)).toList();
+        return SingleFinanceInternalModel.fromJson(data);
       },
     );
   }
 
   // MONTHLY METHODS
   @override
-  Future<Either<Failure, SingleFinanceMonthlyModel>> getMonthlyFinanceDetails({
+  Future<Either<Failure, SingleFinanceInternalModel>> getMonthlyFinanceDetails({
     required String paymentId,
   }) {
     // TODO: implement getMonthlyFinanceDetails
-    return ErrorHandler.handleApiResponse<SingleFinanceMonthlyModel>(
+    return ErrorHandler.handleApiResponse<SingleFinanceInternalModel>(
       apiCall: () => apiServices.get(
         endPoint: ApiEndpoints.getMonthlyFinanceDetails.replaceAll(
           '{paymentId}',
@@ -159,33 +132,22 @@ class FinancesRepoImp implements FinancesRepo {
       errorContext: 'get monthly finance details',
       responseParser: (response) {
         final data = response['data'];
-        return SingleFinanceMonthlyModel.fromJson(data);
+        return SingleFinanceInternalModel.fromJson(data);
       },
     );
   }
 
   @override
-  Future<Either<Failure, List<FinanceMonthlyModel>>> getMonthlyFinances({
-    required String type,
-    required String status,
-    required int page,
-  }) {
-    // TODO: implement getMonthlyFinances
-    return ErrorHandler.handleApiResponse<List<FinanceMonthlyModel>>(
-      apiCall: () => apiServices.get(
-        endPoint: ApiEndpoints.getFinancesItems,
-        query: {"type": type, "status": status, "page": page},
+  Future<Either<Failure, String>> getFinancePdf({required String paymentId}) {
+    return ErrorHandler.simpleApiCall<String>(
+      errorContext: 'getFinancePdf',
+      apiCall: () => apiServices.downloadPdf(
+        endPoint: ApiEndpoints.getFinancePaymentPdf.replaceAll(
+          '{paymentId}',
+          paymentId,
+        ),
+        paymentId: paymentId,
       ),
-      errorContext: 'get trader monthly finances',
-      responseParser: (response) {
-        final List data = response['data'];
-        final int meta = response['meta']['totalPages'];
-        StorageServices.storeData(
-          StorageConstants.MONTHLY_FINANCES_PAGES,
-          meta,
-        );
-        return data.map((e) => FinanceMonthlyModel.fromJson(e)).toList();
-      },
     );
   }
 }

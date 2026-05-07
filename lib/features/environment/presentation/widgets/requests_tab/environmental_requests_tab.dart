@@ -5,8 +5,8 @@ import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
-import 'package:trader_app/features/environment/presentation/widgets/requests_tab/enviromental_request_card.dart';
 import 'package:trader_app/features/environment/data/models/environmental_redeem_model.dart';
+import 'package:trader_app/features/environment/presentation/widgets/requests_tab/enviromental_request_card.dart';
 
 class EnvironmentalRequestsTab extends StatefulWidget {
   const EnvironmentalRequestsTab({super.key});
@@ -21,7 +21,6 @@ class _EnvironmentalRequestsTabState extends State<EnvironmentalRequestsTab> {
   int _currentPage = 1;
   List<EnvironmentalRedeemModel> _requests = [];
   bool _isLoadingMore = false;
-  bool _hasMoreData = true;
   int totalPages = 1;
 
   @override
@@ -78,7 +77,6 @@ class _EnvironmentalRequestsTabState extends State<EnvironmentalRequestsTab> {
           setState(() {
             _requests = state.requests;
             _isLoadingMore = false;
-            _hasMoreData = _currentPage < totalPages;
           });
         }
         if (state is RequestsFailure) {

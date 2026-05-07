@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:trader_app/core/helpers/custom_dropdown.dart';
 import 'package:trader_app/core/helpers/date_time_picker_util.dart';
+import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/features/sales_process/presentation/widgets/steps/step_header.dart';
 
 class DateTimeStep extends StatefulWidget {
   final DateTime? initialDateTime;
+
+  final String? selectedFinanceMethod;
   final Function(DateTime?) onDateTimeChanged;
+
+  final Function(String?) onFinanceChanged;
 
   const DateTimeStep({
     super.key,
     required this.initialDateTime,
     required this.onDateTimeChanged,
+    required this.selectedFinanceMethod,
+    required this.onFinanceChanged,
   });
 
   @override
@@ -22,9 +30,31 @@ class DateTimeStep extends StatefulWidget {
 class _DateTimeStepState extends State<DateTimeStep> {
   DateTime? _selectedDateTime;
 
+  String? _selectedFinanceMethod;
+
+  List<String> financeMethods = [];
+
+  Future<void> _loadFinances() async {
+    final finances = await StorageServices.getFinancesMethods();
+    if (!mounted) return;
+
+    final bool cash = finances!.cash;
+    final bool bankTransfer = finances.bankTransfer.enabled;
+    final bool eWallet = finances.wallet.enabled;
+
+    setState(() {
+      financeMethods = [
+        if (cash) 'تحصيل نقدي',
+        if (bankTransfer) 'تحويل بنكي',
+        if (eWallet) 'محفظة إلكترونية',
+      ];
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadFinances();
     _selectedDateTime = widget.initialDateTime;
   }
 
@@ -47,6 +77,20 @@ class _DateTimeStepState extends State<DateTimeStep> {
     }
   }
 
+  Future<void> _selectFinance() async {
+    if (_selectedFinanceMethod != null) {
+      String method = '';
+      if (_selectedFinanceMethod == 'تحصيل نقدي') {
+        method = 'cash';
+      } else if (_selectedFinanceMethod == 'تحويل بنكي') {
+        method = 'bankTransfer';
+      } else if (_selectedFinanceMethod == 'محفظة إلكترونية') {
+        method = 'wallet';
+      }
+      widget.onFinanceChanged(method);
+    }
+  }
+
   String _formatDate(DateTime? dateTime) {
     if (dateTime == null) return 'لم يتم تحديد الموعد';
     final date = dateTime.copyWith(hour: dateTime.hour - 2);
@@ -58,8 +102,8 @@ class _DateTimeStepState extends State<DateTimeStep> {
     return Column(
       children: [
         StepHeader(
-          title: 'موعد الاستلام',
-          subtitle: 'حدد التاريخ والوقت المناسب',
+          title: 'الموعد و التحصيل',
+          subtitle: 'حدد التاريخ و طريقة تحصيل النقدية المناسبين',
           icon: Icons.calendar_month_rounded,
           stepNumber: 3,
         ),
@@ -78,7 +122,26 @@ class _DateTimeStepState extends State<DateTimeStep> {
               ),
             ],
           ),
-          child: _buildDatePicker(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('موعد الاستلام', style: AppStyles.styleMedium16(context)),
+              const SizedBox(height: 8),
+              _buildDatePicker(),
+              const SizedBox(height: 20),
+              Text('طريقة التحصيل', style: AppStyles.styleMedium16(context)),
+              const SizedBox(height: 8),
+              CustomDropdown(
+                options: financeMethods,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedFinanceMethod = value;
+                  });
+                  _selectFinance();
+                },
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 16),
         _buildInfoCard(),
@@ -99,7 +162,7 @@ class _DateTimeStepState extends State<DateTimeStep> {
         ),
         child: Row(
           children: [
-            Icon(Icons.access_time, color: AppColors.primaryColor),
+            Icon(Icons.access_time, color: AppColors.primary),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -107,7 +170,7 @@ class _DateTimeStepState extends State<DateTimeStep> {
                 style: AppStyles.styleMedium14(context),
               ),
             ),
-            Icon(Icons.edit, color: AppColors.primaryColor, size: 18),
+            Icon(Icons.edit, color: AppColors.primary, size: 18),
           ],
         ),
       ),

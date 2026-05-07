@@ -40,8 +40,39 @@ class _CustomDropdownState extends State<CustomDropdown> {
     selectedValue = widget.initialValue;
   }
 
+  // ✅ الحل: لما الـ options أو الـ initialValue يتغيروا من الخارج
+  @override
+  void didUpdateWidget(covariant CustomDropdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // لو الـ options اتغيرت والقيمة الحالية مش موجودة فيهم → reset
+    final valueStillValid = widget.options.contains(selectedValue);
+
+    if (!valueStillValid) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() => selectedValue = null);
+        }
+      });
+    }
+
+    // لو الـ initialValue اتغير من الخارج → حدّث
+    if (widget.initialValue != oldWidget.initialValue) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() => selectedValue = widget.initialValue);
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // ✅ تأكد إن الـ value موجودة في الـ options وقت الـ build
+    final safeValue = widget.options.contains(selectedValue)
+        ? selectedValue
+        : null;
+
     return DropdownButtonHideUnderline(
       child: DropdownButton2<String>(
         isExpanded: true,
@@ -71,11 +102,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
               ),
             )
             .toList(),
-        value: selectedValue,
+        value: safeValue,
+        // ✅ بدل selectedValue مباشرة
         onChanged: (value) {
-          setState(() {
-            selectedValue = value;
-          });
+          setState(() => selectedValue = value);
           widget.onChanged(value);
         },
         buttonStyleData: ButtonStyleData(
@@ -94,7 +124,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 ),
         ),
         iconStyleData: IconStyleData(
-          icon: Icon(Icons.keyboard_arrow_down_rounded),
+          icon: const Icon(Icons.keyboard_arrow_down_rounded),
           iconSize: 25,
           iconEnabledColor: Colors.grey.withValues(alpha: 0.75),
           iconDisabledColor: Colors.grey,
@@ -131,7 +161,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 10,
                         vertical: 8,
                       ),

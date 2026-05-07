@@ -32,7 +32,7 @@ class TraderProfileStatsColumn extends StatelessWidget {
           style: AppStyles.styleSemiBold12(context).copyWith(
             fontWeight: FontWeight.bold,
             height: 1.6,
-            color: AppColors.primaryColor,
+            color: AppColors.primary,
           ),
         ),
       ],

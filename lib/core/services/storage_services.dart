@@ -1,8 +1,15 @@
 import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:logger/logger.dart';
+import 'package:trader_app/core/constants/storage_constants.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
+import 'package:trader_app/features/finances/data/models/methods/bank_transfer_method_model.dart';
+import 'package:trader_app/features/finances/data/models/methods/wallet_method_model.dart';
 import 'package:trader_app/features/sign_in/data/models/logined_user_model.dart';
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/trader_payment_info_section.dart';
 
 abstract class StorageServices {
@@ -106,13 +113,13 @@ abstract class StorageServices {
   }
 
   /// GET USER DATA
-  static Future<LoginedUserModel?> getUserData() async {
+  static Future<LoginUserModel?> getUserData() async {
     var data = await StorageServices.readData<Map<String, dynamic>>('user');
     if (data == null) {
       return null;
     }
 
-    LoginedUserModel user = LoginedUserModel(
+    LoginUserModel user = LoginUserModel(
       bussinessName: data['bussinessName'],
       rawBusinessType: data['rawBusinessType'],
       bussinessAdress: data['bussinessAdress'],
@@ -123,12 +130,36 @@ abstract class StorageServices {
       displayName: data['displayName'],
       phone: data['phone'],
       isEcoParticipant: data['isEcoParticipant'],
+      settlementType: data['settlementType'],
+      logoUrl: data['logoUrl'],
+      notificationPreferences: NotificationPreferencesModel.fromJson(
+        data['notificationPreferences'],
+      ),
     );
     return user;
   }
 
-  /// GET USER BRANCHS
-  static Future<List<TraderBranchModel>> getUserBranchs() async {
+  /// GET FINANCES METHODS
+  static Future<FinancesMethodsModel?> getFinancesMethods() async {
+    var data = await StorageServices.readData<Map<String, dynamic>>(
+      StorageConstants.FINANCES_METHODS,
+    );
+    if (data == null) {
+      return null;
+    }
+
+    Logger().d('Finances methods data retrieved from storage: $data');
+
+    FinancesMethodsModel methods = FinancesMethodsModel(
+      cash: data['cash'],
+      bankTransfer: BankTransferMethodModel.fromJson(data['bankTransfer']),
+      wallet: WalletMethodModel.fromJson(data['wallet']),
+    );
+    return methods;
+  }
+
+  /// GET USER BRANCHES
+  static Future<List<TraderBranchModel>> getUserBranches() async {
     try {
       // readData هترجع الـ data مباشرة (List أو Map)
       final data = await StorageServices.readData("user_branchs");
@@ -149,7 +180,7 @@ abstract class StorageServices {
       return branchsMap
           .map(
             (json) => TraderBranchModel.fromJson(json as Map<String, dynamic>),
-      )
+          )
           .toList();
     } catch (e) {
       throw Exception('Failed to retrieve user branchs: ${e.toString()}');
@@ -185,12 +216,13 @@ abstract class StorageServices {
   /// GET PAYMENT INFO
   static Future<PaymentInfoModel?> getUserPaymentInfo() async {
     try {
-      final data =
-      await StorageServices.readData<Map<String, dynamic>>('user_payment_info');
+      final data = await StorageServices.readData<Map<String, dynamic>>(
+        'user_payment_info',
+      );
       if (data == null) return null;
 
       final methodType = PaymentMethodType.values.firstWhere(
-            (e) => e.name == data['methodType'],
+        (e) => e.name == data['methodType'],
         orElse: () => PaymentMethodType.cash,
       );
 
@@ -213,7 +245,9 @@ abstract class StorageServices {
   /// GET USER PROFILE
   static Future<UserProfileModel?> getUserProfile() async {
     try {
-      final data = await StorageServices.readData<Map<String, dynamic>>('user_profile');
+      final data = await StorageServices.readData<Map<String, dynamic>>(
+        'user_profile',
+      );
       if (data == null) return null;
       return UserProfileModel.fromMap(data);
     } catch (e) {

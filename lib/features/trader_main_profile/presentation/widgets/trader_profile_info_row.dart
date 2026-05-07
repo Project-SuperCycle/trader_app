@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 
 class TraderProfileInfoRow extends StatelessWidget {
@@ -21,10 +22,14 @@ class TraderProfileInfoRow extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: const Color(0xFF10B981).withAlpha(25),
+            color: AppColors.primary.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: const Color(0xFF10B981), size: 25),
+          child: Icon(
+            icon,
+            color: AppColors.primary.withValues(alpha: 0.9),
+            size: 25,
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(

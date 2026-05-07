@@ -13,12 +13,14 @@ class EditableProductCard extends StatefulWidget {
   final DoshItemModel product;
   final Function(DoshItemModel updatedProduct) onProductUpdated;
   final VoidCallback onProductDeleted;
+
   const EditableProductCard({
     super.key,
     required this.product,
     required this.onProductUpdated,
     required this.onProductDeleted,
   });
+
   @override
   State<EditableProductCard> createState() => _EditableProductCardState();
 }
@@ -252,10 +254,9 @@ class _EditableProductCardState extends State<EditableProductCard> {
         const SizedBox(width: 12),
         Text(
           averagePrice,
-          style: AppStyles.styleMedium14(context).copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor,
-          ),
+          style: AppStyles.styleMedium14(
+            context,
+          ).copyWith(fontWeight: FontWeight.bold, color: AppColors.primary),
         ),
         const SizedBox(width: 4),
         Text(

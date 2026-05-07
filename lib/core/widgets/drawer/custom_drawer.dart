@@ -6,6 +6,7 @@ import 'package:trader_app/core/routes/end_points.dart';
 import 'package:trader_app/core/services/auth_manager_services.dart';
 import 'package:trader_app/core/services/storage_services.dart';
 import 'package:trader_app/core/utils/app_assets.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/drawer/user_info_list_tile.dart';
 import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
@@ -23,7 +24,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   bool isUserLoggedIn = false;
-  LoginedUserModel? user;
+  LoginUserModel? user;
   final AuthManager _authManager = AuthManager();
 
   @override
@@ -106,7 +107,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: SizedBox(height: MediaQuery.of(context).padding.top + 10),
             ),
 
-            const SliverToBoxAdapter(child: UserInfoListTile()),
+            SliverToBoxAdapter(child: UserInfoListTile()),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
             SliverToBoxAdapter(
@@ -175,6 +176,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           context,
                         ).getNotifications();
                         GoRouter.of(context).push(EndPoints.notificationsView);
+                      },
+                    ),
+
+                  if (user != null)
+                    _buildDrawerItem(
+                      icon: Icons.calendar_today_rounded,
+                      title: 'سجل الماليات',
+                      isActive:
+                          currentLocation ==
+                          EndPoints.financialTransactionsView,
+                      onTap: () {
+                        Navigator.pop(context);
+                        if (isUserLoggedIn) {
+                          context.push(EndPoints.financialTransactionsView);
+                        } else {
+                          context.push(EndPoints.signInView);
+                        }
                       },
                     ),
 
@@ -251,7 +269,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: Material(
         color: isActive
-            ? const Color(0xFF10B981).withAlpha(25)
+            ? AppColors.primary.withValues(alpha: 0.05)
             : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
@@ -263,7 +281,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
               children: [
                 Icon(
                   icon,
-                  color: isActive ? const Color(0xFF10B981) : Colors.grey[600],
+                  color: isActive
+                      ? AppColors.primary.withValues(alpha: 0.9)
+                      : Colors.grey[600],
                   size: 24,
                 ),
                 const SizedBox(width: 16),
@@ -273,7 +293,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     style: isActive
                         ? AppStyles.styleBold16(
                             context,
-                          ).copyWith(color: const Color(0xFF10B981))
+                          ).copyWith(color: AppColors.primary)
                         : AppStyles.styleMedium16(
                             context,
                           ).copyWith(color: Colors.grey[700]),
@@ -284,7 +304,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     width: 4,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981),
+                      color: AppColors.primary.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),

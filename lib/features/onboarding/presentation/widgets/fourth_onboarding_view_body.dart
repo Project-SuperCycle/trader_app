@@ -37,7 +37,7 @@ class FourthOnboardingViewBody extends StatelessWidget {
                   S.of(context).skip,
                   style: AppStyles.styleSemiBold18(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
               ),
             ),
@@ -46,7 +46,7 @@ class FourthOnboardingViewBody extends StatelessWidget {
             "فلوس",
             style: AppStyles.styleBold24(
               context,
-            ).copyWith(fontSize: 36, color: AppColors.primaryColor),
+            ).copyWith(fontSize: 36, color: AppColors.primary),
           ),
           const SizedBox(height: 30),
           Flexible(
@@ -60,14 +60,14 @@ class FourthOnboardingViewBody extends StatelessWidget {
               "استلم فلوسك بعد البيع للمصنع مباشرة بكل سهولة",
               style: AppStyles.styleSemiBold18(
                 context,
-              ).copyWith(color: AppColors.primaryColor, height: 1.6),
+              ).copyWith(color: AppColors.primary, height: 1.6),
               textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(height: 30),
           CustomPaint(
             painter: PartialCircleBorderPainter(
-              color: AppColors.primaryColor,
+              color: AppColors.primary,
               strokeWidth: 4,
               percentage: 1.0,
             ),
@@ -80,7 +80,7 @@ class FourthOnboardingViewBody extends StatelessWidget {
                   height: 80,
                   margin: const EdgeInsets.all(2),
                   decoration: const BoxDecoration(
-                    color: AppColors.primaryColor,
+                    color: AppColors.primary,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(

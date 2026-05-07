@@ -9,6 +9,7 @@ import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/core/widgets/auth/auth_main_header.dart';
 import 'package:trader_app/core/widgets/auth/auth_main_layout.dart';
 import 'package:trader_app/core/widgets/auth/custom_password_field.dart';
+import 'package:trader_app/core/widgets/auth/social_auth_row.dart';
 import 'package:trader_app/core/widgets/custom_button.dart';
 import 'package:trader_app/core/widgets/custom_text_form_field.dart';
 import 'package:trader_app/core/widgets/rounded_container.dart';
@@ -17,7 +18,6 @@ import 'package:trader_app/features/sign_in/data/cubits/sign-in-cubit/sign_in_st
 import 'package:trader_app/features/sign_in/data/models/signin_credentials_model.dart';
 import 'package:trader_app/features/sign_in/presentation/widgets/horizontal_labeled_divider.dart';
 import 'package:trader_app/generated/l10n.dart';
-import 'package:trader_app/core/widgets/auth/social_auth_row.dart';
 
 class SignInViewBody extends StatefulWidget {
   const SignInViewBody({super.key});
@@ -133,7 +133,9 @@ class _SignInViewBodyState extends State<SignInViewBody> {
           CustomSnackBar.showError(context, state.message);
 
           if (state.statusCode == 200) {
-            GoRouter.of(context).pushReplacement(EndPoints.signUpDetailsView);
+            GoRouter.of(
+              context,
+            ).pushReplacement(EndPoints.signUpDetailsStep1View);
           } else if (state.statusCode == 403) {
             GoRouter.of(context).pushReplacement(
               EndPoints.signUpVerifyView,
@@ -208,7 +210,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                                   S.of(context).create_account,
                                   style: AppStyles.styleMedium16(
                                     context,
-                                  ).copyWith(color: AppColors.primaryColor),
+                                  ).copyWith(color: AppColors.primary),
                                 ),
                               ),
                             ),

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:trader_app/features/finances/data/models/finance_summary_model.dart';
+import 'package:trader_app/features/finances/data/models/summary/finance_summary_model.dart';
 import 'package:trader_app/features/finances/data/repos/finances_repo_imp.dart';
 
 part 'get_finances_summary_state.dart';

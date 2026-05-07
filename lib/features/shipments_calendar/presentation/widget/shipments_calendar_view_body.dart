@@ -39,7 +39,7 @@ class ShipmentsCalendarViewBodyState extends State<ShipmentsCalendarViewBody> {
   }
 
   void loadUserCalender() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     if (user != null) {
       setState(() {
         userRole = user.role;
@@ -86,9 +86,7 @@ class ShipmentsCalendarViewBodyState extends State<ShipmentsCalendarViewBody> {
         child: SafeArea(
           child: Column(
             children: [
-              Column(
-                children: [const ShipmentLogo(), const SizedBox(height: 20)],
-              ),
+              const ShipmentLogo(),
               Expanded(
                 child:
                     BlocConsumer<

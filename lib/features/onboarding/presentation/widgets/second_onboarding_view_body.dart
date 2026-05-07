@@ -36,7 +36,7 @@ class SecondOnboardingViewBody extends StatelessWidget {
                   S.of(context).skip,
                   style: AppStyles.styleSemiBold18(
                     context,
-                  ).copyWith(color: AppColors.primaryColor),
+                  ).copyWith(color: AppColors.primary),
                 ),
               ),
             ),
@@ -45,7 +45,7 @@ class SecondOnboardingViewBody extends StatelessWidget {
             "بيع",
             style: AppStyles.styleBold24(
               context,
-            ).copyWith(fontSize: 36, color: AppColors.primaryColor),
+            ).copyWith(fontSize: 36, color: AppColors.primary),
           ),
           const SizedBox(height: 30),
           Flexible(
@@ -65,14 +65,14 @@ class SecondOnboardingViewBody extends StatelessWidget {
               "عرض الكرتون اللي عندك بخطوات بسيطة، وحدد الكمية والمكان",
               style: AppStyles.styleSemiBold18(
                 context,
-              ).copyWith(color: AppColors.primaryColor, height: 1.6),
+              ).copyWith(color: AppColors.primary, height: 1.6),
               textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(height: 30),
           CustomPaint(
             painter: PartialCircleBorderPainter(
-              color: AppColors.primaryColor,
+              color: AppColors.primary,
               strokeWidth: 4,
               percentage: 0.50,
             ),
@@ -87,7 +87,7 @@ class SecondOnboardingViewBody extends StatelessWidget {
                   height: 80,
                   margin: const EdgeInsets.all(2),
                   decoration: const BoxDecoration(
-                    color: AppColors.primaryColor,
+                    color: AppColors.primary,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(

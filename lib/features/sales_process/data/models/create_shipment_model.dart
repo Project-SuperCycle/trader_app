@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:trader_app/core/functions/shipment_manager.dart';
 import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
 
@@ -10,6 +11,7 @@ class CreateShipmentModel {
   final List<File> images;
   final List<DoshItemModel> items;
   final String userNotes;
+  final String finance;
 
   CreateShipmentModel({
     required this.customPickupAddress,
@@ -17,6 +19,7 @@ class CreateShipmentModel {
     required this.images,
     required this.items,
     required this.userNotes,
+    required this.finance,
     this.selectedBranchId,
     this.selectedBranchName,
   });
@@ -31,6 +34,7 @@ class CreateShipmentModel {
           .map<DoshItemModel>((x) => DoshItemModel.fromJson(x))
           .toList(),
       userNotes: json['userNotes'] as String,
+      finance: json['receivingMethod'] as String,
     );
   }
 
@@ -45,6 +49,7 @@ class CreateShipmentModel {
       'images': images,
       'items': items,
       'userNotes': userNotes,
+      'receivingMethod': finance,
     };
   }
 
@@ -53,6 +58,7 @@ class CreateShipmentModel {
       'requestedPickupAt': requestedPickupAt,
       'items': ShipmentManager.createDoshItemsMap(items: items),
       'userNotes': userNotes,
+      'receivingMethod': finance,
     };
 
     if (includeCustomPickupAddress) {
@@ -79,6 +85,7 @@ class CreateShipmentModel {
     List<File>? images,
     List<DoshItemModel>? items,
     String? userNotes,
+    String? finance,
   }) {
     return CreateShipmentModel(
       selectedBranchId: selectedBranchId ?? this.selectedBranchId,
@@ -88,6 +95,7 @@ class CreateShipmentModel {
       images: images ?? this.images,
       items: items ?? this.items,
       userNotes: userNotes ?? this.userNotes,
+      finance: finance ?? this.finance,
     );
   }
 }

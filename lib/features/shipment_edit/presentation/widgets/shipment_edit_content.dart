@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trader_app/core/utils/app_colors.dart';
-import 'package:trader_app/features/sales_process/data/models/unit.dart';
 import 'package:trader_app/features/sales_process/data/models/dosh_item_model.dart';
+import 'package:trader_app/features/sales_process/data/models/unit.dart';
 import 'package:trader_app/features/sales_process/presentation/widgets/editable_product_card.dart';
 
 class ShipmentEditContent extends StatefulWidget {
   final List<DoshItemModel> products;
   final Function(List<DoshItemModel>) onProductsChanged;
+
   const ShipmentEditContent({
     super.key,
     required this.products,
@@ -145,7 +146,7 @@ class _ShipmentEditContentState extends State<ShipmentEditContent> {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 5),
               decoration: BoxDecoration(
-                color: AppColors.primaryColor,
+                color: AppColors.primary,
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(50),
                   topRight: Radius.circular(50),
@@ -157,7 +158,7 @@ class _ShipmentEditContentState extends State<ShipmentEditContent> {
                   shape: const CircleBorder(),
                   padding: const EdgeInsets.all(10),
                   backgroundColor: Colors.white,
-                  foregroundColor: AppColors.primaryColor,
+                  foregroundColor: AppColors.primary,
                   elevation: 4,
                 ),
                 child: const Icon(Icons.add, size: 30),

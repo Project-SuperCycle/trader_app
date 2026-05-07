@@ -8,9 +8,9 @@ final class UpdateLogoInitial extends UpdateLogoState {}
 final class UpdateLogoLoading extends UpdateLogoState {}
 
 final class UpdateLogoSuccess extends UpdateLogoState {
-  final String message;
+  final String imageUrl;
 
-  UpdateLogoSuccess({required this.message});
+  UpdateLogoSuccess({required this.imageUrl});
 }
 
 final class UpdateLogoFailure extends UpdateLogoState {

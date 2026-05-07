@@ -4,6 +4,7 @@ import 'package:trader_app/core/utils/app_colors.dart';
 
 class CustomLoadingIndicator extends StatelessWidget {
   const CustomLoadingIndicator({super.key, this.color});
+
   final Color? color;
 
   @override
@@ -14,7 +15,7 @@ class CustomLoadingIndicator extends StatelessWidget {
         width: 60.0,
         child: LoadingIndicator(
           indicatorType: Indicator.ballRotateChase,
-          colors: [color ?? AppColors.primaryColor],
+          colors: [color ?? AppColors.primary],
           strokeWidth: 1,
         ),
       ),

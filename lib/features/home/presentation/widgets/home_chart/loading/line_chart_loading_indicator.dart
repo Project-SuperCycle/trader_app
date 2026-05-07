@@ -73,7 +73,7 @@ class LineChartLoadingIndicator extends StatelessWidget {
             height: 3,
             margin: const EdgeInsets.only(left: 46),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor.withAlpha(50),
+              color: AppColors.primary.withAlpha(50),
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -105,7 +105,7 @@ class _FakeLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.primaryColor.withAlpha(60)
+      ..color = AppColors.primary.withAlpha(60)
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -115,8 +115,8 @@ class _FakeLinePainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.primaryColor.withAlpha(40),
-          AppColors.primaryColor.withAlpha(0),
+          AppColors.primary.withAlpha(40),
+          AppColors.primary.withAlpha(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..style = PaintingStyle.fill;
@@ -171,7 +171,7 @@ class _FakeLinePainter extends CustomPainter {
 
     // Fake dots on points
     final dotPaint = Paint()
-      ..color = AppColors.primaryColor.withAlpha(80)
+      ..color = AppColors.primary.withAlpha(80)
       ..style = PaintingStyle.fill;
 
     for (final point in points) {

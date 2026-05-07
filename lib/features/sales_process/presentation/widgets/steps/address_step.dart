@@ -78,7 +78,7 @@ class _BranchSection extends StatelessWidget {
     return _SectionCard(
       title: 'اختر الفرع',
       icon: Icons.store_rounded,
-      iconColor: AppColors.primaryColor,
+      iconColor: AppColors.primary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

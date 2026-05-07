@@ -29,12 +29,12 @@ class _TypesSectionHeaderState extends State<TypesSectionHeader> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withAlpha(50),
+                        color: AppColors.primary.withAlpha(50),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         Icons.category,
-                        color: AppColors.primaryColor,
+                        color: AppColors.primary,
                         size: 20,
                       ),
                     ),

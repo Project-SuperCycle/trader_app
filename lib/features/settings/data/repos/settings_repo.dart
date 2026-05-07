@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:trader_app/core/errors/failures.dart';
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/features/settings/data/models/request_email_change_model.dart';
-import 'package:trader_app/features/settings/data/models/update_finance_methods_model.dart';
 import 'package:trader_app/features/settings/data/models/update_notifications_model.dart';
 import 'package:trader_app/features/settings/data/models/update_password_model.dart';
 import 'package:trader_app/features/settings/data/models/update_profile_model.dart';
@@ -14,7 +14,7 @@ abstract class SettingsRepo {
   });
 
   Future<Either<Failure, String>> updateFinancesMethods({
-    required UpdateFinanceMethodsModel methods,
+    required FinancesMethodsModel methods,
   });
 
   Future<Either<Failure, String>> updateNotificationsPermissions({

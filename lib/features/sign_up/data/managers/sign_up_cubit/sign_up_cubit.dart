@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
+import 'package:trader_app/core/models/finances_methods_model.dart';
 import 'package:trader_app/features/sign_up/data/models/business_information_model.dart'
     show BusinessInformationModel;
 import 'package:trader_app/features/sign_up/data/models/otp_verification_model.dart'
@@ -48,10 +49,16 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
   }
 
-  Future<void> completeSignup(BusinessInformationModel businessInfo) async {
+  Future<void> completeSignup({
+    required BusinessInformationModel businessInfo,
+    required FinancesMethodsModel methods,
+  }) async {
     emit(CompleteSignUpLoading());
     try {
-      var result = await signUpRepo.completeSignup(businessInfo: businessInfo);
+      var result = await signUpRepo.completeSignup(
+        businessInfo: businessInfo,
+        methods: methods,
+      );
       result.fold(
         (failure) {
           emit(CompleteSignUpFailure(message: failure.errMessage));

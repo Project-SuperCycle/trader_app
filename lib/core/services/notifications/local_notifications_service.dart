@@ -41,6 +41,7 @@ class LocalNotificationsService {
       'relatedEntity': message.data['relatedEntity'] ?? '',
       'relatedEntityId': message.data['relatedEntityId'] ?? '',
       'type': message.data['type'] ?? '',
+      'settlementType': message.data['data']['settlementType'] ?? '',
       ...message.data, // Include all other data
     };
 
@@ -83,16 +84,6 @@ class LocalNotificationsService {
       Logger().e("Error parsing notification payload: $e");
       return null;
     }
-  }
-
-  static String _formatDataPayload(Map<String, dynamic> data) {
-    if (data.isEmpty) return '║ (Empty)';
-
-    StringBuffer buffer = StringBuffer();
-    data.forEach((key, value) {
-      buffer.writeln('║ $key: $value');
-    });
-    return buffer.toString().trimRight();
   }
 
   static void cancelNotification({required int id}) async {

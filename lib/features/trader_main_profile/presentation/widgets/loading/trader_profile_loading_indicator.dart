@@ -76,7 +76,7 @@ class TraderProfileLoadingIndicator extends StatelessWidget {
               const SizedBox(height: 30),
 
               // ----- Avatar -----
-              CustomFadingWidget.circle(radius: 50),
+              CustomFadingWidget.circle(radius: 75),
 
               const SizedBox(height: 16),
 

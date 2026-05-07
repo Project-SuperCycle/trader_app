@@ -4,14 +4,14 @@ import 'package:trader_app/core/helpers/app_transitions.dart';
 import 'package:trader_app/core/models/shipment/single_shipment_model.dart';
 import 'package:trader_app/core/models/user_profile_model.dart';
 import 'package:trader_app/core/routes/end_points.dart';
-import 'package:trader_app/features/Contracted_Fiance/presentation/view/contracted_fiance_details_view.dart';
-import 'package:trader_app/features/Financial_transactions/presentation/view/financial_transaction_view.dart';
 import 'package:trader_app/features/calculator/presentation/view/calculator_view.dart';
 import 'package:trader_app/features/contact_us/presentation/view/contact_us_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_default_view.dart';
 import 'package:trader_app/features/environment/presentation/views/environmental_impact_view.dart';
 import 'package:trader_app/features/environment/presentation/widgets/loading/environment_loading_indicator.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
+import 'package:trader_app/features/finances/presentation/views/finance_external_details_view.dart';
+import 'package:trader_app/features/finances/presentation/views/finance_internal_details_view.dart';
+import 'package:trader_app/features/finances/presentation/views/finances_history_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/forget_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/reset_password_view.dart';
 import 'package:trader_app/features/forget_password/presentation/views/verify_reset_otp_view.dart';
@@ -30,11 +30,12 @@ import 'package:trader_app/features/settings/presentation/views/update_logo_view
 import 'package:trader_app/features/settings/presentation/views/update_notifications_view.dart';
 import 'package:trader_app/features/settings/presentation/views/update_password_view.dart';
 import 'package:trader_app/features/settings/presentation/views/update_profile_view.dart';
-import 'package:trader_app/features/settings/presentation/widgets/settings_screen/placeholder_screen.dart';
 import 'package:trader_app/features/shipment_edit/presentation/views/shipment_edit_view.dart';
 import 'package:trader_app/features/shipments_calendar/presentation/view/shipments_calendar_view.dart';
 import 'package:trader_app/features/sign_in/presentation/views/sign_in_view.dart';
-import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_view.dart';
+import 'package:trader_app/features/sign_up/data/models/business_information_model.dart';
+import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_step1_view.dart';
+import 'package:trader_app/features/sign_up/presentation/views/sign_up_details_step2_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_verify_view.dart';
 import 'package:trader_app/features/sign_up/presentation/views/sign_up_view.dart';
 import 'package:trader_app/features/splash/views/splash_view.dart';
@@ -42,7 +43,7 @@ import 'package:trader_app/features/trader_main_profile/presentation/view/trader
 import 'package:trader_app/features/trader_main_profile/presentation/widgets/loading/trader_profile_loading_indicator.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/views/trader_shipment_details_view.dart';
 import 'package:trader_app/features/trader_shipment_details/presentation/widgets/loading/shipment_details_loading_indicator.dart';
-import 'package:trader_app/features/financial_transaction_details/presentation/view/financial_transaction_details_view.dart';
+
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: EndPoints.splashView,
@@ -154,11 +155,22 @@ class AppRouter {
       ),
 
       GoRoute(
-        path: EndPoints.signUpDetailsView,
-        name: 'SignUpDetails',
+        path: EndPoints.signUpDetailsStep1View,
+        name: 'SignUpDetails Step1',
         pageBuilder: (context, state) => AppTransitions.smoothFadeWithScale(
           state.pageKey,
-          const SignUpDetailsView(),
+          const SignUpDetailsStep1View(),
+        ),
+      ),
+
+      GoRoute(
+        path: EndPoints.signUpDetailsStep2View,
+        name: 'SignUpDetails Step2',
+        pageBuilder: (context, state) => AppTransitions.smoothFadeWithScale(
+          state.pageKey,
+          SignUpDetailsStep2View(
+            businessInfo: state.extra as BusinessInformationModel,
+          ),
         ),
       ),
 
@@ -310,42 +322,132 @@ class AppRouter {
       // ============================================================
       // Financial Transaction View - Main Style
       // ============================================================
-
       GoRoute(
-        path: EndPoints.FinancialTransactionView,
-        name: 'financialTransaction',
+        path: EndPoints.financialTransactionsView,
+        name: 'Financial Transaction',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          const FinancialTransactionView(),
+          const FinancesHistoryView(),
         ),
       ),
 
       // ============================================================
-      // Financial Transaction Dateils View - Main Style
+      // Financial External Details View - Main Style
       // ============================================================
-
       GoRoute(
-        path: EndPoints.FinancialTransactiondetailsView,
-        name: 'financialTransactionْDetails',
+        path: EndPoints.financialExternalDetailsView,
+        name: 'Financial External Details',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          const FinancialTransactionDetailsView(),
+          const FinanceExternalDetailsView(),
         ),
       ),
 
       // ============================================================
-      // Contracted Fiance Dateils View - Main Style
+      // Financial Internal Details View - Main Style
       // ============================================================
-
       GoRoute(
-        path: EndPoints.ContractedFianceDetailsView,
-        name: 'ContractedFianceDetails',
+        path: EndPoints.financialInternalDetailsView,
+        name: 'Financial Internal Details',
         pageBuilder: (context, state) => AppTransitions.fadeForDetails(
           state.pageKey,
-          const ContractedFianceDetailsView(),
+          const FinanceInternalDetailsView(),
         ),
       ),
 
+      // ============================================================
+      // Settings View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.settingsView,
+        name: 'Settings View',
+        pageBuilder: (context, state) =>
+            AppTransitions.fadeForDetails(state.pageKey, const SettingsView()),
+      ),
+
+      // ============================================================
+      // Update Profile View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateProfileView,
+        name: 'Update Profile View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateProfileView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Logo View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateLogoView,
+        name: 'Update Logo View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateLogoView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Password View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updatePasswordView,
+        name: 'Update Password View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdatePasswordView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Notifications View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateNotificationsView,
+        name: 'Update Notifications View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateNotificationsView(),
+        ),
+      ),
+
+      // ============================================================
+      // Update Finances View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.updateFinancesView,
+        name: 'Update Finances View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const UpdateFinancesView(),
+        ),
+      ),
+
+      // ============================================================
+      // Request Email Change View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.requestEmailChangeView,
+        name: 'Request Email Change View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const RequestEmailChangeView(),
+        ),
+      ),
+
+      // ============================================================
+      // Confirm Email Change View - Main Style
+      // ============================================================
+      GoRoute(
+        path: EndPoints.confirmEmailChangeView,
+        name: 'Confirm Email Change View',
+        pageBuilder: (context, state) => AppTransitions.fadeForDetails(
+          state.pageKey,
+          const ConfirmEmailChangeView(),
+        ),
+      ),
     ],
 
     // Custom error page with smooth fade

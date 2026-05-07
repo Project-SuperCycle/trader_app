@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class TraderShipmentRepresentativeCard extends StatelessWidget {
   final RepresentitiveModel representitive;
+
   const TraderShipmentRepresentativeCard({
     super.key,
     required this.representitive,
@@ -18,20 +19,17 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primaryColor.withAlpha(50),
-            AppColors.primaryColor.withAlpha(25),
+            AppColors.primary.withAlpha(50),
+            AppColors.primary.withAlpha(25),
           ],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppColors.primaryColor.withAlpha(75),
-          width: 1.5,
-        ),
+        border: Border.all(color: AppColors.primary.withAlpha(75), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryColor.withAlpha(25),
+            color: AppColors.primary.withAlpha(25),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -48,7 +46,7 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primaryColor.withAlpha(25),
+                color: AppColors.primary.withAlpha(25),
               ),
             ),
           ),
@@ -60,7 +58,7 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primaryColor.withAlpha(25),
+                color: AppColors.primary.withAlpha(25),
               ),
             ),
           ),
@@ -80,15 +78,15 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         gradient: LinearGradient(
                           colors: [
-                            AppColors.primaryColor,
-                            AppColors.primaryColor.withAlpha(350),
+                            AppColors.primary,
+                            AppColors.primary.withAlpha(350),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primaryColor.withAlpha(75),
+                            color: AppColors.primary.withAlpha(75),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -144,7 +142,7 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
                           Icon(
                             Icons.person_outline,
                             size: 16,
-                            color: AppColors.primaryColor,
+                            color: AppColors.primary,
                           ),
                           const SizedBox(width: 6),
                           Text(
@@ -170,7 +168,7 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
                           Icon(
                             Icons.phone_outlined,
                             size: 16,
-                            color: AppColors.primaryColor,
+                            color: AppColors.primary,
                           ),
                           const SizedBox(width: 6),
                           Expanded(
@@ -197,11 +195,11 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primaryColor.withAlpha(75),
+                          color: AppColors.primary.withAlpha(75),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -225,7 +223,7 @@ class TraderShipmentRepresentativeCard extends StatelessWidget {
   Widget _buildDefaultAvatar() {
     return Container(
       color: Colors.grey[200],
-      child: Icon(Icons.person, size: 40, color: AppColors.primaryColor),
+      child: Icon(Icons.person, size: 40, color: AppColors.primary),
     );
   }
 

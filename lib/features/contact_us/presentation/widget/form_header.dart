@@ -18,7 +18,7 @@ class FormHeader extends StatelessWidget {
           child: Icon(
             Icons.contact_support,
             size: 30,
-            color: AppColors.primaryColor,
+            color: AppColors.primary,
           ),
         ),
         const SizedBox(height: 6),

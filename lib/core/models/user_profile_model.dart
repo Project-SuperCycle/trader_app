@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:trader_app/core/models/trader_branch_model.dart';
 import 'package:trader_app/core/models/trader_contract_model.dart';
 import 'package:trader_app/core/models/trader_main_branch_model.dart';
@@ -8,6 +9,8 @@ class UserProfileModel {
   // Basic Info
   final String email;
   final String role;
+
+  final String? logoUrl;
 
   // Branchs
   final TraderMainBranchModel? mainBranch;
@@ -70,6 +73,7 @@ class UserProfileModel {
     required this.mainBranch,
     required this.branchs,
     required this.contract,
+    required this.logoUrl,
   });
 
   // Factory constructor for creating a new instance from a map (JSON)
@@ -97,10 +101,10 @@ class UserProfileModel {
           : null,
       branchs: json['branches'] != null
           ? List<TraderBranchModel>.from(
-        json['branches'].map(
-              (brnach) => TraderBranchModel.fromJson(brnach),
-        ),
-      )
+              json['branches'].map(
+                (brnach) => TraderBranchModel.fromJson(brnach),
+              ),
+            )
           : [],
       totalShipmentsCount: (json['stats'] != null)
           ? json['stats']['totalShipmentsCount']
@@ -147,6 +151,7 @@ class UserProfileModel {
       contract: (json['contract'] != null)
           ? TraderContractModel.fromJson(json['contract'])
           : null,
+      logoUrl: (json['profile'] != null) ? json['profile']['logoUrl'] : null,
     );
   }
 
@@ -174,7 +179,10 @@ class UserProfileModel {
       'repPhone': repPhone,
       'repEmail': repEmail,
       'repName': repName,
-      'paymentInfo': paymentInfo != null ? _paymentInfoToMap(paymentInfo!) : null,
+      'logoUrl': logoUrl,
+      'paymentInfo': paymentInfo != null
+          ? _paymentInfoToMap(paymentInfo!)
+          : null,
       'mainBranch': mainBranch != null ? _branchToJsonSafe(mainBranch!) : null,
       'branches': branchs.map((branch) => branch.toJson()).toList(),
       'contract': contract != null ? _contractToJsonSafe(contract!) : null,
@@ -253,6 +261,7 @@ class UserProfileModel {
       repPhone: map['repPhone'],
       repEmail: map['repEmail'],
       repName: map['repName'],
+      logoUrl: map['logoUrl'],
       paymentInfo: map['paymentInfo'] != null
           ? _paymentInfoFromJson(map['paymentInfo'])
           : null,
@@ -261,10 +270,10 @@ class UserProfileModel {
           : null,
       branchs: map['branches'] != null
           ? List<TraderBranchModel>.from(
-        map['branches'].map(
-              (branch) => TraderBranchModel.fromMap(branch),
-        ),
-      )
+              map['branches'].map(
+                (branch) => TraderBranchModel.fromMap(branch),
+              ),
+            )
           : [],
       contract: map['contract'] != null
           ? TraderContractModel.fromJson(map['contract'])
@@ -299,6 +308,7 @@ class UserProfileModel {
     String? repName,
     PaymentInfoModel? paymentInfo,
     TraderContractModel? contract,
+    String? logoUrl,
   }) {
     return UserProfileModel(
       email: email ?? this.email,
@@ -313,7 +323,7 @@ class UserProfileModel {
       totalShipmentsCount: totalShipmentsCount ?? this.totalShipmentsCount,
       fullyDeliveredCount: fullyDeliveredCount ?? this.fullyDeliveredCount,
       partiallyDeliveredCount:
-      partiallyDeliveredCount ?? this.partiallyDeliveredCount,
+          partiallyDeliveredCount ?? this.partiallyDeliveredCount,
       totalShipments: totalShipments ?? this.totalShipments,
       delivered: delivered ?? this.delivered,
       failed: failed ?? this.failed,
@@ -327,6 +337,7 @@ class UserProfileModel {
       repName: repName ?? this.repName,
       paymentInfo: paymentInfo ?? this.paymentInfo,
       contract: contract ?? this.contract,
+      logoUrl: logoUrl ?? this.logoUrl,
     );
   }
 
@@ -334,7 +345,7 @@ class UserProfileModel {
 
   static PaymentInfoModel _paymentInfoFromJson(Map<String, dynamic> json) {
     final methodType = PaymentMethodType.values.firstWhere(
-          (e) => e.name == json['methodType'],
+      (e) => e.name == json['methodType'],
       orElse: () => PaymentMethodType.cash,
     );
     return PaymentInfoModel(

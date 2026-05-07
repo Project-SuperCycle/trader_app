@@ -10,7 +10,7 @@ class SignInLoading extends SignInState {}
 
 /// حالة النجاح
 class SignInSuccess extends SignInState {
-  final LoginedUserModel user;
+  final LoginUserModel user;
 
   SignInSuccess({required this.user});
 }

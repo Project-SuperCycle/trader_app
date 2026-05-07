@@ -1,9 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trader_app/core/helpers/custom_loading_indicator.dart';
+import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/utils/app_assets.dart';
+import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
+import 'package:trader_app/features/settings/data/cubits/update_logo/update_logo_cubit.dart';
 import 'package:trader_app/features/settings/presentation/widgets/cancel_button.dart';
 import 'package:trader_app/features/settings/presentation/widgets/save_button.dart';
 
@@ -25,7 +31,6 @@ class ChangeImageWidget extends StatefulWidget {
 
 class _ChangeImageWidgetState extends State<ChangeImageWidget> {
   File? _selectedImage;
-  bool _isSaving = false;
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -39,10 +44,7 @@ class _ChangeImageWidgetState extends State<ChangeImageWidget> {
 
   Future<void> _save() async {
     if (_selectedImage == null) return;
-    setState(() => _isSaving = true);
-    await Future.delayed(const Duration(milliseconds: 800)); // simulate upload
-    widget.onSave?.call(_selectedImage!);
-    if (mounted) setState(() => _isSaving = false);
+    BlocProvider.of<UpdateLogoCubit>(context).updateLogo(logo: _selectedImage!);
   }
 
   void _cancel() {
@@ -78,7 +80,29 @@ class _ChangeImageWidgetState extends State<ChangeImageWidget> {
               ),
             ),
             const SizedBox(height: 28),
-            SaveButton(onSave: _save),
+            BlocConsumer<UpdateLogoCubit, UpdateLogoState>(
+              listener: (context, state) {
+                // TODO: implement listener
+                if (state is UpdateLogoFailure) {
+                  CustomSnackBar.showError(context, state.errMessage);
+                }
+                if (state is UpdateLogoSuccess) {
+                  GoRouter.of(context).pop();
+                }
+              },
+              builder: (context, state) {
+                if (state is UpdateLogoLoading) {
+                  return Center(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CustomLoadingIndicator(color: AppColors.primary),
+                    ),
+                  );
+                }
+                return SaveButton(onSave: _save);
+              },
+            ),
             const SizedBox(height: 10),
             CancelButton(onCancel: _cancel),
           ],
@@ -88,11 +112,12 @@ class _ChangeImageWidgetState extends State<ChangeImageWidget> {
   }
 }
 
-// ── Sub-widgets ──────────────────────────────────────────────────────────────
+// ── Sub-external ──────────────────────────────────────────────────────────────
 
 class _AvatarPicker extends StatelessWidget {
   final File? selectedImage;
   final String? networkUrl;
+
   final VoidCallback onTap;
 
   const _AvatarPicker({
@@ -102,8 +127,8 @@ class _AvatarPicker extends StatelessWidget {
   });
 
   ImageProvider get _imageProvider {
-    // if (selectedImage != null) return FileImage(selectedImage!);
-    // if (networkUrl != null) return NetworkImage(networkUrl!);
+    if (selectedImage != null) return FileImage(selectedImage!);
+    if (networkUrl != null) return NetworkImage(networkUrl!);
     return const AssetImage(AppAssets.defaultAvatar);
   }
 

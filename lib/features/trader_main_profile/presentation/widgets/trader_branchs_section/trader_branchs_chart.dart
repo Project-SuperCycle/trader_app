@@ -53,14 +53,14 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.primaryColor,
-                        AppColors.primaryColor.withAlpha(200),
+                        AppColors.primary,
+                        AppColors.primary.withAlpha(200),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primaryColor.withAlpha(150),
+                        color: AppColors.primary.withAlpha(150),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -203,7 +203,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                           (value - avgVolume).abs() < (gridInterval * 0.01);
                       return FlLine(
                         color: isAvgLine
-                            ? AppColors.primaryColor.withAlpha(150)
+                            ? AppColors.primary.withAlpha(150)
                             : Colors.grey.shade200,
                         strokeWidth: isAvgLine ? 2 : 0.5,
                         dashArray: isAvgLine ? [8, 4] : null,
@@ -290,22 +290,22 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                           gradient: LinearGradient(
                             colors: isHighest
                                 ? [
-                                    AppColors.primaryColor,
-                                    AppColors.primaryColor.withAlpha(200),
-                                    AppColors.primaryColor.withAlpha(150),
+                                    AppColors.primary,
+                                    AppColors.primary.withAlpha(200),
+                                    AppColors.primary.withAlpha(150),
                                   ]
                                 : [
-                                    AppColors.primaryColor.withAlpha(
+                                    AppColors.primary.withAlpha(
                                       (150 + (normalizedValue * 80))
                                           .toInt()
                                           .clamp(0, 255),
                                     ),
-                                    AppColors.primaryColor.withAlpha(
+                                    AppColors.primary.withAlpha(
                                       (120 + (normalizedValue * 80))
                                           .toInt()
                                           .clamp(0, 255),
                                     ),
-                                    AppColors.primaryColor.withAlpha(
+                                    AppColors.primary.withAlpha(
                                       (90 + (normalizedValue * 80))
                                           .toInt()
                                           .clamp(0, 255),
@@ -329,7 +329,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                       if (avgVolume > 0)
                         HorizontalLine(
                           y: avgVolume,
-                          color: AppColors.primaryColor.withAlpha(200),
+                          color: AppColors.primary.withAlpha(200),
                           strokeWidth: 2,
                           dashArray: [10, 5],
                           label: HorizontalLineLabel(
@@ -338,7 +338,7 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
                             padding: const EdgeInsets.only(left: 8, bottom: 4),
                             style: AppStyles.styleSemiBold12(context).copyWith(
                               fontSize: 10,
-                              color: AppColors.primaryColor,
+                              color: AppColors.primary,
                               backgroundColor: Colors.white,
                             ),
                             labelResolver: (line) =>
@@ -358,22 +358,17 @@ class _TraderBranchsChartState extends State<TraderBranchsChart> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    AppColors.primaryColor.withAlpha(25),
-                    Colors.transparent,
-                  ],
+                  colors: [AppColors.primary.withAlpha(25), Colors.transparent],
                 ),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: AppColors.primaryColor.withAlpha(100),
-                ),
+                border: Border.all(color: AppColors.primary.withAlpha(100)),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.touch_app_rounded,
                     size: 18,
-                    color: AppColors.primaryColor,
+                    color: AppColors.primary,
                   ),
                   const SizedBox(width: 10),
                   Expanded(

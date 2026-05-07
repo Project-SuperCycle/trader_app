@@ -43,7 +43,7 @@ class UpdateLogoViewBody extends StatelessWidget {
                         'تغيير صورة البروفايل',
                         style: AppStyles.styleBold20(
                           context,
-                        ).copyWith(color: AppColors.primaryColor),
+                        ).copyWith(color: AppColors.primary),
                       ),
                       const SizedBox(height: 24),
 

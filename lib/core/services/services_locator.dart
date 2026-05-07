@@ -3,10 +3,12 @@ import 'package:trader_app/core/repos/social_auth_repo_imp.dart';
 import 'package:trader_app/core/services/api_services.dart';
 import 'package:trader_app/core/services/dosh_types_manager.dart';
 import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
+import 'package:trader_app/features/finances/data/repos/finances_repo_imp.dart';
 import 'package:trader_app/features/forget_password/data/repos/forget_password_repo_imp.dart';
 import 'package:trader_app/features/home/data/repos/home_repo_imp.dart';
 import 'package:trader_app/features/notifications/data/repos/notifications_repo_imp.dart';
 import 'package:trader_app/features/sales_process/data/repos/sales_process_repo_imp.dart';
+import 'package:trader_app/features/settings/data/repos/settings_repo_imp.dart';
 import 'package:trader_app/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
 import 'package:trader_app/features/shipments_calendar/data/repos/shipments_calendar_repo_imp.dart';
 import 'package:trader_app/features/sign_in/data/repos/signin_repo_imp.dart';
@@ -66,5 +68,13 @@ void setupServiceLocator() {
 
   getIt.registerSingleton<NotificationsRepoImp>(
     NotificationsRepoImp(apiServices: getIt.get<ApiServices>()),
+  );
+
+  getIt.registerSingleton<FinancesRepoImp>(
+    FinancesRepoImp(apiServices: getIt.get<ApiServices>()),
+  );
+
+  getIt.registerSingleton<SettingsRepoImp>(
+    SettingsRepoImp(apiServices: getIt.get<ApiServices>()),
   );
 }

@@ -60,14 +60,17 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Colors.orange.shade400, Colors.deepOrange.shade500],
+          colors: [
+            Color(0xffD04A1D).withValues(alpha: 0.9),
+            Color(0xffD04A1D).withValues(alpha: 0.8),
+          ],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.orange.withAlpha(150),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
+            color: Color(0xffD04A1D).withValues(alpha: 0.5),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -92,15 +95,12 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
           if (state is TodayShipmentsFailure) {
             return _buildErrorContent(state.message);
           }
-
-          // ✅ الحالة الافتراضية (Initial)
           return TodayShipmentsInitialCard();
         },
       ),
     );
   }
 
-  /// ✅ عرض محتوى الشحنات
   Widget _buildShipmentsContent(List<ShipmentModel> shipments) {
     return Stack(
       children: [
@@ -219,41 +219,45 @@ class _TodayShipmentsCardState extends State<TodayShipmentsCard> {
     );
   }
 
-  /// ✅ عرض رسالة الخطأ
   Widget _buildErrorContent(String message) {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, color: Colors.white, size: 48),
-          const SizedBox(height: 12),
-          Text(
-            'حدث خطأ أثناء تحميل الشحنات',
-            style: AppStyles.styleBold14(context).copyWith(color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            message,
-            style: AppStyles.styleMedium12(
-              context,
-            ).copyWith(color: Colors.white.withAlpha(400)),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: () {
-              context.read<TodayShipmentsCubit>().refreshData();
-            },
-            icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.orange.shade700,
+      child: SizedBox(
+        width: MediaQuery.sizeOf(context).width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.white, size: 48),
+            const SizedBox(height: 12),
+            Text(
+              'حدث خطأ أثناء تحميل الشحنات',
+              style: AppStyles.styleBold14(
+                context,
+              ).copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              message,
+              style: AppStyles.styleMedium12(
+                context,
+              ).copyWith(color: Colors.white.withAlpha(400)),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () {
+                context.read<TodayShipmentsCubit>().refreshData();
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('إعادة المحاولة'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.orange.shade700,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

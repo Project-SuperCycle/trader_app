@@ -1,8 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
-import 'dart:io';
-
 import 'package:trader_app/core/utils/app_colors.dart';
 import 'package:trader_app/core/utils/app_styles.dart';
 import 'package:trader_app/generated/l10n.dart';
@@ -144,7 +144,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                 color: Colors.blue.withAlpha(25),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: AppColors.primaryColor, size: 24),
+              child: Icon(icon, color: AppColors.primary, size: 24),
             ),
             const SizedBox(width: 15),
             Expanded(

@@ -20,6 +20,12 @@ import 'package:trader_app/features/environment/data/cubits/create_request_cubit
 import 'package:trader_app/features/environment/data/cubits/eco_cubit/eco_cubit.dart';
 import 'package:trader_app/features/environment/data/cubits/requests_cubit/requests_cubit.dart';
 import 'package:trader_app/features/environment/data/repos/environment_repo_imp.dart';
+import 'package:trader_app/features/finances/data/cubits/get_external_finance_details/get_external_finance_details_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_finance_pdf/get_finance_pdf_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_finance_transactions/get_finance_transactions_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_finances_summary/get_finances_summary_cubit.dart';
+import 'package:trader_app/features/finances/data/cubits/get_internal_finance_details/get_internal_finance_details_cubit.dart';
+import 'package:trader_app/features/finances/data/repos/finances_repo_imp.dart';
 import 'package:trader_app/features/forget_password/data/cubits/forget_password_cubit.dart';
 import 'package:trader_app/features/forget_password/data/repos/forget_password_repo_imp.dart';
 import 'package:trader_app/features/home/data/managers/home_cubit/home_cubit.dart';
@@ -31,6 +37,14 @@ import 'package:trader_app/features/notifications/data/cubits/get_notifications/
 import 'package:trader_app/features/notifications/data/cubits/read_notification/read_notification_cubit.dart';
 import 'package:trader_app/features/notifications/data/repos/notifications_repo_imp.dart';
 import 'package:trader_app/features/sales_process/data/repos/sales_process_repo_imp.dart';
+import 'package:trader_app/features/settings/data/cubits/confirm_email_Change/confirm_email_change_cubit.dart';
+import 'package:trader_app/features/settings/data/cubits/request_email_change/request_email_change_cubit.dart';
+import 'package:trader_app/features/settings/data/cubits/update_finances/update_finances_cubit.dart';
+import 'package:trader_app/features/settings/data/cubits/update_logo/update_logo_cubit.dart';
+import 'package:trader_app/features/settings/data/cubits/update_notifications/update_notifications_cubit.dart';
+import 'package:trader_app/features/settings/data/cubits/update_password/update_password_cubit.dart';
+import 'package:trader_app/features/settings/data/cubits/update_profile/update_profile_cubit.dart';
+import 'package:trader_app/features/settings/data/repos/settings_repo_imp.dart';
 import 'package:trader_app/features/shipment_edit/data/cubits/shipment_edit_cubit.dart';
 import 'package:trader_app/features/shipment_edit/data/repos/shipment_edit_repo_imp.dart';
 import 'package:trader_app/features/shipments_calendar/data/cubits/shipments_calendar_cubit/shipments_calendar_cubit.dart';
@@ -135,6 +149,61 @@ void main() async {
           create: (context) =>
               DeleteNotificationCubit(repo: getIt.get<NotificationsRepoImp>()),
         ),
+
+        // FINANCES CUBITS
+        BlocProvider(
+          create: (context) =>
+              GetFinancesSummaryCubit(repo: getIt.get<FinancesRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              GetFinanceTransactionsCubit(repo: getIt.get<FinancesRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) => GetExternalFinanceDetailsCubit(
+            repo: getIt.get<FinancesRepoImp>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => GetInternalFinanceDetailsCubit(
+            repo: getIt.get<FinancesRepoImp>(),
+          ),
+        ),
+
+        BlocProvider(
+          create: (context) =>
+              GetFinancePdfCubit(repo: getIt.get<FinancesRepoImp>()),
+        ),
+
+        // SETTINGS CUBITS
+        BlocProvider(
+          create: (context) =>
+              UpdateProfileCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              UpdateLogoCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              UpdatePasswordCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              UpdateNotificationsCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              UpdateFinancesCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RequestEmailChangeCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ConfirmEmailChangeCubit(repo: getIt.get<SettingsRepoImp>()),
+        ),
         BlocProvider(create: (context) => ProfileCubit()),
       ],
       child: const MyApp(),
@@ -189,6 +258,7 @@ class _MyAppState extends State<MyApp> {
     String entityType = data['entity'] ?? '';
     String entityId = data['entityId'] ?? '';
     String type = data['type'] ?? '';
+    String settlementType = data['settlementType'] ?? '';
 
     // Get the router from AppRouter
     final router = AppRouter.router;
@@ -232,10 +302,63 @@ class _MyAppState extends State<MyApp> {
         break;
 
       // Add more cases for other entity types
-      case "order":
+      case "payment":
         {
-          Logger().i("📦 Handling order routing...");
-          // Handle order routing here
+          // Get context from the navigator key
+          final BuildContext? ctx =
+              router.routerDelegate.navigatorKey.currentContext;
+
+          if (ctx == null) {
+            Logger().e("❌ Context is null, cannot navigate");
+            return;
+          }
+
+          // Get the cubit and fetch shipment data
+          if (settlementType == 'external') {
+            final cubit = BlocProvider.of<GetExternalFinanceDetailsCubit>(ctx);
+
+            // Listen to the cubit state changes
+            final subscription = cubit.stream.listen((state) {
+              if (state is GetExternalFinanceDetailsSuccess &&
+                  state.finance.paymentId == entityId) {
+                // Navigate to shipment details
+                GoRouter.of(ctx).push(EndPoints.financialExternalDetailsView);
+              } else if (state is GetExternalFinanceDetailsFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+            });
+
+            // Fetch the shipment
+            cubit.getExternalFinanceDetails(shipmentId: entityId);
+
+            // Cancel subscription after 10 seconds to prevent memory leaks
+            Future.delayed(const Duration(seconds: 10), () {
+              subscription.cancel();
+            });
+          } else {
+            final cubit = BlocProvider.of<GetInternalFinanceDetailsCubit>(ctx);
+
+            // Listen to the cubit state changes
+            final subscription = cubit.stream.listen((state) {
+              if (state is GetInternalFinanceDetailsSuccess &&
+                  state.finance.paymentId == entityId) {
+                // Navigate to shipment details
+                GoRouter.of(ctx).push(EndPoints.financialInternalDetailsView);
+              } else if (state is GetInternalFinanceDetailsFailure) {
+                CustomSnackBar.showError(context, state.errMessage);
+              }
+            });
+
+            // Fetch the shipment
+            (settlementType == 'monthly')
+                ? cubit.getMonthlyFinanceDetails(paymentId: entityId)
+                : cubit.getMealFinanceDetails(paymentId: entityId);
+
+            // Cancel subscription after 10 seconds to prevent memory leaks
+            Future.delayed(const Duration(seconds: 10), () {
+              subscription.cancel();
+            });
+          }
         }
         break;
 

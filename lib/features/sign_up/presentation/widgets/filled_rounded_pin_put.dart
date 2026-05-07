@@ -5,6 +5,7 @@ import 'package:trader_app/core/utils/app_styles.dart';
 
 class FilledRoundedPinPut extends StatefulWidget {
   final TextEditingController controller;
+
   const FilledRoundedPinPut({super.key, required this.controller});
 
   @override
@@ -25,7 +26,7 @@ class FilledRoundedPinPutState extends State<FilledRoundedPinPut> {
   @override
   Widget build(BuildContext context) {
     const length = 6;
-    const borderColor = AppColors.primaryColor;
+    const borderColor = AppColors.primary;
     const errorColor = Color.fromRGBO(255, 234, 238, 1);
     const fillColor = Color.fromRGBO(222, 231, 240, 0.75);
 

@@ -66,7 +66,7 @@ class SectionCard extends StatelessWidget {
                 value: enabled,
                 onChanged: onChanged,
                 activeThumbColor: Colors.white,
-                activeTrackColor: AppColors.primaryColor,
+                activeTrackColor: AppColors.primary,
                 inactiveThumbColor: Colors.white,
                 inactiveTrackColor: Colors.grey.shade200,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

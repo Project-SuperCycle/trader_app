@@ -54,7 +54,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
       return 3;
     } else if (currentRoute.contains(EndPoints.contactUsView)) {
       return 4;
-    } else if (currentRoute.contains(EndPoints.FinancialTransactionView)) {
+    } else if (currentRoute.contains(EndPoints.financialTransactionsView)) {
       return 5;
     }
 
@@ -98,7 +98,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
   }
 
   Future<void> _loadUserData() async {
-    LoginedUserModel? user = await StorageServices.getUserData();
+    LoginUserModel? user = await StorageServices.getUserData();
     if (mounted) {
       setState(() {
         isUserLoggedIn = (user != null);
@@ -135,7 +135,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
         return EndPoints.contactUsView;
       case 5:
         return isUserLoggedIn
-            ? EndPoints.FinancialTransactionView
+            ? EndPoints.financialTransactionsView
             : EndPoints.signInView;
       default:
         return null;
@@ -193,7 +193,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
           break;
         case 5:
           if (isUserLoggedIn) {
-            router.push(EndPoints.FinancialTransactionView);
+            router.push(EndPoints.financialTransactionsView);
           } else {
             _showLoginRequired('الماليات');
             router.push(EndPoints.signInView);
@@ -220,9 +220,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
 
   // ✅ لون الأيقونة — أخضر لو active، رمادي لو لا
   Color _iconColor(int itemIndex) {
-    return _currentIndex == itemIndex
-        ? AppColors.primaryColor
-        : Colors.grey;
+    return _currentIndex == itemIndex ? AppColors.primary : Colors.grey;
   }
 
   @override
@@ -242,7 +240,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
       index: _currentIndex,
       key: widget.navigationKey,
       color: Colors.white,
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.primary,
       height: 60,
       animationDuration: const Duration(milliseconds: 300),
       animationCurve: Curves.easeInOut,
@@ -254,10 +252,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             AppAssets.calculatorIcon,
             height: 24,
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              _iconColor(0),
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(_iconColor(0), BlendMode.srcIn),
           ),
         ),
 
@@ -268,10 +263,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             AppAssets.boxIcon,
             height: 30,
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              _iconColor(1),
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(_iconColor(1), BlendMode.srcIn),
           ),
         ),
 
@@ -293,10 +285,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             AppAssets.calendarIcon,
             height: 24,
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              _iconColor(3),
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(_iconColor(3), BlendMode.srcIn),
           ),
         ),
 
@@ -307,10 +296,7 @@ class _CustomCurvedNavigationBarState extends State<CustomCurvedNavigationBar> {
             AppAssets.chatIcon,
             height: 24,
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              _iconColor(4),
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(_iconColor(4), BlendMode.srcIn),
           ),
         ),
 

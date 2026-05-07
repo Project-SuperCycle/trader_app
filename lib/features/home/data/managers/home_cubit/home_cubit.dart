@@ -43,13 +43,13 @@ class HomeCubit extends Cubit<HomeState> {
     await Future.wait([
       fetchDoshTypes(),
       fetchTypesData(),
-      fetchTypeHistory(typeId: "68a8567bf5a2951a1ee9e982"),
+      fetchTypeHistory(typeId: "69ea9f4ec1445d056340b2cc"),
     ]);
   }
 
   // Method إضافية لو عايز تعمل refresh manual
   Future<void> refreshData() async {
-    _isDataFetched = false; // reset الـ flag
+    _isDataFetched = false;
     cachedDoshTypes = null;
     cachedTypesData = null;
     cachedTypeHistory = null;

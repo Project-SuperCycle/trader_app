@@ -1,4 +1,6 @@
-class LoginedUserModel {
+import 'package:trader_app/features/sign_in/data/models/notification_preferences_model.dart';
+
+class LoginUserModel {
   final String? bussinessName;
   final String? rawBusinessType;
   final String? bussinessAdress;
@@ -10,7 +12,13 @@ class LoginedUserModel {
   final String? displayName;
   final bool? isEcoParticipant;
 
-  LoginedUserModel({
+  final String? settlementType;
+
+  final String? logoUrl;
+
+  final NotificationPreferencesModel notificationPreferences;
+
+  LoginUserModel({
     this.bussinessName,
     this.rawBusinessType,
     this.bussinessAdress,
@@ -21,11 +29,14 @@ class LoginedUserModel {
     this.phone,
     this.displayName,
     this.isEcoParticipant,
+    this.settlementType,
+    this.logoUrl,
+    required this.notificationPreferences,
   });
 
   // fromJson constructor
-  factory LoginedUserModel.fromJson(Map<String, dynamic> json) {
-    return LoginedUserModel(
+  factory LoginUserModel.fromJson(Map<String, dynamic> json) {
+    return LoginUserModel(
       bussinessName: (json['profile'] == null)
           ? null
           : json['profile']['bussinessName'],
@@ -46,6 +57,11 @@ class LoginedUserModel {
       phone: json['phone'],
       displayName: json['displayName'],
       isEcoParticipant: json['isEcoParticipant'],
+      settlementType: json['settlementType'],
+      logoUrl: (json['profile'] == null) ? null : json['profile']['logoUrl'],
+      notificationPreferences: NotificationPreferencesModel.fromJson(
+        json['notificationPreferences'],
+      ),
     );
   }
 
@@ -62,17 +78,20 @@ class LoginedUserModel {
       'phone': phone,
       'displayName': displayName,
       'isEcoParticipant': isEcoParticipant,
+      'settlementType': settlementType,
+      'logoUrl': logoUrl,
+      'notificationPreferences': notificationPreferences.toJson(),
     };
   }
 
   // Optional: toString method for debugging
   @override
   String toString() {
-    return 'LoginedUserModel(bussinessName: $bussinessName, rawBusinessType: $rawBusinessType, bussinessAdress: $bussinessAdress, doshMangerName: $doshMangerName, doshMangerPhone: $doshMangerPhone, email: $email, role: $role, phone: $phone, displayName: $displayName)';
+    return 'LoginedUserModel(bussinessName: $bussinessName, rawBusinessType: $rawBusinessType, bussinessAdress: $bussinessAdress, doshMangerName: $doshMangerName, doshMangerPhone: $doshMangerPhone, email: $email, role: $role, phone: $phone, displayName: $displayName, isEcoParticipant: $isEcoParticipant, settlementType: $settlementType)';
   }
 
   // Optional: copyWith method for creating modified copies
-  LoginedUserModel copyWith({
+  LoginUserModel copyWith({
     String? bussinessName,
     String? rawBusinessType,
     String? bussinessAdress,
@@ -83,8 +102,11 @@ class LoginedUserModel {
     String? phone,
     String? displayName,
     bool? isEcoParticipant,
+    String? settlementType,
+    String? logoUrl,
+    NotificationPreferencesModel? notificationPreferences,
   }) {
-    return LoginedUserModel(
+    return LoginUserModel(
       bussinessName: bussinessName ?? this.bussinessName,
       rawBusinessType: rawBusinessType ?? this.rawBusinessType,
       bussinessAdress: bussinessAdress ?? this.bussinessAdress,
@@ -95,6 +117,10 @@ class LoginedUserModel {
       phone: phone ?? this.phone,
       displayName: displayName ?? this.displayName,
       isEcoParticipant: isEcoParticipant ?? this.isEcoParticipant,
+      settlementType: settlementType ?? this.settlementType,
+      logoUrl: logoUrl ?? this.logoUrl,
+      notificationPreferences:
+          notificationPreferences ?? this.notificationPreferences,
     );
   }
 }

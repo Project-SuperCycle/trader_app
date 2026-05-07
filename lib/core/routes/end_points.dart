@@ -4,7 +4,10 @@ abstract class EndPoints {
   static const String signInView = '/signInView';
   static const String signUpView = '/signUpView';
   static const String signUpVerifyView = '/signUpVerifyView';
-  static const String signUpDetailsView = '/signUpDetailsView';
+  static const String signUpDetailsStep1View = '/signUpDetailsStep1View';
+
+  static const String signUpDetailsStep2View = '/signUpDetailsStep2View';
+
   static const String firstOnboardingView = '/firstOnboardingView';
   static const String secondOnboardingView = '/secondOnboardingView';
   static const String thirdOnboardingView = '/thirdOnboardingView';
@@ -30,10 +33,11 @@ abstract class EndPoints {
   static const String environmentalDefaultView = '/environmentalDefaultView';
   static const String calculatorView = '/calculatorView';
 
-  static const String FinancialTransactionView = '/FinancialTransactionView';
-  static const String FinancialTransactiondetailsView = '/FinancialTransactionDetailsView';
-  static const String ContractedFianceDetailsView = '/ContractedFianceDetailsView';
-
+  static const String financialTransactionsView = '/financialTransactionView';
+  static const String financialExternalDetailsView =
+      '/financialExternalDetailsView';
+  static const String financialInternalDetailsView =
+      '/financialInternalDetailsView';
 
   // Notifications
   static const String notificationsView = '/notificationsView';

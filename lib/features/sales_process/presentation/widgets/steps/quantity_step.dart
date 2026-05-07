@@ -123,10 +123,7 @@ class _ProductQuantityCard extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primaryColor,
-            AppColors.primaryColor.withAlpha(200),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withAlpha(200)],
         ),
         borderRadius: BorderRadius.circular(12),
       ),
@@ -153,10 +150,9 @@ class _ProductQuantityCard extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               '${product.quantity} ${product.unit}',
-              style: AppStyles.styleMedium12(context).copyWith(
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppStyles.styleMedium12(
+                context,
+              ).copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
             ),
           ],
         ),

@@ -55,7 +55,7 @@ class SignInRepoImp implements SignInRepo {
       },
       onSuccess: (user, response) async {
         await _saveUserData(user, response['token']);
-        unawaited(_registerDeviceToServer()); // ✅ Fix #1: truly non-blocking
+        unawaited(_registerDeviceToServer());
       },
     );
   }
@@ -94,7 +94,7 @@ class SignInRepoImp implements SignInRepo {
       },
       onSuccess: (user, response) async {
         await _saveUserData(user, response['token']);
-        unawaited(_registerDeviceToServer()); // ✅ Fix #1: truly non-blocking
+        unawaited(_registerDeviceToServer());
       },
     );
   }

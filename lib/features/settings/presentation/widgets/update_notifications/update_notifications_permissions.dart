@@ -162,7 +162,7 @@ class _UpdateNotificationsPermissionsState
     if (userData != null) {
       final notificationPreferences = userData.notificationPreferences;
       setState(() {
-        _data = notificationPreferences;
+        _data = notificationPreferences!;
       });
     }
   }

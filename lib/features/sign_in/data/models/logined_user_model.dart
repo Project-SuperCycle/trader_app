@@ -16,7 +16,7 @@ class LoginUserModel {
 
   final String? logoUrl;
 
-  final NotificationPreferencesModel notificationPreferences;
+  final NotificationPreferencesModel? notificationPreferences;
 
   LoginUserModel({
     this.bussinessName,
@@ -31,7 +31,7 @@ class LoginUserModel {
     this.isEcoParticipant,
     this.settlementType,
     this.logoUrl,
-    required this.notificationPreferences,
+    this.notificationPreferences,
   });
 
   // fromJson constructor
@@ -59,9 +59,11 @@ class LoginUserModel {
       isEcoParticipant: json['isEcoParticipant'],
       settlementType: json['settlementType'],
       logoUrl: (json['profile'] == null) ? null : json['profile']['logoUrl'],
-      notificationPreferences: NotificationPreferencesModel.fromJson(
-        json['notificationPreferences'],
-      ),
+      notificationPreferences: (json['notificationPreferences'] == null)
+          ? null
+          : NotificationPreferencesModel.fromJson(
+              json['notificationPreferences'],
+            ),
     );
   }
 
@@ -80,7 +82,8 @@ class LoginUserModel {
       'isEcoParticipant': isEcoParticipant,
       'settlementType': settlementType,
       'logoUrl': logoUrl,
-      'notificationPreferences': notificationPreferences.toJson(),
+      if (notificationPreferences != null)
+        'notificationPreferences': notificationPreferences!.toJson(),
     };
   }
 

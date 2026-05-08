@@ -31,6 +31,8 @@ class SocialAuthRow extends StatelessWidget {
         accessToken: accessToken,
       );
 
+      Logger().i('TOKEN: $accessToken');
+
       if (context.mounted) {
         BlocProvider.of<SocialAuthCubit>(context).socialAuth(credentials);
       }

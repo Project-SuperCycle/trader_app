@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:trader_app/core/cubits/social_auth/social_auth_cubit.dart';
 import 'package:trader_app/core/helpers/custom_snack_bar.dart';
 import 'package:trader_app/core/models/social_auth_request_model.dart';
@@ -76,11 +77,11 @@ class SocialAuthRow extends StatelessWidget {
     return BlocConsumer<SocialAuthCubit, SocialAuthState>(
       listener: (context, state) {
         if (state is SocialAuthSuccess) {
+          Logger().w('SocialAuthSuccess');
           CustomSnackBar.showSuccess(
             context,
             state.socialAuth.message ?? "NO MESSAGE",
           );
-
           if (state.socialAuth.status == 201) {
             GoRouter.of(context).push(EndPoints.signUpDetailsStep1View);
           } else if (state.socialAuth.status == 200) {
@@ -88,6 +89,7 @@ class SocialAuthRow extends StatelessWidget {
           }
         }
         if (state is SocialAuthFailure) {
+          Logger().w('SocialAuthFailure');
           CustomSnackBar.showError(context, state.message);
         }
       },

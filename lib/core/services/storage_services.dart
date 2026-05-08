@@ -132,9 +132,11 @@ abstract class StorageServices {
       isEcoParticipant: data['isEcoParticipant'],
       settlementType: data['settlementType'],
       logoUrl: data['logoUrl'],
-      notificationPreferences: NotificationPreferencesModel.fromJson(
-        data['notificationPreferences'],
-      ),
+      notificationPreferences: (data['notificationPreferences'] != null)
+          ? NotificationPreferencesModel.fromJson(
+              data['notificationPreferences'],
+            )
+          : null,
     );
     return user;
   }
